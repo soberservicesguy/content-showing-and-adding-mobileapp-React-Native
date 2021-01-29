@@ -1,78 +1,181 @@
-
 import { connect } from "react-redux";
 import {mapStateToProps, mapDispatchToProps} from "./store_configuration";
 
-import {
-
-	RootRouterContainer,
-
-	BlogPostContainer,
-	VideoItemContainer,	RelatedVideoCommentContainer,
-	ImageItemContainer,
-} from "../containers";
-
+import AppNavigation from '../the_navigation'
 
 import {
-
-
+	BlogPostScreen,
 	IndividualBlogPost,
-	IndividualVideoItem,	IndividualRelatedVideoComment,
-	IndividualImageItem,
+	VideoScreen,
+	IndividualVideo,
+	ImageScreen,
+	IndividualImage,	
+	LoginScreen,
+	SignUpScreen,
+} from "../screens";
 
-} from "../components";
 
-export const ConnectedRootRouterContainer = connect(
+import {
+	CreateBlogPost,
+	ComponentForShowingBlogPost,
+	BlogPostCard,
+} from "../components/blogposts"
+
+import {
+	CreateVideo,
+	ComponentForShowingVideo,
+	VideoCard,
+} from "../components/videos"
+
+import {
+	CreateImage,
+	ComponentForShowingImage,
+	ImageCard,
+} from "../components/images"
+
+import {
+	CreateCommentForBlogpost,
+} from "../components/comments"
+
+import {
+	CreateCommentForVideo,
+} from "../components/comments"
+
+import {
+	CreateCommentForImage,
+} from "../components/comments"
+
+import {
+	CreateLikeForBlogpost,
+} from "../components/likes"
+
+import {
+	CreateLikeForVideo,
+} from "../components/likes"
+
+import {
+	CreateLikeForImage,
+} from "../components/likes"
+
+
+export const ConnectedAppNavigation = connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(RootRouterContainer);
+)(AppNavigation);
+
+export const ConnectedLoginScreen= connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(LoginScreen);
 
 
+export const ConnectedCreateBlogPost = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CreateBlogPost);
+
+export const ConnectedBlogPostCard = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(BlogPostCard);
+
+export const ConnectedComponentForShowingBlogPost = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(ComponentForShowingBlogPost);
+
+export const ConnectedCreateCommentForBlogpost = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CreateCommentForBlogpost);
+
+export const ConnectedCreateCommentForImage = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CreateCommentForImage);
+
+export const ConnectedCreateCommentForVideo = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CreateCommentForVideo);
+
+export const ConnectedCreateLikeForBlogpost = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CreateLikeForBlogpost);
+
+export const ConnectedCreateLikeForImage = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CreateLikeForImage);
+
+export const ConnectedCreateLikeForVideo = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CreateLikeForVideo);
+
+export const ConnectedCreateVideo = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CreateVideo);
+
+export const ConnectedVideoCard = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(VideoCard);
+
+export const ConnectedComponentForShowingVideo = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(ComponentForShowingVideo);
+
+export const ConnectedCreateImage = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CreateImage);
+
+export const ConnectedImageCard = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(ImageCard);
+
+export const ConnectedComponentForShowingImage = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(ComponentForShowingImage);
 
 export const ConnectedIndividualBlogPost = connect(
 	mapStateToProps,
 	mapDispatchToProps
 )(IndividualBlogPost);
 
-export const ConnectedBlogPostContainer = connect(
+export const ConnectedBlogPostScreen = connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(BlogPostContainer);
+)(BlogPostScreen);
 
-
-
-export const ConnectedIndividualVideoItem = connect(
+export const ConnectedIndividualVideo = connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(IndividualVideoItem);
+)(IndividualVideo);
 
-export const ConnectedVideoItemContainer = connect(
+export const ConnectedVideoScreen = connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(VideoItemContainer);
+)(VideoScreen);
 
-
-
-export const ConnectedIndividualImageItem = connect(
+export const ConnectedIndividualImage = connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(IndividualImageItem);
+)(IndividualImage);
 
-export const ConnectedImageItemContainer = connect(
+export const ConnectedImageScreen = connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(ImageItemContainer);
+)(ImageScreen);
 
-
-
-export const ConnectedIndividualRelatedVideoComment = connect(
+export const ConnectedSignUpScreen = connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(IndividualRelatedVideoComment);
-
-
-
-export const ConnectedRelatedVideoCommentContainer = connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(RelatedVideoCommentContainer);
+)(SignUpScreen);
 

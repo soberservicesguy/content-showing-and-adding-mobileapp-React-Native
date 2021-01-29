@@ -1,0 +1,9 @@
+export {default as reducerForBlogPost } from "./reducer_for_BlogPost.js";
+export {default as reducerForCarousel } from "./reducer_for_Carousel.js";
+export {default as reducerForComment } from "./reducer_for_Comment.js";
+export {default as reducerForImage } from "./reducer_for_Image.js";
+export {default as reducerForLike } from "./reducer_for_Like.js";
+export {default as reducerForOrder } from "./reducer_for_Order.js";
+export {default as reducerForProduct } from "./reducer_for_Product.js";
+export {default as reducerForUser } from "./reducer_for_User.js";
+export {default as reducerForVideo } from "./reducer_for_Video.js";

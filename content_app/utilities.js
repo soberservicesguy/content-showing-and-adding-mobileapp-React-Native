@@ -1,6 +1,7 @@
+
 const utils = {
-	baseUrl:'http://localhost:3000/',
-	urlForProducts:'',
+	baseUrl:'https://3246e525882c.ngrok.io',
+	productsEndpoint:'',
 }
 
 export default utils
