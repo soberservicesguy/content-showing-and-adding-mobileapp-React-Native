@@ -19,7 +19,6 @@ import {
 //	Gap
 // } from './components/ready_made_components';
 
-import NetInfo from "@react-native-community/netinfo";
 
 // import {
 // 	request_multiple_permissions,
