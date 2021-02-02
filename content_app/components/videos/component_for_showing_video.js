@@ -7,6 +7,7 @@ import {
 	TouchableHighlight,
 	Modal,
 	TouchableOpacity,
+	Image,
 } from "react-native";
 import PropTypes from 'prop-types';
 					
@@ -19,6 +20,8 @@ import { Consumer } from "../../screens/video"
 import { Dimensions } from 'react-native';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+
+import { Icon } from 'react-native-elements';
 
 class ComponentForShowingVideo extends Component {
 	constructor(props) {
@@ -44,36 +47,75 @@ class ComponentForShowingVideo extends Component {
 			<View style={styles.outerContainer}>
 
 				<View style={styles.imageContainer}>
-					<Image source={base64Image} alt="" 
+					<Image 
+						// source={base64Image}
+						source={utils.image}
 						style={{
-							width:200, 
-							height:400, 
-							resizeMode: "contain"
+							width:'100%', 
+							height:windowHeight * 0.3, 
+							resizeMode: "stretch"
 						}}
 					/>
 				</View>
 
-				<Text>
-					{ data.category }
-				</Text>
-				<Text>
-					{ data.video_filename }
-				</Text>
-				<Text>
-					{ data.title }
-				</Text>
-				<Text>
-					{ data.endpoint }
-				</Text>
-				<Text>
-					{ data.description }
-				</Text>
-				<Text>
-					{ data.timestamp_of_uploading }
-				</Text>
-				<Text>
-					{ data.all_tags }
-				</Text>
+				<View style={{
+					position:'absolute',
+					top:windowHeight * 0.1,
+					left:windowWidth * (0.5 - 0.15/2),
+					height:windowWidth * 0.15,
+				}}>
+					<Icon
+						// raised
+						name={utils.playButtonIcon}
+						type='font-awesome'
+						iconStyle='Outlined'
+						color={utils.orange}
+						size={windowWidth * 0.15}
+						// onPress={() => console.log('hello')} 
+						// reverse={true}
+					/>
+				</View>
+
+				<View>
+					<Text style={styles.title}>
+						Title: { data.title }
+					</Text>
+				</View>
+
+				<View style={styles.attributesContainer}>
+					<View style={styles.iconAndTextContainer}>
+						<Icon
+						  // raised
+						  name={utils.categoryIcon}
+						  type='font-awesome'
+						  iconStyle='Outlined'
+						  color={utils.mediumGrey}
+						  size={22}
+						  // onPress={() => console.log('hello')} 
+						  // reverse={true}
+						/>
+						<Text style={styles.categoryText}>
+							ss{ data.category }
+						</Text>
+					</View>
+
+					<View style={styles.iconAndTextContainer}>
+						<Icon
+						  // raised
+						  name={utils.timestampIcon}
+						  type='font-awesome'
+						  iconStyle='Outlined'
+						  color={utils.mediumGrey}
+						  size={22}
+						  // onPress={() => console.log('hello')} 
+						  // reverse={true}
+						/>					
+						<Text style={styles.timestampText}>
+							{ data.timestamp_of_uploading }
+						</Text>
+					</View>
+
+				</View>
 			</View>
 		);
 	}
@@ -85,6 +127,40 @@ ComponentForShowingVideo.defaultProps = {
 
 const styles = StyleSheet.create({
 	outerContainer: {
+		height:windowHeight * 0.4,
+		width: windowWidth,
+		alignSelf:'center',
+		// backgroundColor: '#000000',
+		// alignItems: 'center',
+		// borderBottomWidth: 1,
+		// borderBottomColor:utils.dimWhite,
+
+	},
+	iconAndTextContainer:{
+		flexDirection: 'row',
+	},
+
+
+	attributesContainer:{
+		flexDirection:'row',
+		justifyContent: 'space-between'
+	},
+
+	title:{
+		fontSize:15,
+		fontWeight:'bold',
+		textAlign:'center',
+		marginTop: windowHeight * 0.01,
+		// width:'100%',
+		// backgroundColor: '#000000'
+	},
+	timestampText:{
+		marginLeft:10,
+		fontSize:15,
+	},
+	categoryText:{
+		marginLeft:10,
+		fontSize:15,
 	},
 });
 

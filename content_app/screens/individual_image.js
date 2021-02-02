@@ -34,10 +34,9 @@ class IndividualImage extends Component {
 
 // RENDER METHOD
 	render() {
-		const { classes } = this.props;
-	  	const {_xs, _sm, _md, _lg, _xl} = this.props
 
   		var base64Image = "data:image/jpeg;base64," + this.props.current_image
+
 	  	return (
 	  		<View style={styles.imageContainer}>
 	  			<Image source={base64Image} alt="" style={{width:200, height:400, resizeMode: "contain"}}/>

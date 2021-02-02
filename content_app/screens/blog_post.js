@@ -5,6 +5,8 @@ import {
 	Text,
 	TouchableHighlight,
 	FlatList,
+	SafeAreaView,
+	ScrollView,
 } from "react-native";
 import PropTypes from 'prop-types';
 
@@ -18,8 +20,9 @@ import {
 
 // IMPORT CONNECTED COMPONENTS
 import {
-	ConnectedComponentForShowingBlogPost,
+	// ConnectedComponentForShowingBlogPost,
 	ConnectedCreateBlogPost,
+	ConnectedBlogPostCard,
 } from '../redux_stuff/connected_components';
 
 const { Provider, Consumer } = React.createContext();
@@ -66,41 +69,42 @@ class BlogPostScreen extends Component {
 			
 		const total_blogposts = this.props.total_blogposts
 
-		const { classes } = this.props;
-	  	const {_xs, _sm, _md, _lg, _xl} = this.props
 
 		return (
 
-			<View style={{backgroundColor: '#eee'}}>
-				
-				<View item xs={12} sm={12} md={12} lg={12} xl={12}>
-		  			<ConnectedCreateBlogPost/>
-		  		</View>
+				<SafeAreaView>
+					<ScrollView contentContainerStyle={styles.screenContainer}>
+		
+						<View>
+				  			<ConnectedCreateBlogPost/>
+				  		</View>
 
-	  	  		<FlatList
-	  				style={{flexDirection: 'column', flexWrap : "wrap"}}
-	  				numColumns={1}
-	  	  			data={total_blogposts}
-	  				renderItem={
-	  					({ item }) => (
-							<ConnectedBlogPostCard
-								dataPayloadFromParent = { item }
+			  	  		<FlatList
+			  				style={{flexDirection: 'column', flexWrap : "wrap", alignSelf:'center'}}
+			  				numColumns={1}
+			  	  			data={total_blogposts}
+			  				renderItem={
+			  					({ item }) => (
+									<ConnectedBlogPostCard
+										isCategoryInstead={false}
+										dataPayloadFromParent = { item }
 
-								comments_quantity = { item.comments_quantity }
-								comments = { item.comments || [] }
+										comments_quantity = { item.comments_quantity }
+										comments = { item.comments || [] }
 
-								likes_quantity = { item.likes_quantity }
-								likes = { item.likes || [] }
+										likes_quantity = { item.likes_quantity }
+										likes = { item.likes || [] }
 
-								// user_quantity = { item.user_quantity }
-								// user = { item.user || [] }
-							
-							/>
-	  					)}
-	  				keyExtractor={(item, index) => String(index)}
-	  			/>
+										// user_quantity = { item.user_quantity }
+										// user = { item.user || [] }
+									
+									/>
+			  					)}
+			  				keyExtractor={(item, index) => String(index)}
+			  			/>
 
-			</View>
+					</ScrollView>
+				</SafeAreaView>
 
 		);
 	}

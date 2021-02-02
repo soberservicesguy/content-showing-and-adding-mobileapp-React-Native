@@ -34,11 +34,10 @@ class IndividualVideo extends Component {
 
 // RENDER METHOD
 	render() {
-		const { classes } = this.props;
-	  	const {_xs, _sm, _md, _lg, _xl} = this.props
 
 		console.log('ENDPOINT REQUEST')
 		console.log(this.props.current_video)
+
 	  	return (
 	  		<View>
 

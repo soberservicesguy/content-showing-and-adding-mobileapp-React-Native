@@ -67,9 +67,6 @@ class ImageScreen extends Component {
 			
 		const total_images = this.props.total_images
 
-		const { classes } = this.props;
-	  	const {_xs, _sm, _md, _lg, _xl} = this.props
-
 		return (
 
 			<View style={{backgroundColor: '#eee'}}>

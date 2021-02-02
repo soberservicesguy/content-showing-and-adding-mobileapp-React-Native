@@ -21,6 +21,12 @@ const utils = {
 	// COLORS
 	black:"black",
 
+// component for showing blogpost
+	categoryIcon:'heartbeat',
+
+// component for showing video
+	timestampIcon: 'heartbeat',
+	playButtonIcon:'heartbeat',
 
 
 	lightGrey: "#bbbdc0",

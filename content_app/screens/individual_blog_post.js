@@ -32,9 +32,6 @@ class IndividualBlogPost extends Component {
 
 // RENDER METHOD
 	render() {
-		const { classes } = this.props;
-		const {_xs, _sm, _md, _lg, _xl} = this.props
-
 
 		var base64Image = "data:image/jpeg;base64," + this.props.current_blogpost.image_main
 

@@ -48,7 +48,7 @@ class CreateImage extends Component {
 	render() {
 
 		// parameters being passed from previous route
-		const endpoint_params_passed = this.props.match.params
+		// const endpoint_params_passed = this.props.match.params
 
 		if ( this.state.switchScreen !== false ){
 

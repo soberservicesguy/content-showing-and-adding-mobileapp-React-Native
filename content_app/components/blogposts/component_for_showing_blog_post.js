@@ -7,6 +7,7 @@ import {
 	TouchableHighlight,
 	Modal,
 	TouchableOpacity,
+	Image,
 } from "react-native";
 import PropTypes from 'prop-types';
 					
@@ -20,6 +21,7 @@ import { Dimensions } from 'react-native';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
+import { Icon } from 'react-native-elements';
 
 class ComponentForShowingBlogPost extends Component {
 	constructor(props) {
@@ -43,49 +45,64 @@ class ComponentForShowingBlogPost extends Component {
 
 		return (
 			<View style={styles.outerContainer}>
-				<Text>
-					{ data.category }
-				</Text>
-				
-				<View style={styles.imageContainer}>
-					<Image source={base64Image} alt="" 
-						style={{
-							width:200, 
-							height:400, 
-							resizeMode: "contain"
-						}}
-					/>
-				</View>
-				<Text>
+				<Text style={styles.titleStyle}>
 					{ data.title }
 				</Text>
-				<Text>
-					{ data.timestamp_of_uploading }
-				</Text>
-				<Text>
-					{ data.initial_tags }
-				</Text>
-				<Text>
-					{ data.endpoint }
-				</Text>
-				<Text>
-					{ data.first_para }
-				</Text>
-				<Text>
-					{ data.second_para }
-				</Text>
-				<Text>
-					{ data.qouted_para }
-				</Text>
-				<Text>
-					{ data.third_para }
-				</Text>
-				<Text>
-					{ data.fourth_para }
-				</Text>
-				<Text>
-					{ data.all_tags }
-				</Text>
+				<View style={styles.innerContainer}>
+					<View style={styles.imageContainer}>
+						<Image 
+							// source={base64Image}
+							source={utils.image}
+							style={{
+								// width:windowWidth * 0.2,
+								width:'100%', 
+								height:windowHeight * 0.1, 
+								resizeMode: "stretch"
+							}}
+						/>
+					</View>
+					<View style={styles.textContainer}>
+						
+						<View>
+							<View style={styles.iconAndTextContainer}>
+								<Icon
+								  // raised
+								  name={utils.categoryIcon}
+								  type='font-awesome'
+								  iconStyle='Outlined'
+								  color={utils.mediumGrey}
+								  size={22}
+								  // onPress={() => console.log('hello')} 
+								  // reverse={true}
+								/>
+								<Text style={styles.attributesText}>
+									Category: { data.category }
+								</Text>
+							</View>
+							
+							<View style={styles.iconAndTextContainer}>
+								<Icon
+								  // raised
+								  name={utils.categoryIcon}
+								  type='font-awesome'
+								  iconStyle='Outlined'
+								  color={utils.mediumGrey}
+								  size={22}
+								  // onPress={() => console.log('hello')} 
+								  // reverse={true}
+								/>
+								<Text style={styles.attributesText}>
+									ss{ data.timestamp_of_uploading }
+								</Text>
+							</View>
+						</View>
+
+						<Text>
+							{ data.initial_tags }
+						</Text>
+					</View>
+					
+				</View>				
 			</View>
 		);
 	}
@@ -97,7 +114,47 @@ ComponentForShowingBlogPost.defaultProps = {
 
 const styles = StyleSheet.create({
 	outerContainer: {
+		height:windowHeight * 0.18,
+		width: windowWidth,
+		alignSelf:'center',
+		// backgroundColor: '#000000',
+		// alignItems: 'center',
+		borderBottomWidth: 1,
+		borderBottomColor:utils.dimWhite,
 	},
+	innerContainer:{
+		flexDirection: 'row',
+		// backgroundColor: 'green',
+		alignSelf:'center',
+		width: '90%'
+	},
+
+// titleStyle
+	titleStyle:{
+		textAlign:'center',
+		width: '90%',
+		alignSelf:'center',
+		fontSize: 20,
+		fontWeight: 'bold',
+		marginBottom: windowHeight * 0.02
+	},
+
+	imageContainer:{
+		flex:2,
+		marginRight:10,
+	},
+	textContainer:{
+		flex:3,
+	},
+
+// icon and text
+	iconAndTextContainer:{
+		flexDirection:'row',
+	},
+	attributesText:{
+		marginLeft:20,
+	},
+
 });
 
 

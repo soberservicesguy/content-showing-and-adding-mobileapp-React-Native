@@ -66,9 +66,6 @@ class VideoScreen extends Component {
 			
 		const total_videos = this.props.total_videos
 
-		const { classes } = this.props;
-	  	const {_xs, _sm, _md, _lg, _xl} = this.props
-
 		return (
 
 			<View style={{backgroundColor: '#eee'}} >

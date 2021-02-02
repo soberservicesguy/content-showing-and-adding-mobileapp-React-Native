@@ -75,6 +75,24 @@ function InnerStack({navigation}) {
 		<Stack.Navigator
 			// headerMode='none'
 		>
+			<Stack.Screen name="Video" component={ ConnectedVideoScreen }
+				options={{ 
+					headerShown:true,
+					title: 'Video',
+					headerTitleAlign: 'center',
+					headerBackTitleVisible: false,
+					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
+						marginTop:50,
+						marginBottom:50,
+					}}>
+						<Text>
+							Go Back
+						</Text>
+					</TouchableOpacity>	),
+					headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
+				}}
+			/>
+
 
 			<Stack.Screen name="BlogPost" component={ ConnectedBlogPostScreen }
 				options={{ 
@@ -94,23 +112,6 @@ function InnerStack({navigation}) {
 				}}
 			/>
 		
-			<Stack.Screen name="Video" component={ ConnectedVideoScreen }
-				options={{ 
-					headerShown:true,
-					title: 'Video',
-					headerTitleAlign: 'center',
-					headerBackTitleVisible: false,
-					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
-						marginTop:50,
-						marginBottom:50,
-					}}>
-						<Text>
-							Go Back
-						</Text>
-					</TouchableOpacity>	),
-					headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
-				}}
-			/>
 		
 			<Stack.Screen name="Image" component={ ConnectedImageScreen }
 				options={{ 
@@ -660,7 +661,7 @@ class AppNavigation extends Component {
 		return (
 			<NavigationContainer>
 				<RootStack.Navigator headerMode='none'>
-					{this.props.userToken === null && this.props.isSignedIn === false 
+					{this.props.userToken !== null && this.props.isSignedIn !== false 
 						? 
 							( <RootStack.Screen name="SignInStack" component={SignInStack}/> )
 						: 
