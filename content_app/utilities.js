@@ -28,6 +28,10 @@ const utils = {
 	timestampIcon: 'heartbeat',
 	playButtonIcon:'heartbeat',
 
+// summarize_comments_of_image
+	commentIcon: 'heartbeat', 
+// summarize_likes_of_image
+	likeIcon: 'heartbeat',
 
 	lightGrey: "#bbbdc0",
 	darkBlue: '#1e5186',

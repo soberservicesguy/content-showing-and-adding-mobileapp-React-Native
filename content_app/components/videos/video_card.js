@@ -18,7 +18,8 @@ import axios from 'axios';
 import { Consumer } from "../../screens/video"
 
 import {
-	ComponentForShowingVideo
+	ComponentForShowingVideo,
+	ComponentForShowingVideoCategory,
 } from "."
 
 import utils from "../../utilities";
@@ -102,17 +103,25 @@ class VideoCard extends Component {
 	componentDidMount() {
 
 	}
-
 	render() {
+		
+		let componentToShow = ( this.props.isCategoryInstead ) ? 
+			<ComponentForShowingVideoCategory
+				dataPayloadFromParent = { this.props.dataPayloadFromParent }			
+			/>
+		:
+	  		<ComponentForShowingVideo
+				dataPayloadFromParent = { this.props.dataPayloadFromParent }
+	  		/>
+
+
 
 		return (
 		  	<View>
 
 		  		<View>
 					{/* first the parent / card component */}
-			  		<ComponentForShowingVideo
-						dataPayloadFromParent = { this.props.dataPayloadFromParent }
-			  		/>
+					{componentToShow}
 		  		</View>
 
 
@@ -125,7 +134,7 @@ class VideoCard extends Component {
 
 	
 VideoCard.defaultProps = {
-
+	isCategoryInstead:true
 };
 
 const styles = StyleSheet.create({

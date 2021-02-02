@@ -22,6 +22,9 @@ import { Dimensions } from 'react-native';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
+import { Icon } from 'react-native-elements';
+
+
 class SummarizeCommentsOfImage extends Component {
 	constructor(props) {
 		super(props);
@@ -44,9 +47,24 @@ class SummarizeCommentsOfImage extends Component {
 
 				{( this.props.showOnlyQuantity ) ? (
 
-					<View>
-						<Text>
-							{this.props.child_quantity} comment
+					<View style={{
+						flexDirection:'row'
+					}}>
+						<Icon
+							// raised
+							name={utils.commentIcon}
+							type='font-awesome'
+							iconStyle='Outlined'
+							color='#f50'
+							size={30}
+							// onPress={() => console.log('hello')} 
+							// reverse={true}
+						/>
+						<Text style={{
+							marginLeft:10,
+							fontSize:20,
+						}}>
+							Total comments {this.props.child_quantity}
 						</Text>
 					</View>
 

@@ -58,12 +58,7 @@ class ComponentForShowingVideo extends Component {
 					/>
 				</View>
 
-				<View style={{
-					position:'absolute',
-					top:windowHeight * 0.1,
-					left:windowWidth * (0.5 - 0.15/2),
-					height:windowWidth * 0.15,
-				}}>
+				<View style={styles.iconStyle}>
 					<Icon
 						// raised
 						name={utils.playButtonIcon}
@@ -136,16 +131,24 @@ const styles = StyleSheet.create({
 		// borderBottomColor:utils.dimWhite,
 
 	},
-	iconAndTextContainer:{
-		flexDirection: 'row',
-	},
-
 
 	attributesContainer:{
 		flexDirection:'row',
 		justifyContent: 'space-between'
 	},
 
+// icon and text
+	iconAndTextContainer:{
+		flexDirection: 'row',
+	},
+	iconStyle:{
+		position:'absolute',
+		top:windowHeight * 0.1,
+		left:windowWidth * (0.5 - 0.15/2),
+		height:windowWidth * 0.15,
+	},
+
+// texts style
 	title:{
 		fontSize:15,
 		fontWeight:'bold',

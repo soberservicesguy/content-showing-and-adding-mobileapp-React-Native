@@ -22,6 +22,8 @@ import { Dimensions } from 'react-native';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
+import { Icon } from 'react-native-elements';
+
 class SummarizeLikesOfImage extends Component {
 	constructor(props) {
 		super(props);
@@ -44,9 +46,24 @@ class SummarizeLikesOfImage extends Component {
 
 				{( this.props.showOnlyQuantity ) ? (
 
-					<View>
-						<Text>
-							{this.props.child_quantity} like
+					<View style={{
+						flexDirection:'row'
+					}}>
+						<Icon
+							// raised
+							name={utils.likeIcon}
+							type='font-awesome'
+							iconStyle='Outlined'
+							color='#f50'
+							size={30}
+							// onPress={() => console.log('hello')} 
+							// reverse={true}
+						/>
+						<Text style={{
+							marginLeft:10,
+							fontSize:20,
+						}}>
+							Total likes{this.props.child_quantity}
 						</Text>
 					</View>
 

@@ -6,6 +6,7 @@ import {
 	TouchableHighlight,
 	TextInput,
 	TouchableOpacity,
+	Button,
 } from "react-native";
 import PropTypes from 'prop-types';
 					
@@ -66,99 +67,108 @@ class CreateImage extends Component {
 			return (
 			// e.g a social post, textinput which lets user to enter text, takes persons id as assigned object
 				<View style={styles.outerContainer}>
-					<View style={styles.textinputContainer}>
-						<Button 
-							title={'USER_IMAGE'}
-							style={styles.buttonWithoutBG}
-							onPress={async () => {
-								try {
-									let res = await DocumentPicker.pick({
-										type: [
-											DocumentPicker.types.images,
-										],
-									});
-									console.log(res.uri, res.type, res.name, res.size); // res.type is mimeType
-									// setState method with response as argument
-									this.setState(prev => ({...prev, image_filepath: res}))
+					<Button 
+						title={'Select Image'}
+						style={styles.buttonWithoutBG}
+						onPress={async () => {
+							try {
+								let res = await DocumentPicker.pick({
+									type: [
+										DocumentPicker.types.images,
+									],
+								});
+								console.log(res.uri, res.type, res.name, res.size); // res.type is mimeType
+								// setState method with response as argument
+								this.setState(prev => ({...prev, image_filepath: res}))
 
-								} catch (err) {
-									if (DocumentPicker.isCancel(err)) {
-										// User cancelled the picker, exit any dialogs or menus and move on
-									} else {
-										console.log(err)
-										// throw err;
-									}
+							} catch (err) {
+								if (DocumentPicker.isCancel(err)) {
+									// User cancelled the picker, exit any dialogs or menus and move on
+								} else {
+									console.log(err)
+									// throw err;
 								}
-							}}
-						/>
-					</View>
+							}
+						}}
+					/>
+
+					<View style={{
+						display: 'flex',
+						flexDirection: 'row',
+					}}>
+
+					  	<View style={styles.textinputContainer}>
+							<TextInput
+								style={styles.textinput}
+								placeholder="Type category"
+								placeholderTextColor = {utils.lightGrey}
+								// maxLength=10
+								// caretHidden=true
+								// multiline=true
+								// numberOfLines=3
+								// onChangeText={ () => null }
+								// value='dummy'
+								// autoFocus=true
+								onChangeText={ (value) => this.setState( prev => ({...prev, category: value})) }
+							/>
+					  	</View>
 
 
-				  	<View style={styles.textinputContainer}>
-						<TextInput
-							style={styles.textinput}
-							placeholder="Type your category"
-							placeholderTextColor = {utils.lightGrey}
-							// maxLength=10
-							// caretHidden=true
-							// multiline=true
-							// numberOfLines=3
-							// onChangeText={ () => null }
-							// value='dummy'
-							// autoFocus=true
-							onChangeText={ (value) => this.setState( prev => ({...prev, category: value})) }
-						/>
+					  	<View style={styles.textinputContainer}>
+							<TextInput
+								style={styles.textinput}
+								placeholder="Type title"
+								placeholderTextColor = {utils.lightGrey}
+								// maxLength=10
+								// caretHidden=true
+								// multiline=true
+								// numberOfLines=3
+								// onChangeText={ () => null }
+								// value='dummy'
+								// autoFocus=true
+								onChangeText={ (value) => this.setState( prev => ({...prev, title: value})) }
+							/>
+					  	</View>
+
 				  	</View>
 
+					<View style={{
+						display: 'flex',
+						flexDirection: 'row',
+					}}>
 
-				  	<View style={styles.textinputContainer}>
-						<TextInput
-							style={styles.textinput}
-							placeholder="Type your title"
-							placeholderTextColor = {utils.lightGrey}
-							// maxLength=10
-							// caretHidden=true
-							// multiline=true
-							// numberOfLines=3
-							// onChangeText={ () => null }
-							// value='dummy'
-							// autoFocus=true
-							onChangeText={ (value) => this.setState( prev => ({...prev, title: value})) }
-						/>
-				  	</View>
-
-
-				  	<View style={styles.textinputContainer}>
-						<TextInput
-							style={styles.textinput}
-							placeholder="Type your description"
-							placeholderTextColor = {utils.lightGrey}
-							// maxLength=10
-							// caretHidden=true
-							// multiline=true
-							// numberOfLines=3
-							// onChangeText={ () => null }
-							// value='dummy'
-							// autoFocus=true
-							onChangeText={ (value) => this.setState( prev => ({...prev, description: value})) }
-						/>
-				  	</View>
+					  	<View style={styles.textinputContainer}>
+							<TextInput
+								style={styles.textinput}
+								placeholder="Type description"
+								placeholderTextColor = {utils.lightGrey}
+								// maxLength=10
+								// caretHidden=true
+								// multiline=true
+								// numberOfLines=3
+								// onChangeText={ () => null }
+								// value='dummy'
+								// autoFocus=true
+								onChangeText={ (value) => this.setState( prev => ({...prev, description: value})) }
+							/>
+					  	</View>
 
 
-				  	<View style={styles.textinputContainer}>
-						<TextInput
-							style={styles.textinput}
-							placeholder="Type your all_tags"
-							placeholderTextColor = {utils.lightGrey}
-							// maxLength=10
-							// caretHidden=true
-							// multiline=true
-							// numberOfLines=3
-							// onChangeText={ () => null }
-							// value='dummy'
-							// autoFocus=true
-							onChangeText={ (value) => this.setState( prev => ({...prev, all_tags: value})) }
-						/>
+					  	<View style={styles.textinputContainer}>
+							<TextInput
+								style={styles.textinput}
+								placeholder="Type all_tags"
+								placeholderTextColor = {utils.lightGrey}
+								// maxLength=10
+								// caretHidden=true
+								// multiline=true
+								// numberOfLines=3
+								// onChangeText={ () => null }
+								// value='dummy'
+								// autoFocus=true
+								onChangeText={ (value) => this.setState( prev => ({...prev, all_tags: value})) }
+							/>
+					  	</View>
 				  	</View>
 
 					<Button 
@@ -208,56 +218,52 @@ CreateImage.defaultProps = {
 };
 
 const styles = StyleSheet.create({
-	buttonWithoutBG:{
-		marginTop:50,
-		marginBottom:50,
-	},
-	innerText:{
-
-	},
-	textinputContainer:{
-		marginTop: windowHeight * 0.05, // or 30  gap
-		height: windowHeight * 0.1, // or 100
-		width: '80%',
-		justifyContent: 'center', // vertically centered
-		alignSelf: 'center', // horizontally centered
-		// backgroundColor: utils.lightGreen,
-	},
-	textinput:{
-		marginTop:20,
-		textAlign:'left',
-		borderWidth:1,
-		borderColor:(utils.lightGrey),
-		borderStyle:'solid',
-		paddingLeft:20,
-		paddingTop:15,
-		paddingBottom:15,
-		fontSize:18,
-	},
 	outerContainer: {
-	},
-	bigBlue: {
+		alignItems:'center',
+		// flex:1,
+		// display:'flex',
+		// flexDirection: 'column',
+		alignItems:'center',
+		justifyContent: 'space-between', 
+		backgroundColor: '#ffffff',
+		width: windowWidth
 	},
 
-
+// textinput
 	textinputContainer:{
-		marginTop: windowHeight * 0.05, // or 30  gap
+		marginTop: windowHeight * 0.001, // or 30  gap
+		marginBottom: windowHeight * 0.001, // or 30  gap
 		height: windowHeight * 0.1, // or 100
-		width: '80%',
+		width: windowWidth * 0.45,
 		justifyContent: 'center', // vertically centered
 		alignSelf: 'center', // horizontally centered
 		// backgroundColor: utils.lightGreen,
 	},
 	textinput:{
-		marginTop:20,
-		textAlign:'left',
+		// marginTop:20,
+		textAlign:'center',
 		borderWidth:1,
 		borderColor:(utils.lightGrey),
 		borderStyle:'solid',
-		paddingLeft:20,
+		// paddingLeft:20,
 		paddingTop:15,
 		paddingBottom:15,
 		fontSize:18,
+	},
+
+// create blogpost button
+	bottomButton:{
+		// marginTop: windowHeight * 0.03,
+		width: windowWidth,
+		height: windowHeight * 0.06,
+		justifyContent: 'center',
+		alignItems:'center',
+		backgroundColor: 'black',
+	},
+	buttonText:{
+		color:'white',
+		fontSize:20,
+		fontWeight: 'bold',
 	},
 
 });

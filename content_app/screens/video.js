@@ -5,6 +5,8 @@ import {
 	Text,
 	TouchableHighlight,
 	FlatList,
+	SafeAreaView,
+	ScrollView,
 } from "react-native";
 import PropTypes from 'prop-types';
 
@@ -67,39 +69,41 @@ class VideoScreen extends Component {
 		const total_videos = this.props.total_videos
 
 		return (
+			<SafeAreaView>
+				<ScrollView contentContainerStyle={styles.screenContainer}>
+			
+					<View>
+			  			<ConnectedCreateVideo/>
+			  		</View>
 
-			<View style={{backgroundColor: '#eee'}} >
-				
-				<View>
-		  			<ConnectedCreateVideo/>
-		  		</View>
+					<FlatList
+						style={{flexDirection: 'column', flexWrap : "wrap", alignSelf:'center'}}
+						numColumns={2}
+						data={total_videos}
+						renderItem={
+							({ item }) => (
 
-				<FlatList
-					style={{flexDirection: 'column', flexWrap : "wrap"}}
-					numColumns={1}
-					data={total_videos}
-					renderItem={
-						({ item }) => (
+							<ConnectedVideoCard
+								isCategoryInstead={true}
 
-						<ConnectedVideoCard
-							dataPayloadFromParent = { item }
+								dataPayloadFromParent = { item }
 
-							comments_quantity = { item.comments_quantity }
-							comments = { item.comments || [] }
+								comments_quantity = { item.comments_quantity }
+								comments = { item.comments || [] }
 
-							likes_quantity = { item.likes_quantity }
-							likes = { item.likes || [] }
+								likes_quantity = { item.likes_quantity }
+								likes = { item.likes || [] }
 
-							// user_quantity = { item.user_quantity }
-							// user = { item.user || [] }
-						
-						/>
-					)}
-					keyExtractor={(item, index) => String(index)}
-				/>
+								// user_quantity = { item.user_quantity }
+								// user = { item.user || [] }
+							
+							/>
+						)}
+						keyExtractor={(item, index) => String(index)}
+					/>
 
-			</View>
-
+				</ScrollView>
+			</SafeAreaView>
 		);
 	}
 }

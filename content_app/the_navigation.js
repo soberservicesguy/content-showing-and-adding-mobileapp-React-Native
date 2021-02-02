@@ -75,6 +75,25 @@ function InnerStack({navigation}) {
 		<Stack.Navigator
 			// headerMode='none'
 		>
+			<Stack.Screen name="Image" component={ ConnectedImageScreen }
+				options={{ 
+					headerShown:true,
+					title: 'Image',
+					headerTitleAlign: 'center',
+					headerBackTitleVisible: false,
+					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
+						marginTop:50,
+						marginBottom:50,
+					}}>
+						<Text>
+							Go Back
+						</Text>
+					</TouchableOpacity>	),
+					headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
+				}}
+			/>
+
+
 			<Stack.Screen name="Video" component={ ConnectedVideoScreen }
 				options={{ 
 					headerShown:true,
@@ -113,23 +132,6 @@ function InnerStack({navigation}) {
 			/>
 		
 		
-			<Stack.Screen name="Image" component={ ConnectedImageScreen }
-				options={{ 
-					headerShown:true,
-					title: 'Image',
-					headerTitleAlign: 'center',
-					headerBackTitleVisible: false,
-					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
-						marginTop:50,
-						marginBottom:50,
-					}}>
-						<Text>
-							Go Back
-						</Text>
-					</TouchableOpacity>	),
-					headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
-				}}
-			/>
 		
 			<Stack.Screen name="Individual_BlogPost" component={ConnectedIndividualBlogPost}
 				options={{ 

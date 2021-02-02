@@ -5,6 +5,8 @@ import {
 	Text,
 	TouchableHighlight,
 	FlatList,
+	SafeAreaView,
+	ScrollView,
 } from "react-native";
 import PropTypes from 'prop-types';
 
@@ -20,6 +22,7 @@ import {
 import {
 	ConnectedComponentForShowingImage,
 	ConnectedCreateImage,
+	ConnectedImageCard,
 } from '../redux_stuff/connected_components';
 
 const { Provider, Consumer } = React.createContext();
@@ -41,14 +44,14 @@ class ImageScreen extends Component {
 	componentDidMount() {
 
 // FETCHING DATA FOR COMPONENT
-			axios.get(utils.baseUrl + '/images/images-list-with-children',)
-			.then((response) => {
-				// console.log(response.data)
-				this.props.set_fetched_images(response.data)
-			})
-			.catch((error) => {
-				console.log(error);
-			})
+		axios.get(utils.baseUrl + '/images/images-list-with-children',)
+		.then((response) => {
+			// console.log(response.data)
+			this.props.set_fetched_images(response.data)
+		})
+		.catch((error) => {
+			console.log(error);
+		})
 
 
 	}
@@ -69,36 +72,40 @@ class ImageScreen extends Component {
 
 		return (
 
-			<View style={{backgroundColor: '#eee'}}>
+			<SafeAreaView>
+				<ScrollView contentContainerStyle={styles.screenContainer}>
 				
-				<View item xs={12} sm={12} md={12} lg={12} xl={12}>
-		  			<ConnectedCreateImage/>
-		  		</View>
+					<View>
+			  			<ConnectedCreateImage/>
+			  		</View>
 
-	  	  		<FlatList
-	  				style={{flexDirection: 'column', flexWrap : "wrap"}}
-	  				numColumns={1}
-	  	  			data={total_images}
-	  				renderItem={
-	  					({ item }) => (
-							<ConnectedImageCard
-								dataPayloadFromParent = { item }
+					<FlatList
+						style={{flexDirection: 'column', flexWrap : "wrap", alignSelf:'center'}}
+		  				numColumns={1}
+		  	  			data={total_images}
+		  				renderItem={
+		  					({ item }) => (
+								<ConnectedImageCard
+									isCategoryInstead = {true}
 
-								comments_quantity = { item.comments_quantity }
-								comments = { item.comments || [] }
+									dataPayloadFromParent = { item }
 
-								likes_quantity = { item.likes_quantity }
-								likes = { item.likes || [] }
+									comments_quantity = { item.comments_quantity }
+									comments = { item.comments || [] }
 
-								// user_quantity = { item.user_quantity }
-								// user = { item.user || [] }
-							
-							/>
-	  					)}
-	  				keyExtractor={(item, index) => String(index)}
-	  			/>
+									likes_quantity = { item.likes_quantity }
+									likes = { item.likes || [] }
 
-			</View>
+									// user_quantity = { item.user_quantity }
+									// user = { item.user || [] }
+								
+								/>
+		  					)}
+		  				keyExtractor={(item, index) => String(index)}
+		  			/>
+
+				</ScrollView>
+			</SafeAreaView>
 
 		);
 	}

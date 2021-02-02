@@ -6,6 +6,7 @@ import {
 	Text,
 	TouchableHighlight,
 	TouchableOpacity,
+	Button,
 } from "react-native";
 import PropTypes from 'prop-types';
 
@@ -18,7 +19,8 @@ import axios from 'axios';
 import { Consumer } from "../../screens/image"
 
 import {
-	ComponentForShowingImage
+	ComponentForShowingImage,
+	ComponentForShowingImageCategory,
 } from "."
 
 import utils from "../../utilities";
@@ -29,7 +31,7 @@ import {
 } from "../comments/"
 
 import {
-	ConnectedCreateComment,
+	ConnectedCreateCommentForImage,
 } from "../../redux_stuff/connected_components"
 
 import {
@@ -38,7 +40,7 @@ import {
 } from "../likes/"
 
 import {
-	ConnectedCreateLike,
+	ConnectedCreateLikeForImage,
 } from "../../redux_stuff/connected_components"
 
 class ImageCard extends Component {
@@ -50,6 +52,9 @@ class ImageCard extends Component {
 			comments: [],
 			likes: [],
 			users: [],
+
+			showOnlyQuantityForComments: true,
+			showOnlyQuantityForLikes: true,
 		}	
 
 	}
@@ -103,56 +108,74 @@ class ImageCard extends Component {
 	}
 
 	render() {
+		let componentToShow = (this.props.isCategoryInstead) ?
+	  		<ComponentForShowingImageCategory
+				dataPayloadFromParent = { this.props.dataPayloadFromParent }
+	  		/>
+		:
+	  		<ComponentForShowingImage
+				dataPayloadFromParent = { this.props.dataPayloadFromParent }
+	  		/>
+
 
 		return (
-		  	<View>
+		  	<View style={{marginBottom:10,}}>
 
 		  		<View>
 					{/* first the parent / card component */}
-			  		<ComponentForShowingImage
-						dataPayloadFromParent = { this.props.dataPayloadFromParent }
-			  		/>
+					{componentToShow}
 		  		</View>
 
-				<View>
+				<View style={{
+					flexDirection:'row', 
+					// justifyContent:'space-between',
+					justifyContent:'flex-start',
+				}}>
 					{/* 2nd show individual summary of childs */}
-					<SummarizeCommentsOfImage
-						showOnlyQuantity= { false }
-						child_quantity = { this.props.comments_quantity }
-						dataPayloadFromParent = { this.props.comments }
-					/>
-					<SummarizeLikesOfImage
-						showOnlyQuantity= { false }
-						child_quantity = { this.props.likes_quantity }
-						dataPayloadFromParent = { this.props.likes }
-					/>
+					<TouchableOpacity
+						style={{
+							height:windowHeight * 0.05,
+							// backgroundColor: '#000000'
+						}}
+						activeOpacity={0.2} 
+						onPress={ () => {
+							console.log('ssosoo')
+							this.fetchAllComment( this.props.dataPayloadFromParent.endpoint ) 
+							this.setState( prev => ({...prev, showOnlyQuantityForComments: (prev.showOnlyQuantityForComments === true) ? false : true}) )							
+						}}
+					>
+						<SummarizeCommentsOfImage
+							showOnlyQuantity= { this.state.showOnlyQuantityForComments }
+							child_quantity = { this.props.comments_quantity }
+							dataPayloadFromParent = { this.props.comments }
+						/>
+					</TouchableOpacity>
+					
+					<TouchableOpacity 
+						style={{
+							height:windowHeight * 0.05,
+							// backgroundColor: '#000000'
+						}}
+						activeOpacity={0.2} 
+						onPress={ () => { 
+							this.fetchAllLike( this.props.dataPayloadFromParent.endpoint ) 
+
+							this.setState( prev => ({...prev, showOnlyQuantityForLikes: (prev.showOnlyQuantityForLikes === true) ? false : true}) )
+						}}
+					>						
+						<SummarizeLikesOfImage
+							showOnlyQuantity= { this.state.showOnlyQuantityForLikes }
+							child_quantity = { this.props.likes_quantity }
+							dataPayloadFromParent = { this.props.likes }
+						/>
+					</TouchableOpacity>
+
 				</View>
 
-				<View style={{marginTop:50}}>
-					{/* 3rd show individual button for showing childs */}
-
-					<Button 
-						title={'Show All Comment'}
-						style={styles.buttonWithoutBG}
-						onPress={ () => this.fetchAllComment( this.props.dataPayloadFromParent.endpoint ) }
-					/>
-					
-					<ShowCommentsOfImage
-						dataPayloadFromParent = { this.state.comments }
-					/>
-
-					<Button 
-						title={'Show All Like'}
-						style={{marginTop:50}}
-						onPress={ () => this.fetchAllLike( this.props.dataPayloadFromParent.endpoint ) }
-					/>
-					
-					<ShowLikesOfImage
-						dataPayloadFromParent = { this.state.likes }
-					/>
-				</View>
-
-				<View style={{marginTop: 50}}>
+				<View style={{
+					marginTop: windowHeight * 0.001,
+					// flexDirection:'row'
+				}}>
 					{/* 4th create individual child options like comment / like */}					
 					<ConnectedCreateCommentForImage
 						parentDetailsPayload = { this.props.dataPayloadFromParent }
@@ -168,22 +191,10 @@ class ImageCard extends Component {
 }
 	
 ImageCard.defaultProps = {
-
+	isCategoryInstead: true
 };
 
 const styles = StyleSheet.create({
-	container: {
-	},
-	bigBlue: {
-	},					
-	buttonWithoutBG:{
-		marginTop:50,
-		marginBottom:50,
-	},
-	innerText:{
-
-	},
-
 });
 
 
