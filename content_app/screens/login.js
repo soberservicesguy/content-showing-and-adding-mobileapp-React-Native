@@ -80,45 +80,6 @@ class LoginScreen extends Component {
 				this.props.set_phone_number( this.state.phone_number )
 
 				verify_privilege(this, response.data.privileges)
-			// not needed anymore, made it DRY using above function
-				// // response.data.privileges.map((privilege_name) => {
-
-				// // 	if ( privilege_name === 'Basic' ){
-
-				// // 		this.props.allow_basic_privilege()
-
-				// // 	} else if ( privilege_name === 'Images control' ){
-
-				// // 		this.props.allow_images_privilege()
-
-				// // 	} else if ( privilege_name === 'Videos control' ){
-
-				// // 		this.props.allow_videos_privilege()
-
-				// // 	} else if ( privilege_name === 'Blogposts control' ){
-
-				// // 		this.props.allow_blogpost_privilege()
-
-				// // 	} else  if ( privilege_name === 'Revoke Basic' ){
-
-				// // 		this.props.revoke_basic_privilege()
-
-				// // 	} else if  ( privilege_name === 'Revoke Images control' ){
-
-				// // 		this.props.revoke_images_privilege()
-
-				// // 	} else if  ( privilege_name === 'Revoke Videos control' ){
-
-				// // 		this.props.revoke_videos_privilege()
-
-				// // 	} else if  ( privilege_name === 'Revoke Blogposts control' ){
-
-				// // 		this.props.revoke_blogpost_privilege()
-
-				// // 	} else {
-				// // 	}
-
-				// })
 
 			} else {
 				console.log('couldnt login')
@@ -132,93 +93,111 @@ class LoginScreen extends Component {
 
 	render() {
 		return(
-			<View style={styles.screenContainer}>
-				
-				<View style={styles.buttonContainer}>
-					<Button 
-						title={'LOGIN WITH FACEBOOK'}
-						style={styles.roundButton} 
-						onPress={() => null} 
-						activeOpacity={0.2}
-					/>
-				</View>
-
-			
-				<View style={styles.orContainer}>
-					<View style={styles.leftBar}>
-					</View>
-
-					<View style={styles.orTextChild}>
-						<Text style={styles.orText}>
-							OR
-						</Text>
-					</View>
-
-					<View style={styles.rightBar}>
-					</View>
-				</View>
-
-				<View style={styles.textinputContainer}>
-					<TextInput
-						style={styles.textinput}
-						placeholder="Type your phone number"
-						placeholderTextColor = {utils.lightGrey}
-						// maxLength=10
-						// caretHidden=true
-						// multiline=true
-						// numberOfLines=3
-						// onChangeText={ () => null }
-						// value='dummy'
-						// autoFocus=true
-						onChangeText={ (value) =>  this.setState(prev => ({...prev, phone_number: value})) }
-					/>
-				</View>
-
-				<View style={styles.textinputContainer}>
-					<TextInput
-						style={styles.textinput}
-						placeholder="Type your password"
-						placeholderTextColor = {utils.lightGrey}
-						// maxLength=10
-						// caretHidden=true
-						// multiline=true
-						// numberOfLines=3
-						// onChangeText={ () => null }
-						// value='dummy'
-						// autoFocus=true
-						onChangeText={ (value) =>  this.setState(prev => ({...prev, password: value})) }
-					/>
-				</View>
+			<ImageBackground source={utils.firstScreenBG} style={styles.bgImage}>
+				<View style={styles.screenContainer}>
 					
-				<Button 
-					title={'Sign In'}
-					style={styles.lowerButton} 
-					activeOpacity={0.2}
-					onPress={ () => this.login_and_get_jwt_token_and_privileges() }
-				/>
+					<View style={{
+						...styles.textinputContainer, 
+						marginTop:windowHeight * 0.57
+					}}>
+						<TextInput
+							style={styles.textinput}
+							placeholder="Phone number"
+							placeholderTextColor ={utils.dimWhite}
+							// maxLength=10
+							// caretHidden=true
+							// multiline=true
+							// numberOfLines=3
+							// onChangeText={ () => null }
+							// value='dummy'
+							// autoFocus=true
+							onChangeText={ (value) =>  this.setState(prev => ({...prev, phone_number: value})) }
+						/>
+						<View style={styles.iconContainer}>
+							<Icon
+							  // raised
+							  name={utils.userIcon}
+							  type='font-awesome'
+							  iconStyle='Outlined'
+							  color={utils.mediumGrey}
+							  size={30}
+							  // onPress={() => console.log('hello')} 
+							  // reverse={true}
+							/>
+						</View>
+					</View>
 
-				<Button 
-					title={'MAKE REQUEST AT PROTECTED ROUTE'}
-					style={styles.lowerButton} 
-					activeOpacity={0.2}
-					onPress={ () => this.make_request_to_protected_route() }
-				/>
 
-				<Button 
-					title={'LOGOUT'}
-					style={styles.lowerButton} 
-					activeOpacity={0.2} 
-					onPress={ () => this.logout_and_remove_jwt_token() }
-				/>
-			</View>
+					<View style={styles.textinputContainer}>
+						<TextInput
+							style={styles.textinput}
+							placeholder="Password"
+							placeholderTextColor = {utils.dimWhite}
+							// maxLength=10
+							// caretHidden=true
+							// multiline=true
+							// numberOfLines=3
+							// onChangeText={ () => null }
+							// value='dummy'
+							// autoFocus=true
+							onChangeText={ (value) =>  this.setState(prev => ({...prev, password: value})) }
+						/>
+						<View style={styles.iconContainer}>
+							<Icon
+							  // raised
+							  name={utils.userIcon}
+							  type='font-awesome'
+							  iconStyle='Outlined'
+							  color={utils.mediumGrey}
+							  size={30}
+							  // onPress={() => console.log('hello')} 
+							  // reverse={true}
+							/>
+						</View>
+					</View>
+						
+					<View style={styles.buttonContainer}>
+						<TouchableOpacity activeOpacity={0.2} onPress={() => {}} style={styles.roundButton}>
+							<Text style={styles.innerText}>
+								Get Started
+							</Text>
+						</TouchableOpacity>
+					</View>
+
+					<View style={styles.bottomButtonsContainer}>
+						<View style={{flex:1,}}>
+							<TouchableOpacity activeOpacity={0.2} onPress={() => {}} style={styles.buttonWithoutBG}>
+								<Text style={styles.createAccountText}>
+									Create Account
+								</Text>
+							</TouchableOpacity>
+						</View>
+
+						<View style={{flex:1}}>
+							<TouchableOpacity activeOpacity={0.2} onPress={() => {}} style={styles.buttonWithoutBG}>
+								<Text style={styles.needHelpText}>
+									Need Help?
+								</Text>
+							</TouchableOpacity>
+						</View>
+
+					</View>
+
+	{/*				<Button 
+						title={'LOGOUT'}
+						style={styles.lowerButton} activeOpacity={0.2}
+						onPress={ () => this.logout_and_remove_jwt_token() }
+					/>
+	*/}
+				</View>
+			</ImageBackground>
 		);
+
 	}
 }
 
+
 const styles = StyleSheet.create({
-	iconStyle:{
-		alignSelf:'center',
-	},
 	screenContainer:{
 		alignItems:'center',
 		flex:1,
@@ -226,115 +205,96 @@ const styles = StyleSheet.create({
 		// flexDirection: 'column',
 		alignItems:'center',
 		justifyContent: 'space-between', 
+		// backgroundColor: '#ffffff',
+	},
+	bgImage:{
+		resizeMode: "stretch",
+		height: windowHeight,
+		width: windowWidth,
 	},
 
-	lowerButton:{
-		alignItems: 'center',
-		width:'100%',
-		paddingTop:15,
-		paddingBottom:15,
-		marginBottom:0,
-		backgroundColor: 'grey',
+
+
+// text inputs
+	textinputContainer:{
+		paddingTop:0,
+		marginTop:0,	
+		// backgroundColor: '#000000',
+		width: '90%',
+		height: windowHeight * 0.1
+		// marginBottom: windowHeight * 0.005,
 	},
-
-	buttonWithoutBG:{
-		marginTop:50,
-		marginBottom:50,
-
+// icon container
+	iconContainer:{
+		position: 'relative',
+		bottom: windowHeight * 0.065,
+		right: windowWidth * 0.35,
 	},
 	textinput:{
-		marginTop:20,
+		// backgroundColor: '#000000',
+		// marginTop:10,
 		textAlign:'left',
 		borderWidth:1,
-		borderColor:(utils.lightGrey),
 		borderStyle:'solid',
-		paddingLeft:20,
-		paddingTop:15,
-		paddingBottom:15,
+		paddingTop:17,
+		paddingBottom:17,
 		fontSize:18,
+		borderRadius:50,
+		borderColor:utils.darkGrey,
+		backgroundColor: utils.darkGrey,
+		borderWidth:2,
+		paddingLeft:windowWidth * 0.17,
+		fontWeight: 'bold',
+		opacity: 0.5,
 	},
-	orText:{
-		color:utils.lightGrey,
-		fontSize:20,
-		textAlign:'center',
-	},
-	orTextChild:{
-		flex:1,
-	},
-	rightBar:{
-		flex:3,
-		borderBottomWidth:1,
-		borderColor:utils.lightGrey,
-		width:'100%',
-	},
-	leftBar:{
-		flex:3,
-		borderBottomWidth:1,
-		borderColor:utils.lightGrey,
-	},
-	orContainer:{
-		marginTop:20,
-		display:'flex',
-		flexDirection:'row',
-		alignItems:'center',
-		justifyContent: 'center',
-		width:'80%',
-	},
+
+// roundbutotn
 	buttonContainer:{
-		marginTop:30,
 		justifyContent: 'center',
 		alignSelf:'center',
-		height:100,
-		width:'80%',
+		width:'90%',
 	},
 	roundButton:{
+		borderStyle:'solid',
+		width:'100%',
+		paddingTop:15,
 		borderRadius:50,
-		borderColor:'green',
+		borderColor:utils.orange,
 		borderWidth:2,
-		backgroundColor: 'green',
-		borderStyle:'solid',
-		width:'100%',
-		paddingTop:15,
 		paddingBottom:15,
+		backgroundColor: utils.orange,
 	},
-	text:{
-		fontSize:20,
-		color:'white',
+	innerText:{
 		textAlign:'center',
-	},
-	headingOverInput:{
-		width:'100%',
-		marginTop:20,
-		fontSize:18,
-		fontWeight:'bold',
-		textAlign:'left',
-	},
-	textinputContainer:{
-		width:'80%',
+		fontSize: 18,
+		color: 'white',
+		fontWeight: 'bold',
 	},
 
 
 
-	textinputContainer:{
-		marginTop: windowHeight * 0.05, // or 30  gap
-		height: windowHeight * 0.1, // or 100
-		width: '80%',
-		justifyContent: 'center', // vertically centered
-		alignSelf: 'center', // horizontally centered
-		// backgroundColor: utils.lightGreen,
-	},
-	textinput:{
-		marginTop:20,
-		textAlign:'left',
-		borderWidth:1,
-		borderColor:(utils.lightGrey),
-		borderStyle:'solid',
-		paddingLeft:20,
-		paddingTop:15,
-		paddingBottom:15,
-		fontSize:18,
-	},
+// bottom buttons
+	bottomButtonsContainer:{
+		// alignSelf:'center',
+		marginTop: windowHeight * 0.01,
+		height: windowHeight * 0.1,
+		width:'90%',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		// alignSelf:'center',
 
+	},
+	createAccountText:{
+		color:utils.mediumGrey,
+	},
+	needHelpText:{
+		textAlign:'right',
+		color:utils.mediumGrey,
+	},
+	forGotPasswordText:{
+		color: utils.lightGrey,
+		fontSize: 20,
+	},
 })
 
 export default LoginScreen

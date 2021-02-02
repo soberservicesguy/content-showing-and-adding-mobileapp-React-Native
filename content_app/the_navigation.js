@@ -47,6 +47,15 @@ const Stack = createStackNavigator();
 function SignInStack({navigation}) {
 	return (
 		<Stack.Navigator headerMode='none'>
+			<Stack.Screen name="SignUp" component={ ConnectedSignUpScreen }
+				options={{ 
+					headerShown:true,
+					title: 'SignUp',
+					headerTitleAlign: 'center',
+					headerBackTitleVisible: false,
+				}}
+			/>
+
 			<Stack.Screen name="Login" component={ ConnectedLoginScreen }
 				options={{ 
 					headerShown:true,
@@ -56,14 +65,6 @@ function SignInStack({navigation}) {
 				}}
 			/>
 
-			<Stack.Screen name="SignUp" component={ ConnectedSignUpScreen }
-				options={{ 
-					headerShown:true,
-					title: 'SignUp',
-					headerTitleAlign: 'center',
-					headerBackTitleVisible: false,
-				}}
-			/>
 		</Stack.Navigator>
 	);
 }

@@ -1,7 +1,44 @@
-
 const utils = {
-	baseUrl:'https://3246e525882c.ngrok.io',
-	productsEndpoint:'',
+	baseUrl:'http://localhost:3000/',
+	urlForProducts:'',
+
+	image:require('./images/samosa.jpg'),
+
+// login screen
+	// BG Image
+	firstScreenBG: require('./images/samosa.jpg'),
+	// COLORS
+	dimWhite:'#d6d6d6',
+	darkGrey: '#4e5252',
+	mediumGrey: '#7d807f',
+	orange: '#e96d3e',
+	// ICON
+	userIcon: 'heartbeat',
+
+// sign up screen
+	// BG Image
+	secondScreenBG: require('./images/samosa.jpg'),
+	// COLORS
+	black:"black",
+
+
+
+	lightGrey: "#bbbdc0",
+	darkBlue: '#1e5186',
+	lightGreen: '#acce4c',
+	// ICON
+	righAeroIcon:'heartbeat',
+
+// signin screen
+	// COLORS
+
+	// ICON
+
+
+// products screen
+	lightBlue:'#2ba1fb',
+
+
 }
 
 export default utils
