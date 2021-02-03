@@ -6,6 +6,7 @@ import {
 	Text,
 	TouchableHighlight,
 	Modal,
+	Button,
 } from "react-native";
 import PropTypes from 'prop-types';
 					
@@ -22,6 +23,8 @@ import {
 import { Dimensions } from 'react-native';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+
+import { Icon } from 'react-native-elements';
 
 class SummarizeCommentsOfVideo extends Component {
 	constructor(props) {

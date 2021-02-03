@@ -5,6 +5,8 @@ import {
 	View, 
 	Text,
 	TouchableHighlight,
+	Button,
+	Modal,
 } from "react-native";
 import PropTypes from 'prop-types';
 					
@@ -13,6 +15,8 @@ import axios from 'axios';
 import utils from "../../utilities";
 
 import { Consumer } from "../../screens/video"
+
+import { Icon } from 'react-native-elements';
 
 import {
 	ComponentForShowingLike
@@ -73,6 +77,7 @@ class SummarizeLikesOfVideo extends Component {
 							color={'black'}
 							title={'close likes'}
 							onPress={() => {
+								console.log('clicked')
 								this.props.toggle_show_likes_for_video()
 							}} 
 						/>

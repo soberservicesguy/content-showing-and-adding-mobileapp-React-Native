@@ -20,6 +20,8 @@ import { Dimensions } from 'react-native';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
+import { Icon } from 'react-native-elements';
+
 class CreateLikeForBlogpost extends Component {
 	constructor(props) {
 		super(props);
@@ -59,9 +61,9 @@ class CreateLikeForBlogpost extends Component {
 
 				<View style={styles.outerContainer}>
 
-					<Button 
-						title={'Press To Create Like'}
-						style={styles.buttonWithoutBG}
+				  	<TouchableOpacity 
+				  		activeOpacity={0.2} 
+				  		style={styles.buttonWithoutBG}
 						onPress={ () => {
 
 							let setResponseInCurrentBlogPost = (arg) => this.props.set_current_blogpost(arg)
@@ -86,7 +88,16 @@ class CreateLikeForBlogpost extends Component {
 							});						
 
 						}}
-					/>
+					>
+						<Icon
+						  // raised
+						  name={utils.likeIcon}
+						  type='font-awesome'
+						  color='#f50'
+						  size={30}
+						  // reverse={true}
+						/>
+					</TouchableOpacity>
 				</View>
 			);
 		}
@@ -99,6 +110,12 @@ CreateLikeForBlogpost.defaultProps = {
 
 const styles = StyleSheet.create({
 	outerContainer: {
+		width:windowWidth * 0.15,
+		height: windowHeight * 0.05,
+		// backgroundColor: 'grey',
+		position:'absolute',
+		bottom:windowHeight * 0.08,
+		left:windowWidth * 0.82,
 	},
 });
 

@@ -179,7 +179,7 @@ class VideoCard extends Component {
 
 	
 VideoCard.defaultProps = {
-	isCategoryInstead:true
+	isCategoryInstead:false
 };
 
 const styles = StyleSheet.create({

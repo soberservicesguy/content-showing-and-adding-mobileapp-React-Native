@@ -91,7 +91,7 @@ class CreateLikeForImage extends Component {
 					>			
 						<Icon
 						  // raised
-						  name='heartbeat'
+						  name={utils.likeIcon}
 						  type='font-awesome'
 						  color='#f50'
 						  size={30}
