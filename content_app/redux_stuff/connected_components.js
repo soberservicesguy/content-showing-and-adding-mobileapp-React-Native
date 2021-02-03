@@ -33,29 +33,59 @@ import {
 	ImageCard,
 } from "../components/images"
 
+
 import {
 	CreateCommentForBlogpost,
-} from "../components/comments"
-
-import {
-	CreateCommentForVideo,
-} from "../components/comments"
-
-import {
 	CreateCommentForImage,
+	CreateCommentForVideo,
+	SummarizeCommentsOfBlogPost,
+	SummarizeCommentsOfImage,
+	SummarizeCommentsOfVideo,
 } from "../components/comments"
 
-import {
-	CreateLikeForBlogpost,
-} from "../components/likes"
 
 import {
 	CreateLikeForVideo,
+	CreateLikeForBlogpost,
+	CreateLikeForImage,
+	SummarizeLikesOfBlogPost,
+	SummarizeLikesOfImage,
+	SummarizeLikesOfVideo,
 } from "../components/likes"
 
-import {
-	CreateLikeForImage,
-} from "../components/likes"
+export const ConnectedSummarizeCommentsOfBlogPost = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(SummarizeCommentsOfBlogPost);
+
+export const ConnectedSummarizeCommentsOfImage = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(SummarizeCommentsOfImage);
+
+export const ConnectedSummarizeCommentsOfVideo = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(SummarizeCommentsOfVideo);
+
+export const ConnectedSummarizeLikesOfBlogPost = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(SummarizeLikesOfBlogPost);
+
+export const ConnectedSummarizeLikesOfImage = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(SummarizeLikesOfImage);
+
+export const ConnectedSummarizeLikesOfVideo = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(SummarizeLikesOfVideo);
+
+
+
+
 
 
 export const ConnectedAppNavigation = connect(

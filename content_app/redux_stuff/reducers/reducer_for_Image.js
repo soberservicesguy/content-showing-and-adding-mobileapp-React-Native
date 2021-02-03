@@ -1,4 +1,6 @@
 const initialState = {
+	showOnlyCommentsQuantityForImage:false,
+	showOnlyLikesQuantityForImage:false,
 
 	currentImage:{
 			category:'dummy',
@@ -27,6 +29,14 @@ const initialState = {
 const reducerForImage = (state = initialState, action) => {
 
 	switch (action.type) {
+
+		case "TOGGLE_COMMENT_QUANTITY_FOR_IMAGE":
+			return {...state, showOnlyCommentsQuantityForImage: (state.showOnlyCommentsQuantityForImage === true) ? false : true }
+			break;
+
+		case "TOGGLE_LIKE_QUANTITY_FOR_IMAGE":
+			return {...state, showOnlyLikesQuantityForImage: (state.showOnlyLikesQuantityForImage === true) ? false : true }
+			break;
 
 		case "SET_CURRENT_IMAGE":
 

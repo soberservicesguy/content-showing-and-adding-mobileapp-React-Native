@@ -40,6 +40,16 @@ export const rootReducer = combineReducers({
 export const mapStateToProps = state => {
 	return {
 
+		show_blogpost_comments:state.blogposts.showOnlyCommentsQuantityForBlogPost,
+		show_image_comments:state.images.showOnlyCommentsQuantityForImage,
+		show_video_comments:state.videos.showOnlyCommentsQuantityForVideo,
+
+		show_blogpost_likes:state.blogposts.showOnlyLikesQuantityForBlogPost,
+		show_image_likes:state.images.showOnlyLikesQuantityForImage,
+		show_video_likes:state.videos.showOnlyLikesQuantityForVideo,
+
+
+
 		total_blogposts: state.blogposts.totalBlogPost,
 		current_blogpost: state.blogposts.currentBlogPost,
 
@@ -67,6 +77,15 @@ export const mapStateToProps = state => {
 
 export const mapDispatchToProps = dispatch => {
 	return {
+		toggle_show_comments_for_blogpost: () => dispatch( {type: "TOGGLE_COMMENT_QUANTITY_FOR_BLOSPOST"} ),
+		toggle_show_comments_for_video: () => dispatch( {type: "TOGGLE_COMMENT_QUANTITY_FOR_VIDEO"} ),
+		toggle_show_comments_for_image: () => dispatch( {type: "TOGGLE_COMMENT_QUANTITY_FOR_IMAGE"} ),
+
+		toggle_show_likes_for_blogpost: () => dispatch( {type: "TOGGLE_LIKE_QUANTITY_FOR_BLOSPOST"} ),
+		toggle_show_likes_for_video: () => dispatch( {type: "TOGGLE_LIKE_QUANTITY_FOR_VIDEO"} ),
+		toggle_show_likes_for_image: () => dispatch( {type: "TOGGLE_LIKE_QUANTITY_FOR_IMAGE"} ),
+
+
 
 		set_is_signed_in: (booleon) => dispatch( { type:"SET_IS_SIGNED_IN", booleon: booleon } ),
 		set_user_token: (token) => dispatch( { type:"SET_USER_TOKEN", token: token } ),

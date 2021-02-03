@@ -26,16 +26,16 @@ import {
 import utils from "../../utilities";
 
 import {
-	SummarizeCommentsOfImage,
 	ShowCommentsOfImage,
 } from "../comments/"
 
 import {
 	ConnectedCreateCommentForImage,
+	ConnectedSummarizeCommentsOfImage,
+	ConnectedSummarizeLikesOfImage,
 } from "../../redux_stuff/connected_components"
 
 import {
-	SummarizeLikesOfImage,
 	ShowLikesOfImage,
 } from "../likes/"
 
@@ -53,8 +53,6 @@ class ImageCard extends Component {
 			likes: [],
 			users: [],
 
-			showOnlyQuantityForComments: true,
-			showOnlyQuantityForLikes: true,
 		}	
 
 	}
@@ -119,52 +117,40 @@ class ImageCard extends Component {
 
 
 		return (
-		  	<View style={{marginBottom:10,}}>
+		  	<View style={styles.outerContainer}>
 
 		  		<View>
 					{/* first the parent / card component */}
 					{componentToShow}
 		  		</View>
 
-				<View style={{
-					flexDirection:'row', 
-					// justifyContent:'space-between',
-					justifyContent:'flex-start',
-				}}>
+				<View style={styles.socialButtonsAndStatsContainer}>
 					{/* 2nd show individual summary of childs */}
 					<TouchableOpacity
-						style={{
-							height:windowHeight * 0.05,
-							// backgroundColor: '#000000'
-						}}
+						style={styles.socialButtonAndStats}
 						activeOpacity={0.2} 
 						onPress={ () => {
-							console.log('ssosoo')
 							this.fetchAllComment( this.props.dataPayloadFromParent.endpoint ) 
-							this.setState( prev => ({...prev, showOnlyQuantityForComments: (prev.showOnlyQuantityForComments === true) ? false : true}) )							
+							this.props.toggle_show_comments_for_image()
 						}}
 					>
-						<SummarizeCommentsOfImage
-							showOnlyQuantity= { this.state.showOnlyQuantityForComments }
+						<ConnectedSummarizeCommentsOfImage
+							showOnlyQuantity = { this.props.show_image_comments }
 							child_quantity = { this.props.comments_quantity }
 							dataPayloadFromParent = { this.props.comments }
 						/>
 					</TouchableOpacity>
 					
 					<TouchableOpacity 
-						style={{
-							height:windowHeight * 0.05,
-							// backgroundColor: '#000000'
-						}}
+						style={styles.socialButtonAndStats}
 						activeOpacity={0.2} 
 						onPress={ () => { 
 							this.fetchAllLike( this.props.dataPayloadFromParent.endpoint ) 
-
-							this.setState( prev => ({...prev, showOnlyQuantityForLikes: (prev.showOnlyQuantityForLikes === true) ? false : true}) )
+							this.props.toggle_show_likes_for_image()
 						}}
 					>						
-						<SummarizeLikesOfImage
-							showOnlyQuantity= { this.state.showOnlyQuantityForLikes }
+						<ConnectedSummarizeLikesOfImage
+							showOnlyQuantity = { this.props.show_image_likes }
 							child_quantity = { this.props.likes_quantity }
 							dataPayloadFromParent = { this.props.likes }
 						/>
@@ -172,10 +158,7 @@ class ImageCard extends Component {
 
 				</View>
 
-				<View style={{
-					marginTop: windowHeight * 0.001,
-					// flexDirection:'row'
-				}}>
+				<View style={styles.createCommentAndLikeContainer}>
 					{/* 4th create individual child options like comment / like */}					
 					<ConnectedCreateCommentForImage
 						parentDetailsPayload = { this.props.dataPayloadFromParent }
@@ -195,6 +178,25 @@ ImageCard.defaultProps = {
 };
 
 const styles = StyleSheet.create({
+	outerContainer:{
+		marginBottom:10,
+	},
+
+// comments and likes counts
+	socialButtonsAndStatsContainer:{
+		flexDirection:'row', 
+		// justifyContent:'space-between',
+		justifyContent:'flex-start',
+	},
+	socialButtonAndStats:{
+		height:windowHeight * 0.05
+	},
+
+// create comment and like
+	createCommentAndLikeContainer:{
+		marginTop: windowHeight * 0.001,
+	},
+
 });
 
 

@@ -25,7 +25,6 @@ import {
 import utils from "../../utilities";
 
 import {
-	SummarizeCommentsOfBlogPost,
 	ShowCommentsOfBlogPost,
 } from "../comments/"
 
@@ -34,12 +33,13 @@ import {
 } from "../../redux_stuff/connected_components"
 
 import {
-	SummarizeLikesOfBlogPost,
 	ShowLikesOfBlogPost,
 } from "../likes/"
 
 import {
 	ConnectedCreateLikeForBlogpost,
+	ConnectedSummarizeCommentsOfBlogPost,
+	ConnectedSummarizeLikesOfBlogPost,
 } from "../../redux_stuff/connected_components"
 
 
@@ -127,77 +127,81 @@ class BlogPostCard extends Component {
 		  		</View>
 
 
+				<View style={styles.socialButtonsAndStatsContainer}>
+					{/* 2nd show individual summary of childs */}
+					<TouchableOpacity
+						style={styles.socialButtonAndStats}
+						activeOpacity={0.2} 
+						onPress={ () => {
+							this.fetchAllComment( this.props.dataPayloadFromParent.endpoint ) 
+							this.props.toggle_show_comments_for_blogpost()
+						}}
+					>
+						<ConnectedSummarizeCommentsOfBlogPost
+							showOnlyQuantity = { this.props.show_blogpost_comments }
+							child_quantity = { this.props.comments_quantity }
+							dataPayloadFromParent = { this.props.comments }
+						/>
+					</TouchableOpacity>
+					
+					<TouchableOpacity 
+						style={styles.socialButtonAndStats}
+						activeOpacity={0.2} 
+						onPress={ () => { 
+							this.fetchAllLike( this.props.dataPayloadFromParent.endpoint ) 
+							this.props.toggle_show_likes_for_blogpost()
+						}}
+					>						
+						<ConnectedSummarizeLikesOfBlogPost
+							showOnlyQuantity = { this.props.show_blogpost_likes }
+							child_quantity = { this.props.likes_quantity }
+							dataPayloadFromParent = { this.props.likes }
+						/>
+					</TouchableOpacity>
+
+				</View>
+
+				<View style={styles.createCommentAndLikeContainer}>
+					{/* 4th create individual child options like comment / like */}					
+					<ConnectedCreateCommentForBlogpost
+						parentDetailsPayload = { this.props.dataPayloadFromParent }
+					/>					
+					<ConnectedCreateLikeForBlogpost
+						parentDetailsPayload = { this.props.dataPayloadFromParent }
+					/>
+				</View>
+
 		  	</View>
 		);
 	}
 }
-
-
 
 	
 BlogPostCard.defaultProps = {
 	isCategoryInstead:true,
 };
 
+
 const styles = StyleSheet.create({
-	container: {
-	},
-	bigBlue: {
-	},					
-	buttonWithoutBG:{
-		marginTop:50,
-		marginBottom:50,
-	},
-	innerText:{
-
+	outerContainer:{
+		marginBottom:10,
 	},
 
+// comments and likes counts
+	socialButtonsAndStatsContainer:{
+		flexDirection:'row', 
+		// justifyContent:'space-between',
+		justifyContent:'flex-start',
+	},
+	socialButtonAndStats:{
+		height:windowHeight * 0.05
+	},
+
+// create comment and like
+	createCommentAndLikeContainer:{
+		marginTop: windowHeight * 0.001,
+	},
 });
 
+
 export default BlogPostCard;
-
-
-				// <View style={{marginTop:10}}>
-				// 	{/* 2nd show individual summary of childs */}
-				// 	<SummarizeCommentsOfBlogPost
-				// 		showOnlyQuantity= { false }
-				// 		child_quantity = { this.props.comments_quantity }
-				// 		dataPayloadFromParent = { this.props.comments }
-				// 	/>
-				// 	<SummarizeLikesOfBlogPost
-				// 		showOnlyQuantity= { false }
-				// 		child_quantity = { this.props.likes_quantity }
-				// 		dataPayloadFromParent = { this.props.likes }
-				// 	/>
-				// </View>
-
-				// <View style={{marginTop:10}}>
-				// 	{/* 3rd show individual button for showing childs */}
-
-				// 	<Button
-				// 		title={'Show All Comments'} 
-				// 		style={styles.buttonWithoutBG}
-				// 		onPress={ () => this.fetchAllComment( this.props.dataPayloadFromParent.endpoint ) }
-				// 	/>					
-				// 	<ShowCommentsOfBlogPost
-				// 		dataPayloadFromParent = { this.state.comments }
-				// 	/>
-				// 	<Button 
-				// 		title={'Show All Like'}
-				// 		style={{marginTop:50}}
-				// 		onPress={ () => this.fetchAllLike( this.props.dataPayloadFromParent.endpoint ) }
-				// 	/>
-				// 	<ShowLikesOfBlogPost
-				// 		dataPayloadFromParent = { this.state.likes }
-				// 	/>
-				// </View>
-
-				// <View style={{marginTop:50}}>
-				// 	{/* 4th create individual child options like comment / like */}					
-				// 	<ConnectedCreateCommentForBlogpost
-				// 		parentDetailsPayload = { this.props.dataPayloadFromParent }
-				// 	/>					
-				// 	<ConnectedCreateLikeForBlogpost
-				// 		parentDetailsPayload = { this.props.dataPayloadFromParent }
-				// 	/>
-				// </View>

@@ -1,4 +1,6 @@
 const initialState = {
+	showOnlyCommentsQuantityForVideo:false,
+	showOnlyLikesQuantityForVideo:false,
 
 	currentVideo:{
 			category:'dummy',
@@ -28,6 +30,14 @@ const initialState = {
 const reducerForVideo = (state = initialState, action) => {
 
 	switch (action.type) {
+
+		case "TOGGLE_COMMENT_QUANTITY_FOR_VIDEO":
+			return {...state, showOnlyCommentsQuantityForVideo: (state.showOnlyCommentsQuantityForVideo === true) ? false : true }
+			break;
+
+		case "TOGGLE_LIKE_QUANTITY_FOR_VIDEO":
+			return {...state, showOnlyLikesQuantityForVideo: (state.showOnlyLikesQuantityForVideo === true) ? false : true }
+			break;
 
 		case "SET_CURRENT_VIDEO":
 

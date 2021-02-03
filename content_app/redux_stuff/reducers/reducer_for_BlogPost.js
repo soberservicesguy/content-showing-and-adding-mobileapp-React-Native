@@ -1,4 +1,6 @@
 const initialState = {
+	showOnlyCommentsQuantityForBlogPost:false,
+	showOnlyLikesQuantityForBlogPost:false,
 
 	currentBlogPost:{
 			category:'dummy',
@@ -32,6 +34,14 @@ const initialState = {
 const reducerForBlogPost = (state = initialState, action) => {
 
 	switch (action.type) {
+
+		case "TOGGLE_COMMENT_QUANTITY_FOR_BLOSPOST":
+			return {...state, showOnlyCommentsQuantityForBlogPost: (state.showOnlyCommentsQuantityForBlogPost === true) ? false : true }
+			break;
+
+		case "TOGGLE_LIKE_QUANTITY_FOR_BLOSPOST":
+			return {...state, showOnlyLikesQuantityForBlogPost: (state.showOnlyLikesQuantityForBlogPost === true) ? false : true }
+			break;
 
 		case "SET_CURRENT_BLOGPOST":
 

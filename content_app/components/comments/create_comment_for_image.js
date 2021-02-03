@@ -66,7 +66,6 @@ class CreateCommentForImage extends Component {
 
 				<View style={styles.outerContainer}>
 
-
 				  	<View style={styles.textinputContainer}>
 						<TextInput
 							style={styles.textinput}

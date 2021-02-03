@@ -83,9 +83,9 @@ class CreateCommentForVideo extends Component {
 				  	</View>
 
 
-					<Button 
-						title={'Press To Create Comment'}
-						style={styles.buttonWithoutBG}
+				  	<TouchableOpacity 
+				  		activeOpacity={0.2} 
+				  		style={styles.buttonWithoutBG}
 						onPress={ () => {
 
 							let setResponseInCurrentVideo = (arg) => this.props.set_current_video(arg)
@@ -111,7 +111,11 @@ class CreateCommentForVideo extends Component {
 							});						
 
 						}}
-					/>
+			  		>
+				  		<Text style={styles.innerText}>
+							Create Comment
+				  		</Text>
+					</TouchableOpacity>
 				</View>
 			);
 		}
@@ -125,28 +129,55 @@ CreateCommentForVideo.defaultProps = {
 
 const styles = StyleSheet.create({
 	outerContainer: {
+		height: windowHeight * 0.08,
+		// backgroundColor: '#000000',
+		alignItems: 'center',
+		flexDirection:'row',
 	},
 
 
+// text inputs
 	textinputContainer:{
-		marginTop: windowHeight * 0.05, // or 30  gap
-		height: windowHeight * 0.1, // or 100
-		width: '80%',
-		justifyContent: 'center', // vertically centered
-		alignSelf: 'center', // horizontally centered
-		// backgroundColor: utils.lightGreen,
+		paddingTop:0,
+		marginTop:0,	
+		// backgroundColor: '#000000',
+		// width: '70%',
+		flex:4,
+		height: windowHeight * 0.07
+		// marginBottom: windowHeight * 0.005,
+	},
+// icon container
+	iconContainer:{
+		position: 'relative',
+		bottom: windowHeight * 0.065,
+		right: windowWidth * 0.35,
 	},
 	textinput:{
-		marginTop:20,
+		// backgroundColor: '#000000',
+		// marginTop:10,
 		textAlign:'left',
 		borderWidth:1,
-		borderColor:(utils.lightGrey),
 		borderStyle:'solid',
-		paddingLeft:20,
-		paddingTop:15,
-		paddingBottom:15,
+		// paddingTop:17,
+		// paddingBottom:17,
 		fontSize:18,
+		borderRadius:50,
+		borderColor:utils.darkGrey,
+		// backgroundColor: utils.darkGrey,
+		borderWidth:2,
+		paddingLeft:windowWidth * 0.17,
+		fontWeight: 'bold',
+		opacity: 0.5,
 	},
+
+// create comment button
+	buttonWithoutBG:{
+		flex:1
+	},
+	innerText:{
+		textAlign:'center',
+	},
+
 });
 
 export default CreateCommentForVideo
