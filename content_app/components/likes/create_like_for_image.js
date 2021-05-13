@@ -14,13 +14,11 @@ import axios from 'axios';
 
 import utils from "../../utilities";
 
-import { Consumer } from "../../screens/blog_post"
+import { Icon } from 'react-native-elements';
 
 import { Dimensions } from 'react-native';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-
-import { Icon } from 'react-native-elements';
 
 class CreateLikeForImage extends Component {
 	constructor(props) {

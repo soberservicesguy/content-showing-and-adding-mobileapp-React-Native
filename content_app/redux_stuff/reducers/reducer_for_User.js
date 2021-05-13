@@ -3,11 +3,11 @@ const initialState = {
 	isSignedIn: false,
 	userToken: null,
 
-	user_name:'dummy',
-	phone_number:'dummy',
-	user_image:'dummy',
-	hash:'dummy',
-	salt:'dummy',
+	user_name: null,
+	phone_number: null,
+	user_image: null,
+	hash: null,
+	salt: null,
 }
 
 const reducerForUser = (state = initialState, action) => {

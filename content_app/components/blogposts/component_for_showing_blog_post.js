@@ -28,8 +28,33 @@ class ComponentForShowingBlogPost extends Component {
 		super(props);
 // STATE	
 		this.state = {
-
+			image_src: null,
 		}
+
+	}
+
+	getImage(){
+
+		// this.setState({ image_src: null })
+		let image_object_id = this.props.dataPayloadFromParent.image_main_filepath
+
+		axios.get(`${utils.baseUrl}/blogpostings/get-image`, 
+			{
+				params: {
+					image_object_id: image_object_id
+				}
+			}
+		)
+	    .then(async (response) => {
+	    	if (response.data.success){
+		    	this.setState({ image_src: "data:image/jpeg;base64," + response.data.image})
+	    	}
+
+		})
+		.catch((err) => {
+			console.log(err)
+		})
+
 
 	}
 
@@ -37,6 +62,18 @@ class ComponentForShowingBlogPost extends Component {
 	componentDidMount() {
 
 	}
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+
+
+		if (prevProps.getIndividualImage === false && this.props.getIndividualImage === true){
+			console.log('getting image')
+			this.getImage()
+
+		}
+
+	}
+
 
 	render() {
 
@@ -51,8 +88,9 @@ class ComponentForShowingBlogPost extends Component {
 				<View style={styles.innerContainer}>
 					<View style={styles.imageContainer}>
 						<Image 
+							source={{uri: this.state.image_src}}
 							// source={base64Image}
-							source={utils.image}
+							// source={utils.image}
 							style={{
 								// width:windowWidth * 0.2,
 								width:'100%', 

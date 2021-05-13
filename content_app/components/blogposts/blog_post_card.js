@@ -19,7 +19,6 @@ import { Consumer } from "../../screens/blog_post"
 
 import {
 	ComponentForShowingBlogPost,
-	ComponentForShowingBlogPostCategory
 } from "."
 
 import utils from "../../utilities";
@@ -111,9 +110,11 @@ class BlogPostCard extends Component {
 
 		let componentToUse = (this.props.isCategoryInstead) ?
 			<ComponentForShowingBlogPostCategory
+				getIndividualImage = {this.props.getIndividualImage}
 				dataPayloadFromParent = { this.props.dataPayloadFromParent }
 			/> :
 	  		<ComponentForShowingBlogPost
+		  		getIndividualImage = {this.props.getIndividualImage}
 				dataPayloadFromParent = { this.props.dataPayloadFromParent }
 	  		/>
 
@@ -184,7 +185,6 @@ BlogPostCard.defaultProps = {
 
 const styles = StyleSheet.create({
 	outerContainer:{
-		marginBottom:10,
 	},
 
 // comments and likes counts

@@ -36,21 +36,26 @@ class BlogPostScreen extends Component {
 		super(props);
 // STATE	
 		this.state = {
+			get_individual_image:false,
 		}	
 	}
 
 // COMPONENT DID MOUNT
 	componentDidMount() {
 
-// FETCHING DATA FOR COMPONENT
-			axios.get(utils.baseUrl + '/blogpostings/blogposts-list-with-children',)
-			.then((response) => {
-				// console.log(response.data)
-				this.props.set_fetched_blogposts(response.data)
-			})
-			.catch((error) => {
-				console.log(error);
-			})
+	// FETCHING DATA FOR COMPONENT
+		axios.get(utils.baseUrl + '/blogpostings/blogposts-list-with-children',)
+		.then((response) => {
+			// console.log('DATA RECIEVED')
+			// console.log(response.data)
+			this.props.set_fetched_blogposts(response.data.blogposts)
+	    	this.setState({ get_individual_image: true })
+
+		})
+		.catch((error) => {
+			console.log(error);
+			this.props.set_fetched_blogposts([])
+		})
 
 
 	}
@@ -69,39 +74,41 @@ class BlogPostScreen extends Component {
 			
 		const total_blogposts = this.props.total_blogposts
 
-
 		return (
 
 				<SafeAreaView>
 					<ScrollView contentContainerStyle={styles.screenContainer}>
 		
-						<View>
-				  			<ConnectedCreateBlogPost/>
-				  		</View>
-
 			  	  		<FlatList
 			  				style={{flexDirection: 'column', flexWrap : "wrap", alignSelf:'center'}}
 			  				numColumns={1}
 			  	  			data={total_blogposts}
 			  				renderItem={
-			  					({ item }) => (
-									<ConnectedBlogPostCard
-										isCategoryInstead={false}
-										dataPayloadFromParent = { item }
+			  					({ item }) => {
 
-										comments_quantity = { item.comments_quantity }
-										comments = { item.comments || [] }
+									return (
+										<ConnectedBlogPostCard
+											getIndividualImage = {this.state.get_individual_image}
 
-										likes_quantity = { item.likes_quantity }
-										likes = { item.likes || [] }
+											isCategoryInstead={false}
+											dataPayloadFromParent = { item }
 
-										// user_quantity = { item.user_quantity }
-										// user = { item.user || [] }
-									
-									/>
-			  					)}
+											comments_quantity = { item.comments_quantity }
+											comments = { item.comments || [] }
+
+											likes_quantity = { item.likes_quantity }
+											likes = { item.likes || [] }
+										/>
+									)
+			  					}}
 			  				keyExtractor={(item, index) => String(index)}
 			  			/>
+
+	  					<View style={{marginTop:30,}}>
+	  			  			<ConnectedCreateBlogPost
+	  			  				navigation={this.props.navigation}
+	  			  			/>
+	  			  		</View>
 
 					</ScrollView>
 				</SafeAreaView>

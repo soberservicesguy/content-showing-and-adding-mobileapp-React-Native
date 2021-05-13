@@ -18,8 +18,6 @@ const windowHeight = Dimensions.get('window').height;
 
 import utils from "../../utilities";
 
-import { Consumer } from "../../screens/blog_post"
-
 import DocumentPicker from 'react-native-document-picker';
 
 class CreateBlogPost extends Component {
@@ -56,201 +54,56 @@ class CreateBlogPost extends Component {
 
 		// parameters being passed from previous route
 
-		if ( this.state.switchScreen !== false ){
+		return (
+		// e.g a social post, textinput which lets user to enter text, takes persons id as assigned object
+			<View style={styles.outerContainer}>
+				<Button 
+					title={'Select Blogpost Image'}
+					style={styles.buttonWithoutBG}
+					onPress={async () => {
+						try {
+							let res = await DocumentPicker.pick({
+								type: [
+									DocumentPicker.types.images,
+								],
+							});
+							console.log(res.uri, res.type, res.name, res.size); // res.type is mimeType
+							// setState method with response as argument
+							this.setState(prev => ({...prev, image_main_filepath: res}))
 
-			// switching it back to false
-			this.setState(prev => ({...prev, switchScreen: (prev.switchScreen === false) ? true : false }))
-			// redirecting
-			this.props.navigation.navigate('Individual_BlogPost', {
-				itemId: 86,
-				otherParam: 'anything you want here',
-			})
-
-
-		} else {
-
-			return (
-			// e.g a social post, textinput which lets user to enter text, takes persons id as assigned object
-				<View style={styles.outerContainer}>
-					<Button 
-						title={'Select Blogpost Image'}
-						style={styles.buttonWithoutBG}
-						onPress={async () => {
-							try {
-								let res = await DocumentPicker.pick({
-									type: [
-										DocumentPicker.types.images,
-									],
-								});
-								console.log(res.uri, res.type, res.name, res.size); // res.type is mimeType
-								// setState method with response as argument
-								this.setState(prev => ({...prev, image_main_filepath: res}))
-
-							} catch (err) {
-								if (DocumentPicker.isCancel(err)) {
-									// User cancelled the picker, exit any dialogs or menus and move on
-								} else {
-									console.log(err)
-									// throw err;
-								}
+						} catch (err) {
+							if (DocumentPicker.isCancel(err)) {
+								// User cancelled the picker, exit any dialogs or menus and move on
+							} else {
+								console.log(err)
+								// throw err;
 							}
-						}}
-					/>
+						}
+					}}
+				/>
 
-					<View style={{
-						display: 'flex',
-						flexDirection: 'row',
-					}}>
-					  	<View style={styles.textinputContainer}>
-							<TextInput
-								placeholder="Type category"
-								placeholderTextColor = {utils.lightGrey}
-								style={styles.textinput}
-								// maxLength=10
-								// caretHidden=true
-								// multiline=true
-								// numberOfLines=3
-								// value='dummy'
-								// autoFocus=true
-								onChangeonChangeText={ (value) => this.setState( prev => ({...prev, category: value})) }
-							/>
-					  	</View>
-
-					  	<View style={styles.textinputContainer}>
-							<TextInput
-								placeholder="Type title"
-								placeholderTextColor = {utils.lightGrey}
-								style={styles.textinput}
-								// maxLength=10
-								// caretHidden=true
-								// multiline=true
-								// numberOfLines=3
-								// onChangeText={ () => null }
-								// value='dummy'
-								// autoFocus=true
-								onChangeText={ (value) => this.setState( prev => ({...prev, title: value})) }
-							/>
-					  	</View>
-					</View>
-
-					<View style={{
-						display: 'flex',
-						flexDirection: 'row',
-					}}>
-					  	<View style={styles.textinputContainer}>
-							<TextInput
-								placeholder="Type initial_tags"
-								placeholderTextColor = {utils.lightGrey}
-								style={styles.textinput}
-								// maxLength=10
-								// caretHidden=true
-								// multiline=true
-								// numberOfLines=3
-								// onChangeText={ () => null }
-								// value='dummy'
-								// autoFocus=true
-								onChangeText={ (value) => this.setState( prev => ({...prev, initial_tags: value})) }
-							/>
-					  	</View>
-
-					  	<View style={styles.textinputContainer}>
-							<TextInput
-								placeholder="Type first_para"
-								placeholderTextColor = {utils.lightGrey}
-								style={styles.textinput}
-								// maxLength=10
-								// caretHidden=true
-								// multiline=true
-								// numberOfLines=3
-								// onChangeText={ () => null }
-								// value='dummy'
-								// autoFocus=true
-								onChangeText={ (value) => this.setState( prev => ({...prev, first_para: value})) }
-							/>
-					  	</View>
+				<View style={{
+					display: 'flex',
+					flexDirection: 'row',
+				}}>
+				  	<View style={styles.textinputContainer}>
+						<TextInput
+							placeholder="Type category"
+							placeholderTextColor = {utils.lightGrey}
+							style={styles.textinput}
+							// maxLength=10
+							// caretHidden=true
+							// multiline=true
+							// numberOfLines=3
+							// value='dummy'
+							// autoFocus=true
+							onChangeonChangeText={ (value) => this.setState( prev => ({...prev, category: value})) }
+						/>
 				  	</View>
-
-					<View style={{
-						display: 'flex',
-						flexDirection: 'row',
-					}}>
-
-					  	<View style={styles.textinputContainer}>
-							<TextInput
-								placeholder="Type second_para"
-								placeholderTextColor = {utils.lightGrey}
-								style={styles.textinput}
-								// maxLength=10
-								// caretHidden=true
-								// multiline=true
-								// numberOfLines=3
-								// onChangeText={ () => null }
-								// value='dummy'
-								// autoFocus=true
-								onChangeText={ (value) => this.setState( prev => ({...prev, second_para: value})) }
-							/>
-					  	</View>
-
-
-					  	<View style={styles.textinputContainer}>
-							<TextInput
-								placeholder="Type qouted_para"
-								placeholderTextColor = {utils.lightGrey}
-								style={styles.textinput}
-								// maxLength=10
-								// caretHidden=true
-								// multiline=true
-								// numberOfLines=3
-								// onChangeText={ () => null }
-								// value='dummy'
-								// autoFocus=true
-								onChangeText={ (value) => this.setState( prev => ({...prev, qouted_para: value})) }
-							/>
-					  	</View>
-				  	</View>
-
-					<View style={{
-						display: 'flex',
-						flexDirection: 'row',
-					}}>
-					  	<View style={styles.textinputContainer}>
-							<TextInput
-								placeholder="Type third_para"
-								placeholderTextColor = {utils.lightGrey}
-								style={styles.textinput}
-								// maxLength=10
-								// caretHidden=true
-								// multiline=true
-								// numberOfLines=3
-								// onChangeText={ () => null }
-								// value='dummy'
-								// autoFocus=true
-								onChangeText={ (value) => this.setState( prev => ({...prev, third_para: value})) }
-							/>
-					  	</View>
-
-
-					  	<View style={styles.textinputContainer}>
-							<TextInput
-								placeholder="Type fourth_para"
-								placeholderTextColor = {utils.lightGrey}
-								style={styles.textinput}
-								// maxLength=10
-								// caretHidden=true
-								// multiline=true
-								// numberOfLines=3
-								// onChangeText={ () => null }
-								// value='dummy'
-								// autoFocus=true
-								onChangeText={ (value) => this.setState( prev => ({...prev, fourth_para: value})) }
-							/>
-					  	</View>
-				  	</View>
-
 
 				  	<View style={styles.textinputContainer}>
 						<TextInput
-							placeholder="Type all_tags"
+							placeholder="Type title"
 							placeholderTextColor = {utils.lightGrey}
 							style={styles.textinput}
 							// maxLength=10
@@ -260,35 +113,168 @@ class CreateBlogPost extends Component {
 							// onChangeText={ () => null }
 							// value='dummy'
 							// autoFocus=true
-							onChangeText={ (value) => this.setState( prev => ({...prev, all_tags: value})) }
+							onChangeText={ (value) => this.setState( prev => ({...prev, title: value})) }
+						/>
+				  	</View>
+				</View>
+
+				<View style={{
+					display: 'flex',
+					flexDirection: 'row',
+				}}>
+				  	<View style={styles.textinputContainer}>
+						<TextInput
+							placeholder="Type initial_tags"
+							placeholderTextColor = {utils.lightGrey}
+							style={styles.textinput}
+							// maxLength=10
+							// caretHidden=true
+							// multiline=true
+							// numberOfLines=3
+							// onChangeText={ () => null }
+							// value='dummy'
+							// autoFocus=true
+							onChangeText={ (value) => this.setState( prev => ({...prev, initial_tags: value})) }
 						/>
 				  	</View>
 
-					<TouchableOpacity
-						activeOpacity={0.2}
-						style={styles.bottomButton}
-						onPress={ () => {
+				  	<View style={styles.textinputContainer}>
+						<TextInput
+							placeholder="Type first_para"
+							placeholderTextColor = {utils.lightGrey}
+							style={styles.textinput}
+							// maxLength=10
+							// caretHidden=true
+							// multiline=true
+							// numberOfLines=3
+							// onChangeText={ () => null }
+							// value='dummy'
+							// autoFocus=true
+							onChangeText={ (value) => this.setState( prev => ({...prev, first_para: value})) }
+						/>
+				  	</View>
+			  	</View>
 
-							let setResponseInCurrentBlogPost = (arg) => this.props.set_current_blogpost(arg)
-							let redirectToNewBlogPost = () => this.setState(prev => ({...prev, switchScreen: (prev.switchScreen === false) ? true : false }))	
+				<View style={{
+					display: 'flex',
+					flexDirection: 'row',
+				}}>
 
-							// in formData send individual variables and not a complete object
-							// formData.append('video_object', video_object) // THIS WILL NOT WORK, SENT VARS INDIVIDUALLY
-							const formData = new FormData()
-							formData.append('category', this.state.category)
-							formData.append('title', this.state.title)
-							formData.append('initial_tags', this.state.initial_tags)
-							formData.append('first_para', this.state.first_para)
-							formData.append('second_para', this.state.second_para)
-							formData.append('qouted_para', this.state.qouted_para)
-							formData.append('third_para', this.state.third_para)
-							formData.append('fourth_para', this.state.fourth_para)
-							formData.append('all_tags', this.state.all_tags)
+				  	<View style={styles.textinputContainer}>
+						<TextInput
+							placeholder="Type second_para"
+							placeholderTextColor = {utils.lightGrey}
+							style={styles.textinput}
+							// maxLength=10
+							// caretHidden=true
+							// multiline=true
+							// numberOfLines=3
+							// onChangeText={ () => null }
+							// value='dummy'
+							// autoFocus=true
+							onChangeText={ (value) => this.setState( prev => ({...prev, second_para: value})) }
+						/>
+				  	</View>
+
+
+				  	<View style={styles.textinputContainer}>
+						<TextInput
+							placeholder="Type qouted_para"
+							placeholderTextColor = {utils.lightGrey}
+							style={styles.textinput}
+							// maxLength=10
+							// caretHidden=true
+							// multiline=true
+							// numberOfLines=3
+							// onChangeText={ () => null }
+							// value='dummy'
+							// autoFocus=true
+							onChangeText={ (value) => this.setState( prev => ({...prev, qouted_para: value})) }
+						/>
+				  	</View>
+			  	</View>
+
+				<View style={{
+					display: 'flex',
+					flexDirection: 'row',
+				}}>
+				  	<View style={styles.textinputContainer}>
+						<TextInput
+							placeholder="Type third_para"
+							placeholderTextColor = {utils.lightGrey}
+							style={styles.textinput}
+							// maxLength=10
+							// caretHidden=true
+							// multiline=true
+							// numberOfLines=3
+							// onChangeText={ () => null }
+							// value='dummy'
+							// autoFocus=true
+							onChangeText={ (value) => this.setState( prev => ({...prev, third_para: value})) }
+						/>
+				  	</View>
+
+
+				  	<View style={styles.textinputContainer}>
+						<TextInput
+							placeholder="Type fourth_para"
+							placeholderTextColor = {utils.lightGrey}
+							style={styles.textinput}
+							// maxLength=10
+							// caretHidden=true
+							// multiline=true
+							// numberOfLines=3
+							// onChangeText={ () => null }
+							// value='dummy'
+							// autoFocus=true
+							onChangeText={ (value) => this.setState( prev => ({...prev, fourth_para: value})) }
+						/>
+				  	</View>
+			  	</View>
+
+
+			  	<View style={styles.textinputContainer}>
+					<TextInput
+						placeholder="Type all_tags"
+						placeholderTextColor = {utils.lightGrey}
+						style={styles.textinput}
+						// maxLength=10
+						// caretHidden=true
+						// multiline=true
+						// numberOfLines=3
+						// onChangeText={ () => null }
+						// value='dummy'
+						// autoFocus=true
+						onChangeText={ (value) => this.setState( prev => ({...prev, all_tags: value})) }
+					/>
+			  	</View>
+
+				<Button
+					title={'Press To Create Blogpost'} 
+					style={styles.buttonWithoutBG}
+					onPress={ () => {
+
+						let setResponseInCurrentBlogPost = (arg) => this.props.set_current_blogpost(arg)
+						let redirectToNewBlogPost = () => {this.props.navigation.navigate('Individual_BlogPost')}
+
+						// in formData send individual variables and not a complete object
+						// formData.append('video_object', video_object) // THIS WILL NOT WORK, SENT VARS INDIVIDUALLY
+						const formData = new FormData()
+						formData.append('category', this.state.category)
+						formData.append('title', this.state.title)
+						formData.append('initial_tags', this.state.initial_tags)
+						formData.append('first_para', this.state.first_para)
+						formData.append('second_para', this.state.second_para)
+						formData.append('qouted_para', this.state.qouted_para)
+						formData.append('third_para', this.state.third_para)
+						formData.append('fourth_para', this.state.fourth_para)
+						formData.append('all_tags', this.state.all_tags)
+						if (this.state.image_main_filepath !== ''){
 							formData.append('blogpost_image_main', {uri:this.state.image_main_filepath.uri, type:this.state.image_main_filepath.type, name: this.state.image_main_filepath.name})
 
-							axios.post(utils.baseUrl + '/blogposts/create-blogpost-with-user', formData)
+							axios.post(utils.baseUrl + '/blogpostings/create-blogpost-with-user', formData)
 							.then(function (response) {
-								console.log(response.data) // current blogpost screen data
+								// console.log(response.data) // current blogpost screen data
 								
 								// set to current parent object
 								setResponseInCurrentBlogPost(response.data.new_blogpost)
@@ -298,18 +284,18 @@ class CreateBlogPost extends Component {
 
 							})
 							.catch(function (error) {
+								console.log('caught error while creating blogpost')
 								console.log(error)
 							});						
 
-						}}
-					>
-						<Text style={styles.buttonText}>
-							Press To Create BlogPost
-						</Text>
-					</TouchableOpacity>
-				</View>
-			);
-		}			
+						}
+
+					}}
+				/>
+
+			</View>
+		);
+			
 	}
 }
 	
@@ -318,6 +304,7 @@ CreateBlogPost.defaultProps = {
 };
 
 const styles = StyleSheet.create({
+
 	outerContainer: {
 		alignItems:'center',
 		// flex:1,
@@ -329,7 +316,6 @@ const styles = StyleSheet.create({
 		width: windowWidth
 	},
 
-// textinput
 	textinputContainer:{
 		marginTop: windowHeight * 0.001, // or 30  gap
 		marginBottom: windowHeight * 0.001, // or 30  gap
@@ -351,20 +337,12 @@ const styles = StyleSheet.create({
 		fontSize:18,
 	},
 
-// create blogpost button
-	bottomButton:{
-		// marginTop: windowHeight * 0.03,
-		width: windowWidth,
-		height: windowHeight * 0.06,
-		justifyContent: 'center',
-		alignItems:'center',
-		backgroundColor: 'black',
+
+	buttonWithoutBG:{
+		marginTop:50,
+		marginBottom:50,
 	},
-	buttonText:{
-		color:'white',
-		fontSize:20,
-		fontWeight: 'bold',
-	}
+
 });
 
 

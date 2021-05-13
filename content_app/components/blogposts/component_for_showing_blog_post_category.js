@@ -28,8 +28,30 @@ class ComponentForShowingBlogPostCategory extends Component {
 		super(props);
 // STATE	
 		this.state = {
-
+			image_src: null,
 		}
+
+	}
+
+	getImage(){
+
+		// this.setState({ image_src: null })
+		let image_object_id = this.props.dataPayloadFromParent.image_main_filepath
+
+		axios.get(`${utils.baseUrl}/blogpostings/get-image`, 
+			{
+				params: {
+					image_object_id: image_object_id
+				}
+			}
+		)
+	    .then(async (response) => {
+	    	if (response.data.success){
+		    	this.setState({ image_src: "data:image/jpeg;base64," + response.data.image})
+	    	}
+
+		});
+
 
 	}
 
@@ -37,6 +59,18 @@ class ComponentForShowingBlogPostCategory extends Component {
 	componentDidMount() {
 
 	}
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+
+
+		if (prevProps.getIndividualImage === false && this.props.getIndividualImage === true){
+			console.log('getting image')
+			this.getImage()
+
+		}
+
+	}
+
 
 	render() {
 
@@ -46,7 +80,8 @@ class ComponentForShowingBlogPostCategory extends Component {
 		return (
 			<View style={styles.outerContainer}>
 				<ImageBackground 
-					source={utils.image} 
+					// source={utils.image} 
+					source={{uri: this.state.image_src}}
 					style={{
 						// width:windowWidth * 0.2,
 						width:'100%', 
