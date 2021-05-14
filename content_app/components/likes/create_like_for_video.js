@@ -25,7 +25,6 @@ class CreateLikeForVideo extends Component {
 		super(props);
 // STATE	
 		this.state = {
-			switchScreen: false,
 		}
 
 	}
@@ -37,69 +36,71 @@ class CreateLikeForVideo extends Component {
 
 	render() {
 
-		// parameters being passed from previous route
-		// const endpoint_params_passed = this.props.match.params
-
-		if ( this.state.switchScreen !== false ){
-
-			// switching it back to false
-			this.setState(prev => ({...prev, switchScreen: (prev.switchScreen === false) ? true : false }))
-
-			// redirecting
-			this.props.navigation.navigate('Individual-Video', {
-				itemId: 86,
-				otherParam: 'anything you want here',
-			})
-			// const payload_from_previous_screen = this.props.navigation.route.params 
-
-		} else {
-
 		return (
 			// e.g a social post, textinput which lets user to enter text, takes persons id as assigned object
 
-				<View style={styles.outerContainer}>
+			<View style={styles.outerContainer}>
 
-				  	<TouchableOpacity 
-				  		activeOpacity={0.2} 
-				  		style={styles.buttonWithoutBG}
-						onPress={ () => {
+			  	<TouchableOpacity 
+			  		activeOpacity={0.2} 
+			  		style={styles.buttonWithoutBG}
+					onPress={ () => {
 
-							let setResponseInCurrentVideo = (arg) => this.props.set_current_video(arg)
-							let redirectToNewVideo = () => this.setState(prev => ({...prev, switchScreen: (prev.switchScreen === false) ? true : false }))	
+						let setResponseInCurrentVideo = (arg) => this.props.set_current_video(arg)
+						let redirectToNewVideo = () => this.props.navigation.navigate('Individual_Video')
 
-							axios.post(utils.baseUrl + '/videos/create-like-for-video', 
-								{
-									video_endpoint: this.props.parentDetailsPayload.endpoint,
-								})
-							.then(function (response) {
-								console.log(response.data.endpoint) // current blogpost screen data
-								
-								// set to current parent object
-								setResponseInCurrentVideo(response.data.endpoint)
+						let redirectToSignIn = () => this.props.navigation.navigate('SignInStack', { screen: 'Login' })
+						let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
+						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
 
-								// change route to current_blogpost	
-								redirectToNewVideo()							
-
+						axios.post(utils.baseUrl + '/videos/create-like-for-video', 
+							{
+								video_endpoint: this.props.parentDetailsPayload.endpoint,
 							})
-							.catch(function (error) {
-								console.log(error)
-							});						
+						.then(function (response) {
+							// console.log(response.data.endpoint) // current blogpost screen data
 
-						}}
-					>
-						<Icon
-						  // raised
-						  name={utils.likeIcon}
-						  type='font-awesome'
-						  color='#f50'
-						  size={30}
-						  // reverse={true}
-						/>
-					</TouchableOpacity>
+					    	if (response.status === 401){
+								setIsSignedInCallback()
+								setPhoneNumberCallback()
+								redirectToSignIn()
+					    	}
+							
+							// set to current parent object
+							setResponseInCurrentVideo(response.data.endpoint)
 
-				</View>
-			);
-		}
+							// change route to current_blogpost	
+							redirectToNewVideo()							
+
+						})
+						.catch(function (error) {
+							console.log(error)
+
+							// using below condition since log spits below line with 401 status code
+							if (String(error).split(" ").join("") === 'Error: Request failed with status code 401'.split(" ").join("")){
+
+								setIsSignedInCallback()
+								setPhoneNumberCallback()
+								redirectToSignIn()
+
+							}
+
+						});						
+
+					}}
+				>
+					<Icon
+					  // raised
+					  name={utils.likeIcon}
+					  type='font-awesome'
+					  color='#f50'
+					  size={30}
+					  // reverse={true}
+					/>
+				</TouchableOpacity>
+
+			</View>
+		);
 	}
 }
 	

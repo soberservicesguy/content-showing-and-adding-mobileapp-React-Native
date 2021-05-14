@@ -163,7 +163,10 @@ class CreateVideo extends Component {
 					onPress={ () => {
 
 						let setResponseInCurrentVideo = (arg) => this.props.set_current_video(arg)
-						let redirectToNewVideo = () => this.props.navigation.navigate('Individual-Video')
+
+						let redirectToSignIn = () => this.props.navigation.navigate('SignInStack', { screen: 'Login' })
+						let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
+						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
 
 						// in formData send individual variables and not a complete object
 						// formData.append('video_object', video_object) // THIS WILL NOT WORK, SENT VARS INDIVIDUALLY
@@ -177,6 +180,12 @@ class CreateVideo extends Component {
 
 						axios.post(utils.baseUrl + '/video-uploads/protected-video-upload', formData)
 						.then(function (response) {
+
+					    	if (response.status === 401){
+								setIsSignedInCallback()
+								setPhoneNumberCallback()
+								redirectToSignIn()
+					    	}
 							// console.log(response.data) // current video screen data
 							
 							// set to current parent object
@@ -188,6 +197,17 @@ class CreateVideo extends Component {
 						})
 						.catch(function (error) {
 							console.log(error)
+
+							// using below condition since log spits below line with 401 status code
+							if (String(error).split(" ").join("") === 'Error: Request failed with status code 401'.split(" ").join("")){
+
+								setIsSignedInCallback()
+								setPhoneNumberCallback()
+								redirectToSignIn()
+
+							}
+
+
 						});						
 
 					}}

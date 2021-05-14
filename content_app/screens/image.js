@@ -46,10 +46,21 @@ class ImageScreen extends Component {
 // COMPONENT DID MOUNT
 	componentDidMount() {
 
+		let redirectToSignIn = () => this.props.navigation.navigate('SignInStack', { screen: 'Login' })
+		let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
+		let setPhoneNumberCallback = () => this.props.set_phone_number( null )
+
 // FETCHING DATA FOR COMPONENT
 		console.log('Making request')
 		axios.get(utils.baseUrl + '/image/images-list-with-children-light',)
 		.then((response) => {
+
+	    	if (response.status === 401){
+				setIsSignedInCallback()
+				setPhoneNumberCallback()
+				redirectToSignIn()
+	    	}
+
 
 			if (response.data.success){
 
@@ -61,6 +72,16 @@ class ImageScreen extends Component {
 		.catch((error) => {
 			console.log(error);
 			this.props.set_fetched_images([])
+
+			// using below condition since log spits below line with 401 status code
+			if (String(error).split(" ").join("") === 'Error: Request failed with status code 401'.split(" ").join("")){
+
+				setIsSignedInCallback()
+				setPhoneNumberCallback()
+				redirectToSignIn()
+
+			}
+
 		})
 
 

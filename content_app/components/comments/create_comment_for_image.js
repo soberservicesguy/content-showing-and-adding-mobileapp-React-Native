@@ -31,7 +31,6 @@ class CreateCommentForImage extends Component {
 		super(props);
 // STATE	
 		this.state = {
-			switchScreen: false,
 			text: '',
 			// commenting_timestamp: '',
 		}
@@ -45,80 +44,82 @@ class CreateCommentForImage extends Component {
 
 	render() {
 
-		// parameters being passed from previous route
-		// const endpoint_params_passed = this.props.match.params
-
-		if ( this.state.switchScreen !== false ){
-
-			// switching it back to false
-			this.setState(prev => ({...prev, switchScreen: (prev.switchScreen === false) ? true : false }))
-
-			// redirecting
-			this.props.navigation.navigate('Individual-Image', {
-				itemId: 86,
-				otherParam: 'anything you want here',
-			})
-
-		} else {
-
 		return (
-			// e.g a social post, textinput which lets user to enter text, takes persons id as assigned object
 
-				<View style={styles.outerContainer}>
+			<View style={styles.outerContainer}>
 
-				  	<View style={styles.textinputContainer}>
-						<TextInput
-							style={styles.textinput}
-							placeholder="Type your Comment"
-							placeholderTextColor = {utils.darkGrey}
-							// maxLength=10
-							// caretHidden=true
-							// multiline=true
-							// numberOfLines=3
-							// onChangeText={ () => null }
-							// value='dummy'
-							// autoFocus=true
-							onChangeText={ (value) => this.setState( prev => ({...prev, text: value})) }
-						/>
-				  	</View>
+			  	<View style={styles.textinputContainer}>
+					<TextInput
+						style={styles.textinput}
+						placeholder="Type your Comment"
+						placeholderTextColor = {utils.darkGrey}
+						// maxLength=10
+						// caretHidden=true
+						// multiline=true
+						// numberOfLines=3
+						// onChangeText={ () => null }
+						// value='dummy'
+						// autoFocus=true
+						onChangeText={ (value) => this.setState( prev => ({...prev, text: value})) }
+					/>
+			  	</View>
 
-				  	
-				  	<TouchableOpacity 
-				  		activeOpacity={0.2} 
-				  		style={styles.buttonWithoutBG}
-						onPress={ () => {
+			  	
+			  	<TouchableOpacity 
+			  		activeOpacity={0.2} 
+			  		style={styles.buttonWithoutBG}
+					onPress={ () => {
 
-							let setResponseInCurrentImage = (arg) => this.props.set_current_image(arg)
-							let redirectToNewImage = () => this.setState(prev => ({...prev, switchScreen: (prev.switchScreen === false) ? true : false }))	
+						let setResponseInCurrentImage = (arg) => this.props.set_current_image(arg)
+						let redirectToNewImage = () => this.props.navigation.navigate('Individual_Image')
 
-							axios.post(utils.baseUrl + '/images/create-comment-for-image', 
-								{
-									comment_text: this.state.text,
-									image_endpoint: this.props.parentDetailsPayload.endpoint,
-								})
-							.then(function (response) {
-								console.log(response.data) // current image screen data
-								
-								// set to current parent object
-								setResponseInCurrentImage(response.data)
+						let redirectToSignIn = () => this.props.navigation.navigate('SignInStack', { screen: 'Login' })
+						let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
+						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
 
-								// change route to current_image	
-								redirectToNewImage()							
-
+						axios.post(utils.baseUrl + '/images/create-comment-for-image', 
+							{
+								comment_text: this.state.text,
+								image_endpoint: this.props.parentDetailsPayload.endpoint,
 							})
-							.catch(function (error) {
-								console.log(error)
-							});						
+						.then(function (response) {
+							// console.log(response.data) // current image screen data
 
-						}}
-			  		>
-				  		<Text style={styles.innerText}>
-							Create Comment
-				  		</Text>
-					</TouchableOpacity>
-				</View>
-			);
-		}
+					    	if (response.status === 401){
+								setIsSignedInCallback()
+								setPhoneNumberCallback()
+								redirectToSignIn()
+					    	}
+							
+							// set to current parent object
+							setResponseInCurrentImage(response.data)
+
+							// change route to current_image	
+							redirectToNewImage()							
+
+						})
+						.catch(function (error) {
+							console.log(error)
+
+							// using below condition since log spits below line with 401 status code
+							if (String(error).split(" ").join("") === 'Error: Request failed with status code 401'.split(" ").join("")){
+
+								setIsSignedInCallback()
+								setPhoneNumberCallback()
+								redirectToSignIn()
+
+							}
+
+						});						
+
+					}}
+		  		>
+			  		<Text style={styles.innerText}>
+						Create Comment
+			  		</Text>
+				</TouchableOpacity>
+			</View>
+		);
 	}
 }
 	

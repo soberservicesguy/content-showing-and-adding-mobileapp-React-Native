@@ -255,7 +255,10 @@ class CreateBlogPost extends Component {
 
 						let setResponseInCurrentBlogPost = (arg) => this.props.set_current_blogpost(arg)
 						let redirectToNewBlogPost = () => {this.props.navigation.navigate('Individual_BlogPost')}
+
 						let redirectToSignIn = () => this.props.navigation.navigate('SignInStack', { screen: 'Login' })
+						let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
+						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
 
 
 						// in formData send individual variables and not a complete object
@@ -275,9 +278,12 @@ class CreateBlogPost extends Component {
 
 							axios.post(utils.baseUrl + '/blogpostings/create-blogpost-with-user', formData)
 							.then(function (response) {
-								if (response.status === 401){
+
+						    	if (response.status === 401){
+									setIsSignedInCallback()
+									setPhoneNumberCallback()
 									redirectToSignIn()
-								}
+						    	}
 
 								// console.log(response.data) // current blogpost screen data
 								
@@ -289,8 +295,19 @@ class CreateBlogPost extends Component {
 
 							})
 							.catch(function (error) {
+
 								console.log('caught error while creating blogpost')
 								console.log(error)
+
+								// using below condition since log spits below line with 401 status code
+								if (String(error).split(" ").join("") === 'Error: Request failed with status code 401'.split(" ").join("")){
+
+									setIsSignedInCallback()
+									setPhoneNumberCallback()
+									redirectToSignIn()
+
+								}
+
 							});						
 
 						}

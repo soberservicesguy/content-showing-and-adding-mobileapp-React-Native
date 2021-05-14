@@ -161,7 +161,10 @@ class CreateImage extends Component {
 
 						let setResponseInCurrentImage = (arg) => this.props.set_current_image(arg)
 						let redirectToNewImage = () => {this.props.navigation.navigate('Individual_Image')}
+
 						let redirectToSignIn = () => this.props.navigation.navigate('SignInStack', { screen: 'Login' })
+						let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
+						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
 
 						// in formData send individual variables and not a complete object
 						// formData.append('video_object', video_object) // THIS WILL NOT WORK, SENT VARS INDIVIDUALLY
@@ -176,9 +179,11 @@ class CreateImage extends Component {
 						axios.post(utils.baseUrl + '/image/create-image-with-user', formData)
 						.then(function (response) {
 
-							if (response.status === 401){
+					    	if (response.status === 401){
+								setIsSignedInCallback()
+								setPhoneNumberCallback()
 								redirectToSignIn()
-							}
+					    	}
 
 							// console.log(this.props.user_name)
 							// console.log(response.data) // current image screen data
@@ -192,6 +197,16 @@ class CreateImage extends Component {
 						})
 						.catch(function (error) {
 							console.log(error)
+
+							// using below condition since log spits below line with 401 status code
+							if (String(error).split(" ").join("") === 'Error: Request failed with status code 401'.split(" ").join("")){
+
+								setIsSignedInCallback()
+								setPhoneNumberCallback()
+								redirectToSignIn()
+
+							}
+
 						});						
 
 					}}

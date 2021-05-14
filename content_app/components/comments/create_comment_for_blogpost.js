@@ -28,7 +28,6 @@ class CreateCommentForBlogpost extends Component {
 		super(props);
 // STATE	
 		this.state = {
-			switchScreen: false,
 			text: '',
 			// commenting_timestamp: '',
 		}
@@ -42,81 +41,83 @@ class CreateCommentForBlogpost extends Component {
 
 	render() {
 
-		// parameters being passed from previous route
-		// const endpoint_params_passed = this.props.match.params
-
-		if ( this.state.switchScreen !== false ){
-
-			// switching it back to false
-			this.setState(prev => ({...prev, switchScreen: (prev.switchScreen === false) ? true : false }))
-
-			// redirecting
-			this.props.navigation.navigate('Individual_BlogPost', {
-				itemId: 86,
-				otherParam: 'anything you want here',
-			})
-			// const payload_from_previous_screen = this.props.navigation.route.params 
-
-		} else {
-
 		return (
 			// e.g a social post, textinput which lets user to enter text, takes persons id as assigned object
 
-				<View style={styles.outerContainer}>
+			<View style={styles.outerContainer}>
 
 
-				  	<View style={styles.textinputContainer}>
-						<TextInput
-							style={styles.textinput}
-							placeholder="Type your comment"
-							placeholderTextColor = {utils.lightGrey}
-							// maxLength=10
-							// caretHidden=true
-							// multiline=true
-							// numberOfLines=3
-							// value='dummy'
-							// autoFocus=true
-							onChangeText={ (value) => this.setState( prev => ({...prev, text: value})) }
-						/>
-				  	</View>
+			  	<View style={styles.textinputContainer}>
+					<TextInput
+						style={styles.textinput}
+						placeholder="Type your comment"
+						placeholderTextColor = {utils.lightGrey}
+						// maxLength=10
+						// caretHidden=true
+						// multiline=true
+						// numberOfLines=3
+						// value='dummy'
+						// autoFocus=true
+						onChangeText={ (value) => this.setState( prev => ({...prev, text: value})) }
+					/>
+			  	</View>
 
 
-				  	<TouchableOpacity 
-				  		activeOpacity={0.2} 
-				  		style={styles.buttonWithoutBG}
-						onPress={ () => {
-							let setResponseInCurrentBlogpost = (arg) => this.props.set_current_blogpost(arg)
-							let redirectToNewBlogpost = () => this.setState(prev => ({...prev, switchScreen: (prev.switchScreen === false) ? true : false }))	
+			  	<TouchableOpacity 
+			  		activeOpacity={0.2} 
+			  		style={styles.buttonWithoutBG}
+					onPress={ () => {
+						let setResponseInCurrentBlogpost = (arg) => this.props.set_current_blogpost(arg)
+						let redirectToNewBlogpost = () => this.props.navigation.navigate('Individual_BlogPost')
 
-							// first create child object
-							axios.post(utils.baseUrl + '/blogpostings/create-comment-for-blogpost', 
-								{
-									comment_text: this.state.text,
-									blogpost_endpoint: this.props.parentDetailsPayload.endpoint,
-								})
-							.then(function (response) {
-								console.log(response.data) // current image screen data
-								
-								// set to current parent object
-								setResponseInCurrentBlogpost(response.data)
+						let redirectToSignIn = () => this.props.navigation.navigate('SignInStack', { screen: 'Login' })
+						let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
+						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
 
-								// change route to current_image	
-								redirectToNewBlogpost()							
-
+						// first create child object
+						axios.post(utils.baseUrl + '/blogpostings/create-comment-for-blogpost', 
+							{
+								comment_text: this.state.text,
+								blogpost_endpoint: this.props.parentDetailsPayload.endpoint,
 							})
-							.catch(function (error) {
-								console.log(error)
-							});						
+						.then(function (response) {
+							// console.log(response.data) // current image screen data
 
-						}}
-			  		>
-				  		<Text style={styles.innerText}>
-							Create Comment
-				  		</Text>
-					</TouchableOpacity>
-				</View>
-			);
-		}
+					    	if (response.status === 401){
+								setIsSignedInCallback()
+								setPhoneNumberCallback()
+								redirectToSignIn()
+					    	}
+							
+							// set to current parent object
+							setResponseInCurrentBlogpost(response.data)
+
+							// change route to current_image	
+							redirectToNewBlogpost()							
+
+						})
+						.catch(function (error) {
+							console.log(error)
+
+							// using below condition since log spits below line with 401 status code
+							if (String(error).split(" ").join("") === 'Error: Request failed with status code 401'.split(" ").join("")){
+
+								setIsSignedInCallback()
+								setPhoneNumberCallback()
+								redirectToSignIn()
+
+							}
+
+						});						
+
+					}}
+		  		>
+			  		<Text style={styles.innerText}>
+						Create Comment
+			  		</Text>
+				</TouchableOpacity>
+			</View>
+		);
 	}
 }
 	

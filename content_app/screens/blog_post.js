@@ -45,21 +45,43 @@ class BlogPostScreen extends Component {
 // COMPONENT DID MOUNT
 	componentDidMount() {
 
+		let redirectToSignIn = () => this.props.navigation.navigate('SignInStack', { screen: 'Login' })
+		let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
+		let setPhoneNumberCallback = () => this.props.set_phone_number( null )
+
+
 	// FETCHING DATA FOR COMPONENT
 		axios.get(utils.baseUrl + '/blogpostings/blogposts-list-with-children',)
 		.then((response) => {
-			
+
+	    	if (response.status === 401){
+				setIsSignedInCallback()
+				setPhoneNumberCallback()
+				redirectToSignIn()
+	    	}
+
+
 			if (response.data.success){
-				// console.log('DATA RECIEVED')
-				// console.log(response.data)
+
 				this.props.set_fetched_blogposts(response.data.blogposts)
 		    	this.setState({ get_individual_image: true })				
+
 			}
 
 		})
 		.catch((error) => {
 			console.log(error);
 			this.props.set_fetched_blogposts([])
+
+			// using below condition since log spits below line with 401 status code
+			if (String(error).split(" ").join("") === 'Error: Request failed with status code 401'.split(" ").join("")){
+
+				setIsSignedInCallback()
+				setPhoneNumberCallback()
+				redirectToSignIn()
+
+			}
+
 		})
 
 

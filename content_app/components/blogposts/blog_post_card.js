@@ -169,9 +169,11 @@ class BlogPostCard extends Component {
 					{/* 4th create individual child options like comment / like */}					
 					<ConnectedCreateCommentForBlogpost
 						parentDetailsPayload = { this.props.dataPayloadFromParent }
+						navigation={this.props.navigation}
 					/>					
 					<ConnectedCreateLikeForBlogpost
 						parentDetailsPayload = { this.props.dataPayloadFromParent }
+						navigation={this.props.navigation}
 					/>
 				</View>
 

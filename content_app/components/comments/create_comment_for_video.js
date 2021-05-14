@@ -31,7 +31,6 @@ class CreateCommentForVideo extends Component {
 		super(props);
 // STATE	
 		this.state = {
-			switchScreen: false,
 			text: '',
 			// commenting_timestamp: '',
 		}
@@ -45,81 +44,84 @@ class CreateCommentForVideo extends Component {
 
 	render() {
 
-		// parameters being passed from previous route
-		// const endpoint_params_passed = this.props.match.params
-
-		if ( this.state.switchScreen !== false ){
-
-			// switching it back to false
-			this.setState(prev => ({...prev, switchScreen: (prev.switchScreen === false) ? true : false }))
-
-			// redirecting
-			this.props.navigation.navigate('Individual_Video', {
-				itemId: 86,
-				otherParam: 'anything you want here',
-			})
-
-		} else {
-
 		return (
-			// e.g a social post, textinput which lets user to enter text, takes persons id as assigned object
+		// e.g a social post, textinput which lets user to enter text, takes persons id as assigned object
 
-				<View style={styles.outerContainer}>
-
-
-				  	<View style={styles.textinputContainer}>
-						<TextInput
-							style={styles.textinput}
-							placeholder="Type your text"
-							placeholderTextColor = {utils.lightGrey}
-							// maxLength=10
-							// caretHidden=true
-							// multiline=true
-							// numberOfLines=3
-							// onChangeText={ () => null }
-							// value='dummy'
-							// autoFocus=true
-							onChangeText={ (value) => this.setState( prev => ({...prev, text: value})) }
-						/>
-				  	</View>
+			<View style={styles.outerContainer}>
 
 
-				  	<TouchableOpacity 
-				  		activeOpacity={0.2} 
-				  		style={styles.buttonWithoutBG}
-						onPress={ () => {
+			  	<View style={styles.textinputContainer}>
+					<TextInput
+						style={styles.textinput}
+						placeholder="Type your text"
+						placeholderTextColor = {utils.lightGrey}
+						// maxLength=10
+						// caretHidden=true
+						// multiline=true
+						// numberOfLines=3
+						// onChangeText={ () => null }
+						// value='dummy'
+						// autoFocus=true
+						onChangeText={ (value) => this.setState( prev => ({...prev, text: value})) }
+					/>
+			  	</View>
 
-							let setResponseInCurrentVideo = (arg) => this.props.set_current_video(arg)
-							let redirectToNewVideo = () => this.setState(prev => ({...prev, switchScreen: (prev.switchScreen === false) ? true : false }))	
 
-							axios.post(utils.baseUrl + '/videos/create-comment-for-video', 
-								{
-									comment_text: this.state.text,
-									video_endpoint: this.props.parentDetailsPayload.endpoint,
-								})
-							.then(function (response) {
-								console.log(response.data.endpoint) // current image screen data
-								
-								// set to current parent object
-								setResponseInCurrentVideo(response.data.endpoint)
+			  	<TouchableOpacity 
+			  		activeOpacity={0.2} 
+			  		style={styles.buttonWithoutBG}
+					onPress={ () => {
 
-								// change route to current_image	
-								redirectToNewVideo()							
+						let setResponseInCurrentVideo = (arg) => this.props.set_current_video(arg)
+						let redirectToNewVideo = () => this.props.navigation.navigate('Individual_Video')
 
+						let redirectToSignIn = () => this.props.navigation.navigate('SignInStack', { screen: 'Login' })
+						let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
+						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
+
+						axios.post(utils.baseUrl + '/videos/create-comment-for-video', 
+							{
+								comment_text: this.state.text,
+								video_endpoint: this.props.parentDetailsPayload.endpoint,
 							})
-							.catch(function (error) {
-								console.log(error)
-							});						
+						.then(function (response) {
+							// console.log(response.data.endpoint) // current image screen data
 
-						}}
-			  		>
-				  		<Text style={styles.innerText}>
-							Create Comment
-				  		</Text>
-					</TouchableOpacity>
-				</View>
-			);
-		}
+					    	if (response.status === 401){
+								setIsSignedInCallback()
+								setPhoneNumberCallback()
+								redirectToSignIn()
+					    	}
+							
+							// set to current parent object
+							setResponseInCurrentVideo(response.data.endpoint)
+
+							// change route to current_image	
+							redirectToNewVideo()							
+
+						})
+						.catch(function (error) {
+							console.log(error)
+
+							// using below condition since log spits below line with 401 status code
+							if (String(error).split(" ").join("") === 'Error: Request failed with status code 401'.split(" ").join("")){
+
+								setIsSignedInCallback()
+								setPhoneNumberCallback()
+								redirectToSignIn()
+
+							}
+
+						});						
+
+					}}
+		  		>
+			  		<Text style={styles.innerText}>
+						Create Comment
+			  		</Text>
+				</TouchableOpacity>
+			</View>
+		);
 	}
 }
 	
