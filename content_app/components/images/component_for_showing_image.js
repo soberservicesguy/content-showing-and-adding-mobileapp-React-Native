@@ -26,7 +26,7 @@ class ComponentForShowingImage extends Component {
 		super(props);
 // STATE	
 		this.state = {
-
+			image_src: null,
 		}
 
 	}
@@ -36,20 +36,64 @@ class ComponentForShowingImage extends Component {
 
 	}
 
+	getImage(){
+
+		// this.setState({ image_src: null })
+		let image_object_id = this.props.dataPayloadFromParent.image_filepath._id
+
+		console.log('MAKING REQUEST')
+		axios.get(`${utils.baseUrl}/blogpostings/get-image`, 
+			{
+				params: {
+					image_object_id: image_object_id
+				}
+			}
+		)
+	    .then(async (response) => {
+
+	    	if (response.data.success){
+		    	this.setState({ image_src: "data:image/jpeg;base64," + response.data.image})
+	    	}
+
+		})
+		.catch((err) => {
+			console.log(err)
+		})
+
+
+	}
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+
+
+		if (prevProps.getIndividualImage === false && this.props.getIndividualImage === true){
+			console.log('getting image in component')
+			this.getImage()
+
+		}
+
+	}
+
+
 	render() {
 
 		const data = this.props.dataPayloadFromParent // data being plugged from parent flatlist
 		var base64Image = "data:image/jpeg;base64," + data.image_filepath
 
+
 		return (
-			<View style={styles.outerContainer}>
+			<TouchableOpacity activeOpacity={0.2} style={styles.outerContainer} onPress={() => {
+				this.props.set_current_image(data)
+				this.props.navigation.navigate('Individual_Image', {image_main_filepath: this.state.image_src})
+			}}>
 				<ImageBackground 
-					source={utils.image} 
+					source={{uri: this.state.image_src}}
+					// source={utils.image} 
 					style={{
-						// width:windowWidth * 0.2,
+						// width:windowWidth,
 						width:'100%', 
-						height:windowHeight * 0.25, 
-						resizeMode: "stretch"
+						height:300, 
+						resizeMode: "contain"
 					}}
 				>
 					<View style={styles.textContainer}>
@@ -59,7 +103,7 @@ class ComponentForShowingImage extends Component {
 					</View>
 					
 				</ImageBackground>
-			</View>
+			</TouchableOpacity>
 
 		);
 	}
@@ -72,9 +116,10 @@ ComponentForShowingImage.defaultProps = {
 const styles = StyleSheet.create({
 	outerContainer: {
 		height:windowHeight * 0.25,
-		width: windowWidth * 0.45,
+		// width: windowWidth * 0.45,
+		width: windowWidth,
 		alignSelf:'center',
-		marginBottom:windowHeight * 0.02,
+		marginBottom:140,
 		marginLeft: windowWidth * 0.01,
 		marginRight: windowWidth * 0.01, 
 		// backgroundColor: '#000000',
@@ -85,7 +130,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#000000',
 		height:windowHeight * 0.05,
 		justifyContent: 'center',
-		marginTop:windowHeight * ( 0.25 - 0.05 ),
+		marginTop:windowHeight * ( 0.44 - 0.05 ),
 		opacity: 0.75,
 	},
 	text:{

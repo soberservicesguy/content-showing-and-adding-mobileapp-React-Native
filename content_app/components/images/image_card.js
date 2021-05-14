@@ -19,7 +19,7 @@ import axios from 'axios';
 import { Consumer } from "../../screens/image"
 
 import {
-	ComponentForShowingImage,
+	// ComponentForShowingImage,
 	ComponentForShowingImageCategory,
 } from "."
 
@@ -30,6 +30,7 @@ import {
 } from "../comments/"
 
 import {
+	ConnectedComponentForShowingImage,
 	ConnectedCreateCommentForImage,
 	ConnectedSummarizeCommentsOfImage,
 	ConnectedSummarizeLikesOfImage,
@@ -108,10 +109,14 @@ class ImageCard extends Component {
 	render() {
 		let componentToShow = (this.props.isCategoryInstead) ?
 	  		<ComponentForShowingImageCategory
+	  			navigation={this.props.navigation}
+				getIndividualImage = {this.props.getIndividualImage}
 				dataPayloadFromParent = { this.props.dataPayloadFromParent }
 	  		/>
 		:
-	  		<ComponentForShowingImage
+	  		<ConnectedComponentForShowingImage
+	  			navigation={this.props.navigation}
+				getIndividualImage = {this.props.getIndividualImage}
 				dataPayloadFromParent = { this.props.dataPayloadFromParent }
 	  		/>
 
@@ -174,7 +179,7 @@ class ImageCard extends Component {
 }
 	
 ImageCard.defaultProps = {
-	isCategoryInstead: true
+	isCategoryInstead: false
 };
 
 const styles = StyleSheet.create({

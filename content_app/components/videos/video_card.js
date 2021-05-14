@@ -107,10 +107,14 @@ class VideoCard extends Component {
 		
 		let componentToShow = ( this.props.isCategoryInstead ) ? 
 			<ComponentForShowingVideoCategory
+	  			navigation={this.props.navigation}
+				getIndividualImage = {this.props.getIndividualImage}
 				dataPayloadFromParent = { this.props.dataPayloadFromParent }			
 			/>
 		:
 	  		<ComponentForShowingVideo
+	  			navigation={this.props.navigation}
+				getIndividualImage = {this.props.getIndividualImage}
 				dataPayloadFromParent = { this.props.dataPayloadFromParent }
 	  		/>
 

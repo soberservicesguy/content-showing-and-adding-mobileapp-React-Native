@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { 
 	StyleSheet,
+	Image,
 	View, 
 	Text,
 	TouchableHighlight,
@@ -27,19 +28,51 @@ class IndividualImage extends Component {
 // COMPONENT DID MOUNT
 	componentDidMount() {
 
-		console.log('this')
-		console.log(this.props.current_image)
-// FETCHING DATA FOR COMPONENT
 	}
 
 // RENDER METHOD
 	render() {
 
-  		var base64Image = "data:image/jpeg;base64," + this.props.current_image
+  		var base64Image = "data:image/jpeg;base64," + this.props.current_image.image_filepath
+
+  		let image_to_use 
+  		if (typeof this.props.route.params === 'undefined'){
+  	
+  			image_to_use = base64Image
+  	
+  		} else {
+
+  			image_to_use = this.props.route.params.image_main_filepath
+  	
+	  	}
 
 	  	return (
 	  		<View style={styles.imageContainer}>
-	  			<Image source={base64Image} alt="" style={{width:200, height:400, resizeMode: "contain"}}/>
+
+				<Text style={{textAlign:'center', fontWeight:'bold', fontSize:20, marginTop:50}}>
+					{this.props.current_image.title}
+				</Text>
+
+	  			<Image 
+					source={{uri: image_to_use}} 
+	  				// alt="" 
+					style={{
+						width:windowWidth, 
+						height:400, 
+						resizeMode: "stretch"
+					}}  				
+				/>
+
+				<Text style={{fontSize:18,  color: 'purple'}}>
+					Category: {this.props.current_image.category}
+				</Text>
+
+
+				<Text style={{marginTop:20, fontWeight: 'bold'}}>
+					Description: {this.props.current_image.description}
+				</Text>
+
+
 	  		</View>
 		);
 	}

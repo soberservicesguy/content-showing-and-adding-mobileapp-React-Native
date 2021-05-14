@@ -28,7 +28,6 @@ class CreateVideo extends Component {
 // STATE	
 		this.state = {
 			expanded:false,
-			switchScreen: false,
 			category: '',
 			image_thumbnail: '',
 			video_filepath: '',
@@ -49,170 +48,152 @@ class CreateVideo extends Component {
 
 	render() {
 
-		// parameters being passed from previous route
-		// const endpoint_params_passed = this.props.match.params
+		return (
+		// e.g a social post, textinput which lets user to enter text, takes persons id as assigned object
+			<View style={styles.outerContainer}>
 
-		if ( this.state.switchScreen !== false ){
+				<Button 
+					title={'Select VIDEO'}
+					style={styles.buttonWithoutBG}
+					onPress={async () => {
+						try {
+							let res = await DocumentPicker.pick({
+								type: [
+									'video/3gpp',
+									'video/mpeg',
+									'video/x-msvideo', // go to for all mimetypes https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
+								],
+							});
+							console.log(res.uri, res.type, res.name, res.size); // res.type is mimeType
+							// setState method with response as argument
+							this.setState(prev => ({...prev, video_filepath: res}))
 
-			// switching it back to false
-			this.setState(prev => ({...prev, switchScreen: (prev.switchScreen === false) ? true : false }))
-
-			// redirecting
-			this.props.navigation.navigate('Individual-Video', {
-				itemId: 86,
-				otherParam: 'anything you want here',
-			})
-			// const payload_from_previous_screen = this.props.navigation.route.params 
-
-		} else {
-
-			return (
-			// e.g a social post, textinput which lets user to enter text, takes persons id as assigned object
-				<View style={styles.outerContainer}>
-
-					<Button 
-						title={'Select VIDEO'}
-						style={styles.buttonWithoutBG}
-						onPress={async () => {
-							try {
-								let res = await DocumentPicker.pick({
-									type: [
-										'video/3gpp',
-										'video/mpeg',
-										'video/x-msvideo', // go to for all mimetypes https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
-									],
-								});
-								console.log(res.uri, res.type, res.name, res.size); // res.type is mimeType
-								// setState method with response as argument
-								this.setState(prev => ({...prev, video_filepath: res}))
-
-							} catch (err) {
-								if (DocumentPicker.isCancel(err)) {
-									// User cancelled the picker, exit any dialogs or menus and move on
-								} else {
-									console.log(err)
-									// throw err;
-								}
+						} catch (err) {
+							if (DocumentPicker.isCancel(err)) {
+								// User cancelled the picker, exit any dialogs or menus and move on
+							} else {
+								console.log(err)
+								// throw err;
 							}
-						}}
-					/>
+						}
+					}}
+				/>
 
-					<View style={{
-						display: 'flex',
-						flexDirection: 'row',
-					}}>
+				<View style={{
+					display: 'flex',
+					flexDirection: 'row',
+				}}>
 
-					  	<View style={styles.textinputContainer}>
-							<TextInput
-								style={styles.textinput}
-								placeholder="Type category"
-								placeholderTextColor = {utils.lightGrey}
-								// maxLength=10
-								// caretHidden=true
-								// multiline=true
-								// numberOfLines=3
-								// onChangeText={ () => null }
-								// value='dummy'
-								// autoFocus=true
-								onChangeText={ (value) => this.setState( prev => ({...prev, category: value})) }
-							/>
-					  	</View>
-
-
-					  	<View style={styles.textinputContainer}>
-							<TextInput
-								style={styles.textinput}
-								placeholder="Type title"
-								placeholderTextColor = {utils.lightGrey}
-								// maxLength=10
-								// caretHidden=true
-								// multiline=true
-								// numberOfLines=3
-								// onChangeText={ () => null }
-								// value='dummy'
-								// autoFocus=true
-								onChangeText={ (value) => this.setState( prev => ({...prev, title: value})) }
-							/>
-					  	</View>
+				  	<View style={styles.textinputContainer}>
+						<TextInput
+							style={styles.textinput}
+							placeholder="Type category"
+							placeholderTextColor = {utils.lightGrey}
+							// maxLength=10
+							// caretHidden=true
+							// multiline=true
+							// numberOfLines=3
+							// onChangeText={ () => null }
+							// value='dummy'
+							// autoFocus=true
+							onChangeText={ (value) => this.setState( prev => ({...prev, category: value})) }
+						/>
 				  	</View>
 
-					<View style={{
-						display: 'flex',
-						flexDirection: 'row',
-					}}>
 
-					  	<View style={styles.textinputContainer}>
-							<TextInput
-								style={styles.textinput}
-								placeholder="Type description"
-								placeholderTextColor = {utils.lightGrey}
-								// maxLength=10
-								// caretHidden=true
-								// multiline=true
-								// numberOfLines=3
-								// onChangeText={ () => null }
-								// value='dummy'
-								// autoFocus=true
-								onChangeText={ (value) => this.setState( prev => ({...prev, description: value})) }
-							/>
-					  	</View>
+				  	<View style={styles.textinputContainer}>
+						<TextInput
+							style={styles.textinput}
+							placeholder="Type title"
+							placeholderTextColor = {utils.lightGrey}
+							// maxLength=10
+							// caretHidden=true
+							// multiline=true
+							// numberOfLines=3
+							// onChangeText={ () => null }
+							// value='dummy'
+							// autoFocus=true
+							onChangeText={ (value) => this.setState( prev => ({...prev, title: value})) }
+						/>
+				  	</View>
+			  	</View>
 
+				<View style={{
+					display: 'flex',
+					flexDirection: 'row',
+				}}>
 
-					  	<View style={styles.textinputContainer}>
-							<TextInput
-								style={styles.textinput}
-								placeholder="Type all_tags"
-								placeholderTextColor = {utils.lightGrey}
-								// maxLength=10
-								// caretHidden=true
-								// multiline=true
-								// numberOfLines=3
-								// onChangeText={ () => null }
-								// value='dummy'
-								// autoFocus=true
-								onChangeText={ (value) => this.setState( prev => ({...prev, all_tags: value})) }
-							/>
-					  	</View>
+				  	<View style={styles.textinputContainer}>
+						<TextInput
+							style={styles.textinput}
+							placeholder="Type description"
+							placeholderTextColor = {utils.lightGrey}
+							// maxLength=10
+							// caretHidden=true
+							// multiline=true
+							// numberOfLines=3
+							// onChangeText={ () => null }
+							// value='dummy'
+							// autoFocus=true
+							onChangeText={ (value) => this.setState( prev => ({...prev, description: value})) }
+						/>
 				  	</View>
 
-					<Button
-						title={'Press To Create Video'} 
-						style={styles.buttonWithoutBG}
-						onPress={ () => {
 
-							let setResponseInCurrentVideo = (arg) => this.props.set_current_video(arg)
-							let redirectToNewVideo = () => this.setState(prev => ({...prev, switchScreen: (prev.switchScreen === false) ? true : false }))	
+				  	<View style={styles.textinputContainer}>
+						<TextInput
+							style={styles.textinput}
+							placeholder="Type all_tags"
+							placeholderTextColor = {utils.lightGrey}
+							// maxLength=10
+							// caretHidden=true
+							// multiline=true
+							// numberOfLines=3
+							// onChangeText={ () => null }
+							// value='dummy'
+							// autoFocus=true
+							onChangeText={ (value) => this.setState( prev => ({...prev, all_tags: value})) }
+						/>
+				  	</View>
+			  	</View>
 
-							// in formData send individual variables and not a complete object
-							// formData.append('video_object', video_object) // THIS WILL NOT WORK, SENT VARS INDIVIDUALLY
-							const formData = new FormData()
-							formData.append('category', this.state.category)
-							formData.append('title', this.state.title)
-							formData.append('description', this.state.description)							
-							formData.append('all_tags', this.state.all_tags)
-							// formData.append('user_object', user_object) // not needed, since object will be pulled from passport js jwt token
-							formData.append('videos_uploaded_by_users', {uri: this.state.video_filepath.uri, name: this.state.video_filepath.name, type: this.state.video_filepath.type})
+				<Button
+					title={'Press To Create Video'} 
+					style={styles.buttonWithoutBG}
+					onPress={ () => {
 
-							axios.post(utils.baseUrl + '/video-uploads/protected-video-upload', formData)
-							.then(function (response) {
-								console.log(response.data) // current video screen data
-								
-								// set to current parent object
-								setResponseInCurrentVideo(response.data.video_endpoint)
+						let setResponseInCurrentVideo = (arg) => this.props.set_current_video(arg)
+						let redirectToNewVideo = () => this.props.navigation.navigate('Individual-Video')
 
-								// change route to current_video
-								redirectToNewVideo()
+						// in formData send individual variables and not a complete object
+						// formData.append('video_object', video_object) // THIS WILL NOT WORK, SENT VARS INDIVIDUALLY
+						const formData = new FormData()
+						formData.append('category', this.state.category)
+						formData.append('title', this.state.title)
+						formData.append('description', this.state.description)							
+						formData.append('all_tags', this.state.all_tags)
+						// formData.append('user_object', user_object) // not needed, since object will be pulled from passport js jwt token
+						formData.append('videos_uploaded_by_users', {uri: this.state.video_filepath.uri, name: this.state.video_filepath.name, type: this.state.video_filepath.type})
 
-							})
-							.catch(function (error) {
-								console.log(error)
-							});						
+						axios.post(utils.baseUrl + '/video-uploads/protected-video-upload', formData)
+						.then(function (response) {
+							// console.log(response.data) // current video screen data
+							
+							// set to current parent object
+							setResponseInCurrentVideo(response.data.video_endpoint)
 
-						}}
-					/>
-				</View>
-			);
-		}			
+							// change route to current_video
+							redirectToNewVideo()
+
+						})
+						.catch(function (error) {
+							console.log(error)
+						});						
+
+					}}
+				/>
+			</View>
+		);			
 	}
 }
 	

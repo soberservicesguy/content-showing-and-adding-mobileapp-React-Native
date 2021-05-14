@@ -25,6 +25,8 @@ import {
 	ConnectedBlogPostCard,
 } from '../redux_stuff/connected_components';
 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 const { Provider, Consumer } = React.createContext();
 
 import { Dimensions } from 'react-native';
@@ -46,10 +48,13 @@ class BlogPostScreen extends Component {
 	// FETCHING DATA FOR COMPONENT
 		axios.get(utils.baseUrl + '/blogpostings/blogposts-list-with-children',)
 		.then((response) => {
-			// console.log('DATA RECIEVED')
-			// console.log(response.data)
-			this.props.set_fetched_blogposts(response.data.blogposts)
-	    	this.setState({ get_individual_image: true })
+			
+			if (response.data.success){
+				// console.log('DATA RECIEVED')
+				// console.log(response.data)
+				this.props.set_fetched_blogposts(response.data.blogposts)
+		    	this.setState({ get_individual_image: true })				
+			}
 
 		})
 		.catch((error) => {
@@ -75,7 +80,7 @@ class BlogPostScreen extends Component {
 		const total_blogposts = this.props.total_blogposts
 
 		return (
-
+			<KeyboardAwareScrollView>
 				<SafeAreaView>
 					<ScrollView contentContainerStyle={styles.screenContainer}>
 		
@@ -86,17 +91,21 @@ class BlogPostScreen extends Component {
 			  				renderItem={
 			  					({ item }) => {
 
+			  						// console.log('item')
+			  						// console.log(item)
+
 									return (
 										<ConnectedBlogPostCard
+											navigation={this.props.navigation}
 											getIndividualImage = {this.state.get_individual_image}
 
 											isCategoryInstead={false}
 											dataPayloadFromParent = { item }
 
-											comments_quantity = { item.comments_quantity }
+											comments_quantity = { item.total_comments }
 											comments = { item.comments || [] }
 
-											likes_quantity = { item.likes_quantity }
+											likes_quantity = { item.total_likes }
 											likes = { item.likes || [] }
 										/>
 									)
@@ -112,6 +121,7 @@ class BlogPostScreen extends Component {
 
 					</ScrollView>
 				</SafeAreaView>
+			</KeyboardAwareScrollView>
 
 		);
 	}

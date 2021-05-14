@@ -60,7 +60,7 @@ class SummarizeCommentsOfImage extends Component {
 						// reverse={true}
 					/>
 					<Text style={styles.commentQuantityText}>
-						Total comments {this.props.child_quantity}
+						{this.props.child_quantity} comments 
 					</Text>
 				</View>
 

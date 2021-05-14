@@ -28,10 +28,48 @@ class ComponentForShowingImageCategory extends Component {
 		super(props);
 // STATE	
 		this.state = {
+			image_src: null,
+		}
+
+	}
+
+	getImage(){
+
+		// this.setState({ image_src: null })
+		let image_object_id = this.props.dataPayloadFromParent.image_main_filepath
+
+		axios.get(`${utils.baseUrl}/blogpostings/get-image`, 
+			{
+				params: {
+					image_object_id: image_object_id
+				}
+			}
+		)
+	    .then(async (response) => {
+	    	if (response.data.success){
+		    	this.setState({ image_src: "data:image/jpeg;base64," + response.data.image})
+	    	}
+
+		})
+		.catch((err) => {
+			console.log(err)
+		})
+
+
+	}
+
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+
+
+		if (prevProps.getIndividualImage === false && this.props.getIndividualImage === true){
+			console.log('getting image')
+			this.getImage()
 
 		}
 
 	}
+
 
 // COMPONENT DID MOUNT
 	componentDidMount() {
@@ -44,9 +82,12 @@ class ComponentForShowingImageCategory extends Component {
 		var base64Image = "data:image/jpeg;base64," + data.image_main_filepath
 
 		return (
-			<View style={styles.outerContainer}>
+			<TouchableOpacity activeOpacity={0.2} style={styles.outerContainer} onPress={() => {
+				this.props.set_current_image(data)
+				this.props.navigation.navigate('Individual_Image')
+			}}>				
 				<ImageBackground 
-					source={utils.image} 
+					source={{uri: this.state.image_src}}
 					style={{
 						// width:windowWidth * 0.2,
 						width:'100%', 
@@ -61,7 +102,7 @@ class ComponentForShowingImageCategory extends Component {
 					</View>
 					
 				</ImageBackground>
-			</View>
+			</TouchableOpacity>
 		);
 	}
 }

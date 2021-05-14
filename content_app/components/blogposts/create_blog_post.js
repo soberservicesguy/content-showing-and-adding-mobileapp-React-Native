@@ -26,7 +26,6 @@ class CreateBlogPost extends Component {
 // STATE	
 		this.state = {
 			expanded:false,
-			switchScreen: false,
 
 			category: '',
 			image_main_filepath: '',
@@ -256,6 +255,8 @@ class CreateBlogPost extends Component {
 
 						let setResponseInCurrentBlogPost = (arg) => this.props.set_current_blogpost(arg)
 						let redirectToNewBlogPost = () => {this.props.navigation.navigate('Individual_BlogPost')}
+						let redirectToSignIn = () => this.props.navigation.navigate('SignInStack', { screen: 'Login' })
+
 
 						// in formData send individual variables and not a complete object
 						// formData.append('video_object', video_object) // THIS WILL NOT WORK, SENT VARS INDIVIDUALLY
@@ -274,6 +275,10 @@ class CreateBlogPost extends Component {
 
 							axios.post(utils.baseUrl + '/blogpostings/create-blogpost-with-user', formData)
 							.then(function (response) {
+								if (response.status === 401){
+									redirectToSignIn()
+								}
+
 								// console.log(response.data) // current blogpost screen data
 								
 								// set to current parent object

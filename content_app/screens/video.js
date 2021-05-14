@@ -36,6 +36,7 @@ class VideoScreen extends Component {
 		super(props);
 // STATE	
 		this.state = {
+			get_individual_image:false,
 		}	
 	}
 
@@ -43,12 +44,18 @@ class VideoScreen extends Component {
 	componentDidMount() {
 
 // FETCHING DATA FOR COMPONENT
-			axios.get(utils.baseUrl + '/videos/videos-list-with-children',)
+			axios.get(utils.baseUrl + '/video/videos-list-with-children-light',)
 			.then((response) => {
-				this.props.set_fetched_videos(response.data)
+				if (response.data.success){
+
+					this.props.set_fetched_videos(response.data)
+			    	this.setState({ get_individual_image: true })				
+				}
+
 			})
 			.catch((error) => {
 				console.log(error);
+				this.props.set_fetched_videos([])
 			})
 
 
@@ -71,36 +78,40 @@ class VideoScreen extends Component {
 		return (
 			<SafeAreaView>
 				<ScrollView contentContainerStyle={styles.screenContainer}>
-			
-					<View>
-			  			<ConnectedCreateVideo/>
-			  		</View>
 
 					<FlatList
 						style={{flexDirection: 'column', flexWrap : "wrap", alignSelf:'center'}}
 						numColumns={1}
 						data={total_videos}
 						renderItem={
-							({ item }) => (
+							({ item }) => {
 
-							<ConnectedVideoCard
-								isCategoryInstead={false}
+		  						// console.log('item')
+		  						// console.log(item)
 
-								dataPayloadFromParent = { item }
+								return (
+									<ConnectedVideoCard
+										isCategoryInstead={false}
 
-								comments_quantity = { item.comments_quantity }
-								comments = { item.comments || [] }
+										dataPayloadFromParent = { item }
 
-								likes_quantity = { item.likes_quantity }
-								likes = { item.likes || [] }
+										comments_quantity = { item.total_comments }
+										comments = { item.comments || [] }
 
-								// user_quantity = { item.user_quantity }
-								// user = { item.user || [] }
-							
-							/>
-						)}
+										likes_quantity = { item.total_likes }
+										likes = { item.likes || [] }									
+									/>
+								)
+						}}
 						keyExtractor={(item, index) => String(index)}
 					/>
+
+					<View>
+			  			<ConnectedCreateVideo
+  			  				navigation={this.props.navigation}
+			  			/>
+			  		</View>
+
 
 				</ScrollView>
 			</SafeAreaView>

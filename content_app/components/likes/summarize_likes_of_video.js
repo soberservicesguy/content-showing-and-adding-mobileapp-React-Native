@@ -58,7 +58,7 @@ class SummarizeLikesOfVideo extends Component {
 						// reverse={true}
 					/>
 					<Text style={styles.commentQuantityText}>
-						Total likes{this.props.child_quantity}
+						{this.props.child_quantity} likes
 					</Text>
 				</View>
 
@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
 
 
 	iconContainer:{
+		marginLeft:30,
 		flexDirection:'row'
 	},
 	commentQuantityText:{

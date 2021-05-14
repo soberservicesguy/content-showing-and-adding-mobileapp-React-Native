@@ -28,7 +28,7 @@ class ComponentForShowingVideo extends Component {
 		super(props);
 // STATE	
 		this.state = {
-
+			image_src: null,
 		}
 
 	}
@@ -37,6 +37,32 @@ class ComponentForShowingVideo extends Component {
 	componentDidMount() {
 
 	}
+
+	getImage(){
+
+		// this.setState({ image_src: null })
+		let image_object_id = this.props.dataPayloadFromParent.image_main_filepath
+
+		axios.get(`${utils.baseUrl}/video/get-image`, 
+			{
+				params: {
+					image_object_id: image_object_id
+				}
+			}
+		)
+	    .then(async (response) => {
+	    	if (response.data.success){
+		    	this.setState({ image_src: "data:image/jpeg;base64," + response.data.image})
+	    	}
+
+		})
+		.catch((err) => {
+			console.log(err)
+		})
+
+
+	}
+
 
 	render() {
 
@@ -49,7 +75,8 @@ class ComponentForShowingVideo extends Component {
 				<View style={styles.imageContainer}>
 					<Image 
 						// source={base64Image}
-						source={utils.image}
+						// source={utils.image}
+						source={{uri: this.state.image_src}}
 						style={{
 							width:'100%', 
 							height:windowHeight * 0.3, 
@@ -90,7 +117,7 @@ class ComponentForShowingVideo extends Component {
 						  // reverse={true}
 						/>
 						<Text style={styles.categoryText}>
-							ss{ data.category }
+							Category: { data.category }
 						</Text>
 					</View>
 

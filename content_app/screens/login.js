@@ -252,6 +252,7 @@ const styles = StyleSheet.create({
 		paddingLeft:windowWidth * 0.17,
 		fontWeight: 'bold',
 		opacity: 0.5,
+		color:'white',
 	},
 
 // roundbutotn

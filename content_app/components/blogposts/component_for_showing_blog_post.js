@@ -81,7 +81,11 @@ class ComponentForShowingBlogPost extends Component {
 		var base64Image = "data:image/jpeg;base64," + data.image_main_filepath
 
 		return (
-			<View style={styles.outerContainer}>
+			<TouchableOpacity activeOpacity={0.2} style={styles.outerContainer} onPress={() => {
+				this.props.set_current_blogpost(data)
+				this.props.navigation.navigate('Individual_BlogPost', {image_main_filepath: this.state.image_src})
+			}}>
+
 				<Text style={styles.titleStyle}>
 					{ data.title }
 				</Text>
@@ -130,7 +134,7 @@ class ComponentForShowingBlogPost extends Component {
 								  // reverse={true}
 								/>
 								<Text style={styles.attributesText}>
-									ss{ data.timestamp_of_uploading }
+									{ data.timestamp_of_uploading }
 								</Text>
 							</View>
 						</View>
@@ -141,7 +145,8 @@ class ComponentForShowingBlogPost extends Component {
 					</View>
 					
 				</View>				
-			</View>
+
+			</TouchableOpacity>
 		);
 	}
 }

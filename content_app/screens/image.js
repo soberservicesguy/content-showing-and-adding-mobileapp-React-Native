@@ -25,6 +25,8 @@ import {
 	ConnectedImageCard,
 } from '../redux_stuff/connected_components';
 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 const { Provider, Consumer } = React.createContext();
 
 import { Dimensions } from 'react-native';
@@ -37,20 +39,28 @@ class ImageScreen extends Component {
 		super(props);
 // STATE	
 		this.state = {
-		}	
+			get_individual_image:false,
+		}
 	}
 
 // COMPONENT DID MOUNT
 	componentDidMount() {
 
 // FETCHING DATA FOR COMPONENT
-		axios.get(utils.baseUrl + '/images/images-list-with-children',)
+		console.log('Making request')
+		axios.get(utils.baseUrl + '/image/images-list-with-children-light',)
 		.then((response) => {
-			// console.log(response.data)
-			this.props.set_fetched_images(response.data)
+
+			if (response.data.success){
+
+				this.props.set_fetched_images(response.data.images)
+		    	this.setState({ get_individual_image: true })
+		    }
+
 		})
 		.catch((error) => {
 			console.log(error);
+			this.props.set_fetched_images([])
 		})
 
 
@@ -72,40 +82,49 @@ class ImageScreen extends Component {
 
 		return (
 
-			<SafeAreaView>
-				<ScrollView contentContainerStyle={styles.screenContainer}>
-				
-					<View>
-			  			<ConnectedCreateImage/>
-			  		</View>
+			<KeyboardAwareScrollView>
+				<SafeAreaView>
+					<ScrollView contentContainerStyle={{paddingBottom:100}}>
+					
+						<FlatList
+							style={{flexDirection: 'column', flexWrap : "wrap", alignSelf:'center'}}
+			  				numColumns={1}
+			  	  			data={total_images}
+			  				renderItem={
+			  					({ item }) => {
 
-					<FlatList
-						style={{flexDirection: 'column', flexWrap : "wrap", alignSelf:'center'}}
-		  				numColumns={1}
-		  	  			data={total_images}
-		  				renderItem={
-		  					({ item }) => (
-								<ConnectedImageCard
-									isCategoryInstead = {true}
+			  						// console.log('item')
+			  						// console.log(Object.keys(item))
 
-									dataPayloadFromParent = { item }
+									return (
+										<ConnectedImageCard
+											navigation={this.props.navigation}
+											getIndividualImage = {this.state.get_individual_image}
 
-									comments_quantity = { item.comments_quantity }
-									comments = { item.comments || [] }
+											isCategoryInstead = {false}
 
-									likes_quantity = { item.likes_quantity }
-									likes = { item.likes || [] }
+											dataPayloadFromParent = { item }
 
-									// user_quantity = { item.user_quantity }
-									// user = { item.user || [] }
-								
-								/>
-		  					)}
-		  				keyExtractor={(item, index) => String(index)}
-		  			/>
+											comments_quantity = { item.total_comments }
+											comments = { item.comments || [] }
 
-				</ScrollView>
-			</SafeAreaView>
+											likes_quantity = { item.total_likes }
+											likes = { item.likes || [] }
+										/>
+									)
+			  					}}
+			  				keyExtractor={(item, index) => String(index)}
+			  			/>
+
+						<View>
+				  			<ConnectedCreateImage
+				  				navigation={this.props.navigation}
+				  			/>
+				  		</View>
+
+					</ScrollView>
+				</SafeAreaView>
+			</KeyboardAwareScrollView>
 
 		);
 	}

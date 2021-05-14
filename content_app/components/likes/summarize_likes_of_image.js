@@ -51,14 +51,14 @@ class SummarizeLikesOfImage extends Component {
 						// raised
 						name={utils.likeIcon}
 						type='font-awesome'
-						iconStyle='Outlined'
+						// iconStyle='Outlined'
 						color='#f50'
 						size={30}
 						// onPress={() => console.log('hello')} 
 						// reverse={true}
 					/>
 					<Text style={styles.commentQuantityText}>
-						Total likes{this.props.child_quantity}
+						{this.props.child_quantity} likes
 					</Text>
 				</View>
 
@@ -112,6 +112,7 @@ const styles = StyleSheet.create({
 
 
 	iconContainer:{
+		marginLeft:30,
 		flexDirection:'row'
 	},
 	commentQuantityText:{

@@ -17,9 +17,9 @@ import axios from 'axios';
 
 import { Consumer } from "../../screens/blog_post"
 
-import {
-	ComponentForShowingBlogPost,
-} from "."
+// import {
+// 	ComponentForShowingBlogPost,
+// } from "."
 
 import utils from "../../utilities";
 
@@ -29,6 +29,7 @@ import {
 
 import {
 	ConnectedCreateCommentForBlogpost,
+	ConnectedComponentForShowingBlogPost,
 } from "../../redux_stuff/connected_components"
 
 import {
@@ -110,10 +111,12 @@ class BlogPostCard extends Component {
 
 		let componentToUse = (this.props.isCategoryInstead) ?
 			<ComponentForShowingBlogPostCategory
+	  			navigation={this.props.navigation}
 				getIndividualImage = {this.props.getIndividualImage}
 				dataPayloadFromParent = { this.props.dataPayloadFromParent }
 			/> :
-	  		<ComponentForShowingBlogPost
+	  		<ConnectedComponentForShowingBlogPost
+	  			navigation={this.props.navigation}
 		  		getIndividualImage = {this.props.getIndividualImage}
 				dataPayloadFromParent = { this.props.dataPayloadFromParent }
 	  		/>
