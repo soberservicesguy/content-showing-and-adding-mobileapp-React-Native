@@ -41,7 +41,8 @@ class ComponentForShowingVideo extends Component {
 	getImage(){
 
 		// this.setState({ image_src: null })
-		let image_object_id = this.props.dataPayloadFromParent.image_main_filepath
+		let image_object_id = this.props.dataPayloadFromParent.image_thumbnail
+		let redirectToSignIn = () => this.props.navigation.navigate('SignInStack', { screen: 'Login' })
 
 		axios.get(`${utils.baseUrl}/video/get-image`, 
 			{
@@ -51,6 +52,14 @@ class ComponentForShowingVideo extends Component {
 			}
 		)
 	    .then(async (response) => {
+	    	// console.log('response')
+	    	// console.log(response)
+
+
+	    	if (response.status === 401){
+	    		redirectToSignIn()
+	    	}
+
 	    	if (response.data.success){
 		    	this.setState({ image_src: "data:image/jpeg;base64," + response.data.image})
 	    	}
@@ -63,14 +72,29 @@ class ComponentForShowingVideo extends Component {
 
 	}
 
+	componentDidUpdate(prevProps, prevState, snapshot) {
+
+
+		if (prevProps.getIndividualImage === false && this.props.getIndividualImage === true){
+			console.log('getting image')
+			this.getImage()
+
+		}
+
+	}
+
 
 	render() {
 
 		const data = this.props.dataPayloadFromParent // data being plugged from parent flatlist
 		var base64Image = "data:image/jpeg;base64," + data.image_thumbnail
 
+
 		return (
-			<View style={styles.outerContainer}>
+			<TouchableOpacity activeOpacity={0.2} style={styles.outerContainer} onPress={() => {
+				this.props.set_current_video(data)
+				this.props.navigation.navigate('Individual_Video', {image_thumbnail: this.state.image_src})
+			}}>
 
 				<View style={styles.imageContainer}>
 					<Image 
@@ -138,7 +162,7 @@ class ComponentForShowingVideo extends Component {
 					</View>
 
 				</View>
-			</View>
+			</TouchableOpacity>
 		);
 	}
 }
@@ -152,6 +176,7 @@ const styles = StyleSheet.create({
 		height:windowHeight * 0.4,
 		width: windowWidth,
 		alignSelf:'center',
+		marginBottom:20,
 		// backgroundColor: '#000000',
 		// alignItems: 'center',
 		// borderBottomWidth: 1,

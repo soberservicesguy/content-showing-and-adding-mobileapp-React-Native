@@ -24,6 +24,8 @@ import {
 	ConnectedCreateVideo,
 } from '../redux_stuff/connected_components';
 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 const { Provider, Consumer } = React.createContext();
 
 import { Dimensions } from 'react-native';
@@ -43,20 +45,43 @@ class VideoScreen extends Component {
 // COMPONENT DID MOUNT
 	componentDidMount() {
 
-// FETCHING DATA FOR COMPONENT
-			axios.get(utils.baseUrl + '/video/videos-list-with-children-light',)
-			.then((response) => {
-				if (response.data.success){
+		let redirectToSignIn = () => this.props.navigation.navigate('SignInStack', { screen: 'Login' })
+		let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
+		let setPhoneNumberCallback = () => this.props.set_phone_number( null )
 
-					this.props.set_fetched_videos(response.data)
-			    	this.setState({ get_individual_image: true })				
-				}
+		axios.get(utils.baseUrl + '/video/videos-list-with-children-light',)
+		.then((response) => {
 
-			})
-			.catch((error) => {
-				console.log(error);
-				this.props.set_fetched_videos([])
-			})
+
+	    	if (response.status === 401){
+				setIsSignedInCallback()
+				setPhoneNumberCallback()
+				redirectToSignIn()
+	    	}
+
+
+			if (response.data.success){
+
+				this.props.set_fetched_videos(response.data.videos)
+		    	this.setState({ get_individual_image: true })				
+
+			}
+
+		})
+		.catch((error) => {
+			console.log(error);
+			this.props.set_fetched_videos([])
+
+			// using below condition since log spits below line with 401 status code
+			if (String(error).split(" ").join("") === 'Error: Request failed with status code 401'.split(" ").join("")){
+
+				setIsSignedInCallback()
+				setPhoneNumberCallback()
+				redirectToSignIn()
+
+			}
+
+		})
 
 
 	}
@@ -76,45 +101,51 @@ class VideoScreen extends Component {
 		const total_videos = this.props.total_videos
 
 		return (
-			<SafeAreaView>
-				<ScrollView contentContainerStyle={styles.screenContainer}>
+			<KeyboardAwareScrollView>
 
-					<FlatList
-						style={{flexDirection: 'column', flexWrap : "wrap", alignSelf:'center'}}
-						numColumns={1}
-						data={total_videos}
-						renderItem={
-							({ item }) => {
+				<SafeAreaView>
+					<ScrollView contentContainerStyle={styles.screenContainer}>
 
-		  						// console.log('item')
-		  						// console.log(item)
+						<FlatList
+							style={{flexDirection: 'column', flexWrap : "wrap", alignSelf:'center', paddingBottom:30}}
+							numColumns={1}
+							data={total_videos}
+							renderItem={
+								({ item }) => {
 
-								return (
-									<ConnectedVideoCard
-										isCategoryInstead={false}
+			  						// console.log('item')
+			  						// console.log(item)
 
-										dataPayloadFromParent = { item }
+									return (
+										<ConnectedVideoCard
+											navigation={this.props.navigation}
+											getIndividualImage = {this.state.get_individual_image}
 
-										comments_quantity = { item.total_comments }
-										comments = { item.comments || [] }
+											isCategoryInstead={false}
+											dataPayloadFromParent = { item }
 
-										likes_quantity = { item.total_likes }
-										likes = { item.likes || [] }									
-									/>
-								)
-						}}
-						keyExtractor={(item, index) => String(index)}
-					/>
+											comments_quantity = { item.total_comments }
+											comments = { item.comments || [] }
 
-					<View>
-			  			<ConnectedCreateVideo
-  			  				navigation={this.props.navigation}
-			  			/>
-			  		</View>
+											likes_quantity = { item.total_likes }
+											likes = { item.likes || [] }									
+										/>
+									)
+							}}
+							keyExtractor={(item, index) => String(index)}
+						/>
+
+						<View>
+				  			<ConnectedCreateVideo
+	  			  				navigation={this.props.navigation}
+				  			/>
+				  		</View>
 
 
-				</ScrollView>
-			</SafeAreaView>
+					</ScrollView>
+				</SafeAreaView>
+			</KeyboardAwareScrollView>
+
 		);
 	}
 }

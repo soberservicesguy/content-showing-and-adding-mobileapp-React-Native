@@ -34,8 +34,6 @@ class IndividualBlogPost extends Component {
 // RENDER METHOD
 	render() {
 
-		console.log('this.props.current_blogpost')
-		console.log(Object.keys(this.props.current_blogpost))
 
   		var base64Image = "data:image/jpeg;base64," + this.props.current_blogpost.image_main_filepath
 

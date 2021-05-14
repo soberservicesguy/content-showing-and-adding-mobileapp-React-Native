@@ -18,7 +18,7 @@ import axios from 'axios';
 import { Consumer } from "../../screens/video"
 
 import {
-	ComponentForShowingVideo,
+	// ComponentForShowingVideo,
 	ComponentForShowingVideoCategory,
 } from "."
 
@@ -30,6 +30,7 @@ import {
 
 import {
 	ConnectedCreateCommentForVideo,
+	ConnectedComponentForShowingVideo,
 } from "../../redux_stuff/connected_components"
 
 import {
@@ -58,7 +59,7 @@ class VideoCard extends Component {
 
 	fetchAllComment(endpoint) {
 
-		axios.get(utils.baseUrl + '/videos/get-all-comments-of-video', 
+		axios.get(utils.baseUrl + '/video/get-all-comments-of-video', 
 			{
 			    params: {
 					endpoint: endpoint,
@@ -79,7 +80,7 @@ class VideoCard extends Component {
 
 	fetchAllLike(endpoint) {
 
-		axios.get(utils.baseUrl + '/videos/get-all-likes-of-video', 
+		axios.get(utils.baseUrl + '/video/get-all-likes-of-video', 
 			{
 			    params: {
 					endpoint: endpoint,
@@ -112,7 +113,7 @@ class VideoCard extends Component {
 				dataPayloadFromParent = { this.props.dataPayloadFromParent }			
 			/>
 		:
-	  		<ComponentForShowingVideo
+	  		<ConnectedComponentForShowingVideo
 	  			navigation={this.props.navigation}
 				getIndividualImage = {this.props.getIndividualImage}
 				dataPayloadFromParent = { this.props.dataPayloadFromParent }

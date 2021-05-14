@@ -86,6 +86,25 @@ function ContentShowingDrawer({navigation}) {
 				)
 			}}			
 		>
+			<Drawer.Screen name="Video" component={ ConnectedVideoScreen }
+				options={{ 
+					headerShown:true,
+					title: 'Videos',
+					headerTitleAlign: 'center',
+					headerBackTitleVisible: false,
+					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
+						marginTop:50,
+						marginBottom:50,
+					}}>
+						<Text>
+							Go Back
+						</Text>
+					</TouchableOpacity>	),
+					headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
+				}}
+			/>
+
+
 			<Drawer.Screen name="Image" component={ ConnectedImageScreen }
 				options={{ 
 					headerShown:true,
@@ -122,25 +141,6 @@ function ContentShowingDrawer({navigation}) {
 				}}
 			/>
 
-			<Drawer.Screen name="Video" component={ ConnectedVideoScreen }
-				options={{ 
-					headerShown:true,
-					title: 'Videos',
-					headerTitleAlign: 'center',
-					headerBackTitleVisible: false,
-					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
-						marginTop:50,
-						marginBottom:50,
-					}}>
-						<Text>
-							Go Back
-						</Text>
-					</TouchableOpacity>	),
-					headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
-				}}
-			/>
-
-
 		</Drawer.Navigator>
 	);
 }
@@ -156,19 +156,20 @@ const Stack = createStackNavigator();
 function SignInStack({navigation}) {
 	return (
 		<Stack.Navigator headerMode='none'>
-			<Stack.Screen name="SignUp" component={ ConnectedSignUpScreen }
-				options={{ 
-					headerShown:true,
-					title: 'SignUp',
-					headerTitleAlign: 'center',
-					headerBackTitleVisible: false,
-				}}
-			/>
 
 			<Stack.Screen name="Login" component={ ConnectedLoginScreen }
 				options={{ 
 					headerShown:true,
 					title: 'Login',
+					headerTitleAlign: 'center',
+					headerBackTitleVisible: false,
+				}}
+			/>
+
+			<Stack.Screen name="SignUp" component={ ConnectedSignUpScreen }
+				options={{ 
+					headerShown:true,
+					title: 'SignUp',
 					headerTitleAlign: 'center',
 					headerBackTitleVisible: false,
 				}}
@@ -211,7 +212,7 @@ function InnerStack({navigation}) {
 		
 			<Stack.Screen name="Individual_Video" component={ConnectedIndividualVideo}
 				options={{ 
-					headerShown:true,
+					headerShown:false,
 					title: 'Individual Video',
 					headerTitleAlign: 'center',
 					headerBackTitleVisible: false,
@@ -242,6 +243,13 @@ function InnerStack({navigation}) {
 						</Text>
 					</TouchableOpacity>	),
 					headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
+				}}
+			/>
+
+		{/* added so that user could be pushed to login if token expired or unauthorized in backend*/}
+			<Stack.Screen name="SignInStack" component={SignInStack}
+				options={{ 
+					headerShown:false,
 				}}
 			/>
 

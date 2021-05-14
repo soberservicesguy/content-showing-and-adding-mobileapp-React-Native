@@ -64,7 +64,7 @@ class LoginScreen extends Component {
 
 		let setIsSignedInCallback = () => this.props.set_is_signed_in( true )
 		let setPhoneNumberCallback = () => this.props.set_phone_number( this.state.phone_number )
-		let verifyPrivilegesCallback = () => verify_privilege(this, response.data.privileges)
+		let verifyPrivilegesCallback = (response) => verify_privilege(this, response.data.privileges)
 
 		console.log('MAKING REQUEST')
 		axios.post(utils.baseUrl + '/users/login', 
@@ -74,13 +74,21 @@ class LoginScreen extends Component {
 			}
 		)
 		.then(function (response) {
+			// console.log('response')
+			// console.log(response)
 			if (response.data.success === true){
 
-				axios.defaults.headers.common['Authorization'] = response.data.token				
-				
-				setIsSignedInCallback()
-				setPhoneNumberCallback()
-				verifyPrivilegesCallback()
+				try{
+
+					axios.defaults.headers.common['Authorization'] = response.data.token				
+					
+					setIsSignedInCallback()
+					setPhoneNumberCallback()
+					verifyPrivilegesCallback(response)
+
+				} catch (err){
+					console.log(err)
+				}
 
 			} else {
 				console.log('couldnt login')
