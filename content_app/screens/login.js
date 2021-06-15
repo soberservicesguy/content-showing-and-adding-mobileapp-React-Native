@@ -113,7 +113,8 @@ class LoginScreen extends Component {
 							<TextInput
 								style={styles.textinput}
 								placeholder="Phone number"
-								placeholderTextColor ={utils.dimWhite}
+								placeholderTextColor ={'white'}
+								// placeholderTextColor ={utils.dimWhite}
 								// maxLength=10
 								// caretHidden=true
 								// multiline=true
@@ -128,8 +129,7 @@ class LoginScreen extends Component {
 								  // raised
 								  name={utils.userIcon}
 								  type='font-awesome'
-								  iconStyle='Outlined'
-								  color={utils.mediumGrey}
+								  color={utils.lightGrey}
 								  size={30}
 								  // onPress={() => console.log('hello')} 
 								  // reverse={true}
@@ -142,8 +142,9 @@ class LoginScreen extends Component {
 							<TextInput
 								style={styles.textinput}
 								placeholder="Password"
-								placeholderTextColor = {utils.dimWhite}
 								secureTextEntry={true}
+								placeholderTextColor ={'white'}
+								// placeholderTextColor = {utils.dimWhite}
 								// maxLength=10
 								// caretHidden=true
 								// multiline=true
@@ -156,10 +157,9 @@ class LoginScreen extends Component {
 							<View style={styles.iconContainer}>
 								<Icon
 								  // raised
-								  name={utils.userIcon}
+								  name={utils.passwordIcon}
 								  type='font-awesome'
-								  iconStyle='Outlined'
-								  color={utils.mediumGrey}
+								  color={utils.lightGrey}
 								  size={30}
 								  // onPress={() => console.log('hello')} 
 								  // reverse={true}
@@ -254,12 +254,12 @@ const styles = StyleSheet.create({
 		paddingBottom:17,
 		fontSize:18,
 		borderRadius:50,
-		borderColor:utils.darkGrey,
-		backgroundColor: utils.darkGrey,
+		borderColor:utils.mediumGrey,
+		backgroundColor: utils.mediumGrey,
 		borderWidth:2,
 		paddingLeft:windowWidth * 0.17,
 		fontWeight: 'bold',
-		opacity: 0.5,
+		opacity: 0.7,
 		color:'white',
 	},
 
@@ -300,11 +300,13 @@ const styles = StyleSheet.create({
 
 	},
 	createAccountText:{
-		color:utils.mediumGrey,
+		// color:utils.mediumGrey,
+		color:'white',
 	},
 	needHelpText:{
 		textAlign:'right',
-		color:utils.mediumGrey,
+		// color:utils.mediumGrey,
+		color:'white',
 	},
 	forGotPasswordText:{
 		color: utils.lightGrey,

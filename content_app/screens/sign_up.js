@@ -99,7 +99,7 @@ class SignUpScreen extends Component {
 		return(
 			<KeyboardAwareScrollView>
 				<ImageBackground 
-					// source={utils.secondScreenBG} 
+					source={utils.secondScreenBG} 
 					style={styles.bgImage}
 				>
 					<View style={styles.screenContainer}>
@@ -111,7 +111,7 @@ class SignUpScreen extends Component {
 						</Text>
 
 						<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.navigate('Login')} style={{paddingTop:30,}}>
-							<Text style={{color:'blue'}}>
+							<Text style={{color:'blue', fontSize:15}}>
 								Already Have An Account ?
 							</Text>
 						</TouchableOpacity>
@@ -124,7 +124,8 @@ class SignUpScreen extends Component {
 							<TextInput
 								style={styles.textinput}
 								placeholder="Username"
-								placeholderTextColor ={utils.dimWhite}
+								placeholderTextColor ={'white'}
+								// placeholderTextColor ={utils.dimWhite}
 								// maxLength=10
 								// caretHidden=true
 								// multiline=true
@@ -140,7 +141,7 @@ class SignUpScreen extends Component {
 								  name={utils.userIcon}
 								  type='font-awesome'
 								  // iconStyle='Outlined'
-								  color={utils.mediumGrey}
+								  color={utils.lightGrey}
 								  size={30}
 								  // onPress={() => console.log('hello')} 
 								  // reverse={true}
@@ -152,7 +153,8 @@ class SignUpScreen extends Component {
 							<TextInput
 								style={styles.textinput}
 								placeholder="Phone number"
-								placeholderTextColor = {utils.dimWhite}
+								placeholderTextColor ={'white'}
+								// placeholderTextColor = {utils.dimWhite}
 								// maxLength=10
 								// caretHidden=true
 								// multiline=true
@@ -165,10 +167,10 @@ class SignUpScreen extends Component {
 							<View style={styles.iconContainer}>
 								<Icon
 								  // raised
-								  name={utils.userIcon}
+								  name={utils.phoneNumber}
 								  type='font-awesome'
 								  // iconStyle='Outlined'
-								  color={utils.mediumGrey}
+								  color={utils.lightGrey}
 								  size={30}
 								  // onPress={() => console.log('hello')} 
 								  // reverse={true}
@@ -180,8 +182,9 @@ class SignUpScreen extends Component {
 							<TextInput
 								style={styles.textinput}
 								placeholder="Password"
-								placeholderTextColor = {utils.dimWhite}
+								placeholderTextColor ={'white'}
 								secureTextEntry={true}
+								// placeholderTextColor = {utils.dimWhite}
 								// maxLength=10
 								// caretHidden=true
 								// multiline=true
@@ -194,10 +197,10 @@ class SignUpScreen extends Component {
 							<View style={styles.iconContainer}>
 								<Icon
 								  // raised
-								  name={utils.userIcon}
+  								  name={utils.passwordIcon}
 								  type='font-awesome'
 								  // iconStyle='Outlined'
-								  color={utils.mediumGrey}
+								  color={utils.lightGrey}
 								  size={30}
 								  // onPress={() => console.log('hello')} 
 								  // reverse={true}
@@ -234,13 +237,13 @@ class SignUpScreen extends Component {
 						</View>
 
 						<View style={{marginTop: 30,}}>
-							<Text style={{fontSize:20, textAlign:'center'}}>
+							<Text style={{fontSize:20, textAlign:'center', color:'white'}}>
 								Select Privileges To Use
 							</Text>
 
 							<Picker
 								selectedValue={this.state.privileges_selected}
-								style={{height: 50, width: windowWidth * 0.9}}
+								style={{height: 50, width: windowWidth * 0.9, color:'white'}}
 								onValueChange={(itemValue, itemIndex) => {
 
 									// console logging selected file from menu
@@ -339,12 +342,12 @@ const styles = StyleSheet.create({
 		paddingBottom:17,
 		fontSize:18,
 		borderRadius:50,
-		borderColor:utils.darkGrey,
-		backgroundColor: utils.darkGrey,
+		borderColor:utils.mediumGrey,
+		backgroundColor: utils.mediumGrey,
 		borderWidth:2,
 		paddingLeft:windowWidth * 0.17,
 		fontWeight: 'bold',
-		opacity: 0.5,
+		opacity: 0.7,
 	},
 
 // roundbutotn
@@ -381,7 +384,8 @@ const styles = StyleSheet.create({
 		marginBottom: windowHeight * 0.03
 	},
 	bottomButtonText:{
-		color: utils.mediumGrey,
+		color: 'white',
+		// color: utils.mediumGrey,
 		// backgroundColor: 'white'
 	},
 

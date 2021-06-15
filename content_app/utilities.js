@@ -1,5 +1,5 @@
 const utils = {
-	baseUrl:'https://content-app-dot-portfolio-apps-311617.uc.r.appspot.com',
+	baseUrl:'https://content-mern-stack.herokuapp.com',
 	// baseUrl:'http://localhost:3000/',
 	
 	urlForProducts:'',
@@ -8,38 +8,42 @@ const utils = {
 
 // login screen
 	// BG Image
-	firstScreenBG: require('./images/samosa.jpg'),
+	// firstScreenBG: require('./images/samosa.jpg'),
+	firstScreenBG: require('./images/first_screen.jpg'),
+
 	// COLORS
 	dimWhite:'#d6d6d6',
 	darkGrey: '#4e5252',
 	mediumGrey: '#7d807f',
 	orange: '#e96d3e',
 	// ICON
-	userIcon: 'heartbeat',
+	userIcon: 'user',
+	passwordIcon: 'lock',
+	phoneNumber: 'phone',
 
 // sign up screen
 	// BG Image
-	secondScreenBG: require('./images/samosa.jpg'),
+	secondScreenBG: require('./images/second_screen.jpg'),
 	// COLORS
 	black:"black",
 
 // component for showing blogpost
-	categoryIcon:'heartbeat',
+	categoryIcon:'archive',
 
 // component for showing video
-	timestampIcon: 'heartbeat',
-	playButtonIcon:'heartbeat',
+	timestampIcon: 'arrow-up',
+	playButtonIcon:'play',
 
 // summarize_comments_of_image
-	commentIcon: 'heartbeat', 
+	commentIcon: 'comment', 
 // summarize_likes_of_image
-	likeIcon: 'heartbeat',
+	likeIcon: 'thumbs-up',
 
 	lightGrey: "#bbbdc0",
 	darkBlue: '#1e5186',
 	lightGreen: '#acce4c',
 	// ICON
-	righAeroIcon:'heartbeat',
+	righAeroIcon:'arrow-right',
 
 // signin screen
 	// COLORS

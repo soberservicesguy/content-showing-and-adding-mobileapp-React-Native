@@ -116,7 +116,7 @@ class ComponentForShowingVideo extends Component {
 						type='font-awesome'
 						iconStyle='Outlined'
 						color={utils.orange}
-						size={windowWidth * 0.15}
+						size={windowWidth * 0.12}
 						// onPress={() => console.log('hello')} 
 						// reverse={true}
 					/>
