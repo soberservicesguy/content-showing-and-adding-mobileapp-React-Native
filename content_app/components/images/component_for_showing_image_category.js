@@ -73,7 +73,7 @@ class ComponentForShowingImageCategory extends Component {
 
 // COMPONENT DID MOUNT
 	componentDidMount() {
-
+		this.getImage()
 	}
 
 	render() {

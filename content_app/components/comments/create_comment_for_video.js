@@ -79,6 +79,8 @@ class CreateCommentForVideo extends Component {
 						let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
 						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
 
+						let increase_comment_quantity = () => this.props.add_comments_quantity()
+
 						axios.post(utils.baseUrl + '/videos/create-comment-for-video', 
 							{
 								comment_text: this.state.text,
@@ -95,9 +97,11 @@ class CreateCommentForVideo extends Component {
 							
 							// set to current parent object
 							setResponseInCurrentVideo(response.data.endpoint)
-
+							increase_comment_quantity()
+							
 							// change route to current_image	
-							redirectToNewVideo()							
+							// redirectToNewVideo()							
+
 
 						})
 						.catch(function (error) {

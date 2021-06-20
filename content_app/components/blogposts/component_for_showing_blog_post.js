@@ -60,7 +60,7 @@ class ComponentForShowingBlogPost extends Component {
 
 // COMPONENT DID MOUNT
 	componentDidMount() {
-
+		this.getImage()
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {

@@ -33,7 +33,7 @@ class ComponentForShowingImage extends Component {
 
 // COMPONENT DID MOUNT
 	componentDidMount() {
-
+		this.getImage()
 	}
 
 	getImage(){

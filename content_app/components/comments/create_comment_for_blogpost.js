@@ -73,6 +73,8 @@ class CreateCommentForBlogpost extends Component {
 						let redirectToSignIn = () => this.props.navigation.navigate('SignInStack', { screen: 'Login' })
 						let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
 						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
+						
+						let increase_comment_quantity = () => this.props.add_comments_quantity()
 
 						// first create child object
 						axios.post(utils.baseUrl + '/blogpostings/create-comment-for-blogpost', 
@@ -91,9 +93,10 @@ class CreateCommentForBlogpost extends Component {
 							
 							// set to current parent object
 							setResponseInCurrentBlogpost(response.data)
+							increase_comment_quantity()
 
 							// change route to current_image	
-							redirectToNewBlogpost()							
+							// redirectToNewBlogpost()							
 
 						})
 						.catch(function (error) {

@@ -54,6 +54,7 @@ class CreateLikeForBlogpost extends Component {
 						let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
 						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
 
+						let increase_like_quantity = () => this.props.add_likes_quantity()
 
 						axios.post(utils.baseUrl + '/blogpostings/create-like-for-blogpost', 
 							{
@@ -70,9 +71,10 @@ class CreateLikeForBlogpost extends Component {
 							
 							// set to current parent object
 							setResponseInCurrentBlogPost(response.data)
+							increase_like_quantity()
 
 							// change route to current_blogpost	
-							redirectToNewBlogPost()							
+							// redirectToNewBlogPost()							
 
 						})
 						.catch(function (error) {

@@ -44,34 +44,47 @@ class ComponentForShowingComment extends Component {
 
 		var base64Image = "data:image/jpeg;base64," + data.user_image
 		return (
-			<View style={styles.outerContainer}>
-				<View style={styles.imageContainer}>
-					<Image source={base64Image} alt="" 
-						style={{
-							width:100, 
-							height:100, 
-							resizeMode: "contain"
-						}}
-					/>
+			<View style={{
+				width:windowWidth,
+				alignItems:'center', 
+			}}>
+				
+				<View style={styles.outerContainer}>
+
+					<View style={{
+						flex:1,
+					}}>
+						<Image  alt="" 
+							source={{uri: "data:image/jpeg;base64," + data.user_image}} 
+							style={{
+								width:80, 
+								height:80, 
+								resizeMode: "stretch",
+								borderRadius: 100
+							}}
+						/>
+					</View>
+
+					<View style={{
+						flex:3,
+						marginLeft:30,
+					}}>
+						<Text style={{fontWeight:'bold', }}>
+							{data.user_name}
+						</Text>
+						<Text>
+							{data.comment_text}
+						</Text>
+					</View>
+
 				</View>
-			
-				<Text>
-					{data.user_name}
-				</Text>
-			
-				<Text>
-					{data.comment_text}
-				</Text>
-			
 			</View>
+
+			
+			
 		);
 	}
-				// <p>
-				// 	{ data.text }
-				// </p>
-				// <p>
-				// 	{ data.commenting_timestamp }
-				// </p>
+
 }
 	
 ComponentForShowingComment.defaultProps = {
@@ -80,6 +93,13 @@ ComponentForShowingComment.defaultProps = {
 
 const styles = StyleSheet.create({
 	outerContainer: {
+		width: windowWidth * 0.7,
+		display:'flex',
+		flexDirection: 'row',
+		alignItems:'center',
+		justifyContent: 'center',
+		height:100,
+		alignSelf:'center',
 	},
 });
 

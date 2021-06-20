@@ -43,6 +43,141 @@ import {
 } from "./components/"
 
 
+
+
+
+const Tabs = createBottomTabNavigator();
+
+function BottomTabs({navigation}) {
+	return (
+		<Tabs.Navigator
+			options={{ title: 'My home' }}
+			// initialRouteName= 'FriendScreen'
+			tabBar={() => 
+				<View style={{
+					display:'flex',
+					flexDirection: 'row',
+					alignItems:'center',
+					justifyContent: 'space-around',
+					height:50,
+					backgroundColor: '#000000',
+				}}>
+					{[
+						{option_name:'Bulk Blogposts', screen_name:"BulkBlogpostUpload"}, 
+						{option_name:'Bulk Images',  screen_name:"BulkImageUpload"}, 
+						{option_name:'Bulk Videos',  screen_name:"BulkVideoUpload"}, 
+					].map((item, index) => {
+
+						return (
+							<TouchableOpacity activeOpacity={0.2} style={{alignItems:'center', alignSelf: 'center', justifyContent:'center',height:50, borderRightWidth:(index !== 2) ? 1 : 0, borderRightColor:'white', paddingHorizontal: 10}} onPress={ () => {
+								navigation.navigate(item.screen_name)
+								// navigation.navigate('Friendsection', {screen: 'FriendsScreen', params:{payload: item.screen_payload}} )
+							}}>
+								<Text style={{color:'blue', fontWeight:'bold', fontSize:20}}>
+									{item.option_name}
+								</Text>
+							</TouchableOpacity>
+						)
+					})}
+				</View>
+			} // tabBar closed
+			// backBehavior= 'initialRoute / order / history / none'
+
+			// tabBarOptions={{
+			//   activeTintColor:'',
+			//   inactiveTintColor:'',
+			//   activeBackgroundColor:'',
+			//   inactiveBackgroundColor:'',
+				
+			//   showLabel: true / false,
+			//   showIcon: true / false,
+
+			//   labelPosition: 'beside-icon / below-icon'  
+			//   tabStyle: // style object
+			//   labelStyle: // style object
+			//   style: // style object
+
+			// }}
+
+			// screenOptions={{
+			//     title:'',
+			//     tabBarVisible: true /false,
+			//     tabBarIcon: , // function returning tab bar icon
+			//     tabBarLabel: , // function returning label in tab bar
+			//     tabBarButton: , // function returning tabbar button
+			//   }}
+		>
+
+			<Tabs.Screen name="BulkBlogpostUpload" component={ BulkBlogpostUpload }
+				options={{ 
+					headerShown:true,
+					title: 'Bulk Blogposts Upload',
+					headerTitleAlign: 'center',
+					headerBackTitleVisible: false,
+					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
+						marginTop:50,
+						marginBottom:50,
+					}}>
+						<Text>
+							Go Back
+						</Text>
+					</TouchableOpacity>	),
+					// headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
+				}}
+			/>
+
+			<Tabs.Screen name="BulkImageUpload" component={ BulkImageUpload }
+				options={{ 
+					headerShown:true,
+					title: 'Bulk Images Upload',
+					headerTitleAlign: 'center',
+					headerBackTitleVisible: false,
+					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
+						marginTop:50,
+						marginBottom:50,
+					}}>
+						<Text>
+							Go Back
+						</Text>
+					</TouchableOpacity>	),
+					// headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
+				}}
+			/>
+
+			<Tabs.Screen name="BulkVideoUpload" component={ BulkVideoUpload }
+				options={{ 
+					headerShown:true,
+					title: 'Bulk Videos Upload',
+					headerTitleAlign: 'center',
+					headerBackTitleVisible: false,
+					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
+						marginTop:50,
+						marginBottom:50,
+					}}>
+						<Text>
+							Go Back
+						</Text>
+					</TouchableOpacity>	),
+					// headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
+				}}
+			/>
+
+		</Tabs.Navigator>
+	)
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
 const Drawer = createDrawerNavigator();
 
 // component returning drawer with screens
@@ -68,11 +203,15 @@ function ContentShowingDrawer({navigation}) {
 						alignItems:'center',
 						justifyContent: 'space-between', 
 					}}>
-						{['BlogPost', 'Image', 'Video'].map((option) => {
+						{['BlogPost', 'Image', 'Video', 'BulkUploadTabs'].map((option) => {
 
 							let screen_name = option
 							option = option.toLowerCase()
 							option = option.charAt(0).toUpperCase() + option.slice(1);
+
+							if (screen_name === 'BulkUploadTabs'){
+								option = 'Bulk Upload'
+							}
 
 							return (
 								<TouchableOpacity activeOpacity={0.2} onPress={ () => navigation.navigate(screen_name) } style={{marginTop:50, marginBottom:50,}}>
@@ -86,24 +225,6 @@ function ContentShowingDrawer({navigation}) {
 				)
 			}}			
 		>
-			<Drawer.Screen name="Video" component={ ConnectedVideoScreen }
-				options={{ 
-					headerShown:true,
-					title: 'Videos',
-					headerTitleAlign: 'center',
-					headerBackTitleVisible: false,
-					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
-						marginTop:50,
-						marginBottom:50,
-					}}>
-						<Text>
-							Go Back
-						</Text>
-					</TouchableOpacity>	),
-					headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
-				}}
-			/>
-
 
 			<Drawer.Screen name="Image" component={ ConnectedImageScreen }
 				options={{ 
@@ -138,6 +259,30 @@ function ContentShowingDrawer({navigation}) {
 						</Text>
 					</TouchableOpacity>	),
 					headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
+				}}
+			/>
+
+			<Drawer.Screen name="Video" component={ ConnectedVideoScreen }
+				options={{ 
+					headerShown:true,
+					title: 'Videos',
+					headerTitleAlign: 'center',
+					headerBackTitleVisible: false,
+					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
+						marginTop:50,
+						marginBottom:50,
+					}}>
+						<Text>
+							Go Back
+						</Text>
+					</TouchableOpacity>	),
+					headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
+				}}
+			/>
+
+			<Drawer.Screen name="BulkUploadTabs" component={ BottomTabs }
+				options={{ 
+					headerShown:false,
 				}}
 			/>
 

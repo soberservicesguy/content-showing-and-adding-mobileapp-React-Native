@@ -77,7 +77,9 @@ class CreateCommentForImage extends Component {
 						let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
 						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
 
-						axios.post(utils.baseUrl + '/images/create-comment-for-image', 
+						let increase_comment_quantity = () => this.props.add_comments_quantity()
+
+						axios.post(utils.baseUrl + '/image/create-comment-for-image', 
 							{
 								comment_text: this.state.text,
 								image_endpoint: this.props.parentDetailsPayload.endpoint,
@@ -93,9 +95,10 @@ class CreateCommentForImage extends Component {
 							
 							// set to current parent object
 							setResponseInCurrentImage(response.data)
+							increase_comment_quantity()
 
 							// change route to current_image	
-							redirectToNewImage()							
+							// redirectToNewImage()
 
 						})
 						.catch(function (error) {

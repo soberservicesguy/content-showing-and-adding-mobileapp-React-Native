@@ -5,6 +5,7 @@ import {
 	Text,
 	TouchableHighlight,
 	TouchableOpacity,
+	Button,
 } from "react-native";
 import PropTypes from 'prop-types';
 
@@ -15,6 +16,8 @@ const windowHeight = Dimensions.get('window').height;
 import axios from 'axios';
 
 import DocumentPicker from 'react-native-document-picker';
+
+import utils from "../utilities";
 
 class BulkVideoUpload extends Component {
 	constructor(props) {
@@ -70,6 +73,7 @@ class BulkVideoUpload extends Component {
 											'video/3gpp',
 											'video/mpeg',
 											'video/x-msvideo', // go to for all mimetypes https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
+											'video/mp4', // go to for all mimetypes https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
 										],
 									});
 									// setState method with response as argument
@@ -136,7 +140,7 @@ class BulkVideoUpload extends Component {
 							Array.from(this.state.videos_to_upload).forEach((file) => {
 								formData.append('videos_to_upload', {uri: file.uri, name: file.name, type: file.type})
 							})
-							formData.append('excel_sheet_for_videos', {uri: this.state.excel_sheet.uri, name: this.state.excel_sheet.name, type: this.state.excel_sheet.type})
+							formData.append('excel_sheet', {uri: this.state.excel_sheet.uri, name: this.state.excel_sheet.name, type: this.state.excel_sheet.type})
 
 							axios.post(utils.baseUrl + '/uploads/bulk-upload-videos', formData)
 							.then(function (response) {
@@ -182,18 +186,15 @@ BulkVideoUpload.defaultProps = {
 
 
 const styles = StyleSheet.create({
-	container: {
+	outerContainer:{
+		flexDirection: 'column',
+		alignItems:'center',
+		flex:1,
+		// display:'flex',
+		// flexDirection: 'column',
+		alignItems:'center',
+		justifyContent: 'space-around', 
 	},
-	bigBlue: {
-	},					
-	buttonWithoutBG:{
-		marginTop:50,
-		marginBottom:50,
-	},
-	innerText:{
-
-	},
-
 });
 
 // export default BulkVideoUpload // REMOVE withResponsiveness and withStyles as much as possible

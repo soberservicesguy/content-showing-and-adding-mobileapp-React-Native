@@ -53,6 +53,8 @@ class CreateLikeForVideo extends Component {
 						let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
 						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
 
+						let increase_like_quantity = () => this.props.add_likes_quantity()
+
 						axios.post(utils.baseUrl + '/videos/create-like-for-video', 
 							{
 								video_endpoint: this.props.parentDetailsPayload.endpoint,
@@ -68,9 +70,10 @@ class CreateLikeForVideo extends Component {
 							
 							// set to current parent object
 							setResponseInCurrentVideo(response.data.endpoint)
+							increase_like_quantity()
 
 							// change route to current_blogpost	
-							redirectToNewVideo()							
+							// redirectToNewVideo()							
 
 						})
 						.catch(function (error) {

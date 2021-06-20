@@ -42,8 +42,33 @@ class BlogPostScreen extends Component {
 		}	
 	}
 
-// COMPONENT DID MOUNT
 	componentDidMount() {
+		this._unsubscribeFocus = this.props.navigation.addListener('focus', () => {
+			// below will be executed when user enters this screen
+			console.log('screen_payload')
+			console.log(this.state.screen_payload)
+
+			this.setUpScreen()
+			// const payload_from_previous_screen = this.props.navigation
+			// let { id } = payload_from_previous_screen
+		});
+
+		this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
+			// below will be executed when user leaves this screen
+			console.log('I AM UNMOUNTED')
+			// const payload_from_previous_screen = this.props.navigation
+			// let { id } = payload_from_previous_screen
+		});
+
+	}
+
+	componentWillUnmount() {
+		this._unsubscribeFocus();
+		this._unsubscribeBlur();
+	}
+
+
+	setUpScreen() {
 
 		let redirectToSignIn = () => this.props.navigation.navigate('SignInStack', { screen: 'Login' })
 		let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
@@ -66,8 +91,11 @@ class BlogPostScreen extends Component {
 				this.props.set_fetched_blogposts(response.data.blogposts)
 		    	this.setState({ get_individual_image: true })				
 
-			}
+			} else {
 
+				this.props.set_fetched_blogposts([])
+
+			}
 		})
 		.catch((error) => {
 			console.log(error);

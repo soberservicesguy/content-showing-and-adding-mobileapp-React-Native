@@ -53,7 +53,9 @@ class CreateLikeForImage extends Component {
 						let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
 						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
 
-						axios.post(utils.baseUrl + '/images/create-like-for-image', 
+						let increase_like_quantity = () => this.props.add_likes_quantity()
+
+						axios.post(utils.baseUrl + '/image/create-like-for-image', 
 							{
 								image_endpoint: this.props.parentDetailsPayload.endpoint,
 							})
@@ -68,9 +70,10 @@ class CreateLikeForImage extends Component {
 							
 							// set to current parent object
 							setResponseInCurrentImage(response.data)
-
+							increase_like_quantity()
+							
 							// change route to current_blogpost	
-							redirectToNewImage()							
+							// redirectToNewImage()							
 
 						})
 						.catch(function (error) {
@@ -85,7 +88,7 @@ class CreateLikeForImage extends Component {
 
 							}
 
-						});						
+						});
 
 					}}
 				>			

@@ -46,7 +46,7 @@ class SummarizeLikesOfImage extends Component {
 
 			<View style={styles.outerContainer}>
 
-				<View style={styles.iconContainer}>
+				{/*<View style={styles.iconContainer}>
 					<Icon
 						// raised
 						name={utils.likeIcon}
@@ -60,9 +60,9 @@ class SummarizeLikesOfImage extends Component {
 					<Text style={styles.commentQuantityText}>
 						{this.props.child_quantity} likes
 					</Text>
-				</View>
+				</View>*/}
 
-				<Modal				  	
+{/*				<Modal				  	
 					animationType={"none"}
 					transparent={false}
 					visible={this.props.show_image_likes}
@@ -96,7 +96,7 @@ class SummarizeLikesOfImage extends Component {
 
 					</View>
 				</Modal>
-
+*/}
 			</View>
 		);
 	}

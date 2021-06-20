@@ -7,6 +7,7 @@ import {
 	TouchableHighlight,
 	Modal,
 	TouchableOpacity,
+	Image,
 } from "react-native";
 import PropTypes from 'prop-types';
 					
@@ -39,22 +40,37 @@ class ComponentForShowingLike extends Component {
 	render() {
 
 		const data = this.props.componentData // data being plugged from parent flatlist		
-		var base64Image = "data:image/jpeg;base64," + data.user_image
 
 		return (
-			<View style={styles.outerContainer}>
-				<Text>
-					{data.user_name}
-				</Text>
+			<View style={{
+				width:windowWidth,
+				alignItems:'center', 
+			}}>
+				
+				<View style={styles.outerContainer}>
 
-				<View style={styles.imageContainer}>
-					<Image source={base64Image} alt="" 
-						style={{
-							width:100, 
-							height:100, 
-							resizeMode: "contain"
-						}}
-					/>
+					<View style={{
+						flex:1,
+					}}>
+						<Image  alt="" 
+							source={{uri: "data:image/jpeg;base64," + data.user_image}} 
+							style={{
+								width:80, 
+								height:80, 
+								resizeMode: "stretch",
+								borderRadius: 100
+							}}
+						/>
+					</View>
+
+					<View style={{
+						flex:3,
+					}}>
+						<Text style={{fontWeight:'bold', marginLeft:30,}}>
+							{data.user_name}
+						</Text>
+					</View>
+
 				</View>
 			</View>
 		);
@@ -67,6 +83,13 @@ ComponentForShowingLike.defaultProps = {
 
 const styles = StyleSheet.create({
 	outerContainer: {
+		width: windowWidth * 0.7,
+		display:'flex',
+		flexDirection: 'row',
+		alignItems:'center',
+		justifyContent: 'center',
+		height:100,
+		alignSelf:'center',
 	},
 });
 

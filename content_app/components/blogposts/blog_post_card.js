@@ -6,6 +6,8 @@ import {
 	Button,
 	TouchableHighlight,
 	TouchableOpacity,
+	FlatList,
+	Image,
 } from "react-native";
 import PropTypes from 'prop-types';
 
@@ -28,19 +30,20 @@ import {
 } from "../comments/"
 
 import {
+	ConnectedCreateLikeForBlogpost,
 	ConnectedCreateCommentForBlogpost,
 	ConnectedComponentForShowingBlogPost,
 } from "../../redux_stuff/connected_components"
 
 import {
-	ShowLikesOfBlogPost,
-} from "../likes/"
+	ComponentForShowingComment
+} from "../comments/"
 
 import {
-	ConnectedCreateLikeForBlogpost,
-	ConnectedSummarizeCommentsOfBlogPost,
-	ConnectedSummarizeLikesOfBlogPost,
-} from "../../redux_stuff/connected_components"
+	ComponentForShowingLike
+} from "../likes/"
+
+import { Icon } from 'react-native-elements';
 
 
 class BlogPostCard extends Component {
@@ -52,6 +55,14 @@ class BlogPostCard extends Component {
 			comments: [],
 			likes: [],
 			users: [],
+
+			current_likes_quantity: this.props.dataPayloadFromParent.total_likes,
+			current_comments_quantity: this.props.dataPayloadFromParent.total_comments,
+
+
+			show_all_likes: false,
+			show_all_comments: false,
+
 		}	
 
 	}
@@ -68,8 +79,7 @@ class BlogPostCard extends Component {
 		.then((response) => {
 			// console.log(response.data);
 			this.setState( prev => ({...prev, comments: ( prev.comments.length === 0 ) ? response.data : [] }) )
-			console.log('COMMENTS OBTAINED ARE BELOW')
-			console.log(this.state.comments)
+
 		})
 		.catch((error) => {
 			console.log(error);
@@ -88,8 +98,7 @@ class BlogPostCard extends Component {
 			    }
 			})
 		.then((response) => {
-			console.log('LIKES ACHIEVED')
-			console.log(response.data);
+
 			this.setState( prev => ({...prev, likes: ( prev.likes.length === 0 ) ? response.data : [] }) )
 			
 		})
@@ -106,6 +115,7 @@ class BlogPostCard extends Component {
 	}
 
 	render() {
+
 		// console.log('COMMENTS')
 		// console.log(this.state.comments)
 
@@ -121,64 +131,180 @@ class BlogPostCard extends Component {
 				dataPayloadFromParent = { this.props.dataPayloadFromParent }
 	  		/>
 
+	  	if (this.state.show_all_likes){
 
-		return (
-		  	<View>
-
-		  		<View>
-					{/* first the parent / card component */}
-					{componentToUse}
-		  		</View>
-
-
-				<View style={styles.socialButtonsAndStatsContainer}>
-					{/* 2nd show individual summary of childs */}
+	  		return (
+  				<View style={{
+  					height:windowHeight, 
+  				}}>
 					<TouchableOpacity
 						style={styles.socialButtonAndStats}
 						activeOpacity={0.2} 
 						onPress={ () => {
-							this.fetchAllComment( this.props.dataPayloadFromParent.endpoint ) 
-							this.props.toggle_show_comments_for_blogpost()
+
+							this.setState(prev => ({...prev, 
+								show_all_likes: false,
+								show_all_comments: false,
+							}))
+							
 						}}
 					>
-						<ConnectedSummarizeCommentsOfBlogPost
-							showOnlyQuantity = { this.props.show_blogpost_comments }
-							child_quantity = { this.props.comments_quantity }
-							dataPayloadFromParent = { this.props.comments }
-						/>
+						<Text style={{textAlign:'center', fontSize:20, fontWeight:'bold'}}>
+							Close Likes
+						</Text>
 					</TouchableOpacity>
-					
-					<TouchableOpacity 
+
+
+  			  		<FlatList
+  						style={{flexDirection: 'column', flexWrap : "wrap"}}
+  						numColumns={1}
+  			  			data={this.state.likes}
+  						renderItem={
+  							({ item }) => (
+  								<ComponentForShowingLike
+  									componentData = { item }
+  								/>
+  							)}
+  						keyExtractor={(item, index) => String(index)}
+  					/>
+
+  				</View>
+  			)
+
+	  	} else if (this.state.show_all_comments){
+
+			return(
+				<View style={{
+					height:windowHeight, 
+				}}>
+					<TouchableOpacity
 						style={styles.socialButtonAndStats}
 						activeOpacity={0.2} 
-						onPress={ () => { 
-							this.fetchAllLike( this.props.dataPayloadFromParent.endpoint ) 
-							this.props.toggle_show_likes_for_blogpost()
+						onPress={ () => {
+
+							this.setState(prev => ({...prev, 
+								show_all_likes: false,
+								show_all_comments: false,
+							}))
+							
 						}}
-					>						
-						<ConnectedSummarizeLikesOfBlogPost
-							showOnlyQuantity = { this.props.show_blogpost_likes }
-							child_quantity = { this.props.likes_quantity }
-							dataPayloadFromParent = { this.props.likes }
-						/>
+					>
+						<Text style={{textAlign:'center', fontSize:20, fontWeight:'bold'}}>
+							Close Comments
+						</Text>
 					</TouchableOpacity>
 
-				</View>
-
-				<View style={styles.createCommentAndLikeContainer}>
-					{/* 4th create individual child options like comment / like */}					
-					<ConnectedCreateCommentForBlogpost
-						parentDetailsPayload = { this.props.dataPayloadFromParent }
-						navigation={this.props.navigation}
-					/>					
-					<ConnectedCreateLikeForBlogpost
-						parentDetailsPayload = { this.props.dataPayloadFromParent }
-						navigation={this.props.navigation}
+			  		<FlatList
+						style={{flexDirection: 'column', flexWrap : "wrap"}}
+						numColumns={1}
+			  			data={this.state.comments}
+						renderItem={
+							({ item }) => (
+								<ComponentForShowingComment
+									componentData = { item }
+								/>
+							)}
+						keyExtractor={(item, index) => String(index)}
 					/>
-				</View>
 
-		  	</View>
-		);
+				</View>
+			)
+
+	  	} else {
+
+			return (
+			  	<View>
+
+			  		<View>
+						{componentToUse}
+			  		</View>
+
+
+					<View style={styles.socialButtonsAndStatsContainer}>
+						{/* 2nd show individual summary of childs */}
+						<TouchableOpacity
+							style={styles.socialButtonAndStats}
+							activeOpacity={0.2} 
+							onPress={ () => {
+								this.fetchAllComment( this.props.dataPayloadFromParent.endpoint ) 
+								// this.props.toggle_show_comments_for_blogpost()
+
+	  							this.setState(prev => ({...prev, 
+									show_all_likes: false,
+									show_all_comments: true,
+	  							}))
+
+							}}
+						>
+	  						<View style={styles.iconContainer}>
+	  							<Icon
+	  								// raised
+	  								name={utils.commentIcon}
+	  								type='font-awesome'
+	  								iconStyle='Outlined'
+	  								color='#f50'
+	  								size={30}
+	  								// onPress={() => console.log('hello')} 
+	  								// reverse={true}
+	  							/>
+	  							<Text style={styles.commentQuantityText}>
+	  								{this.state.current_comments_quantity} comments 
+	  							</Text>
+	  						</View>
+
+						</TouchableOpacity>
+						
+						<TouchableOpacity 
+							style={styles.socialButtonAndStats}
+							activeOpacity={0.2} 
+							onPress={ () => { 
+								this.fetchAllLike( this.props.dataPayloadFromParent.endpoint ) 
+								// this.props.toggle_show_likes_for_blogpost()
+
+	  							this.setState(prev => ({...prev, 
+									show_all_comments: false,
+									show_all_likes: true,
+	  							}))
+
+							}}
+						>						
+	  						<View style={styles.iconContainer}>
+	  							<Icon
+	  								// raised
+	  								name={utils.likeIcon}
+	  								type='font-awesome'
+	  								// iconStyle='Outlined'
+	  								color='#f50'
+	  								size={30}
+	  								// onPress={() => console.log('hello')} 
+	  								// reverse={true}
+	  							/>
+	  							<Text style={styles.commentQuantityText}>
+	  								{this.state.current_likes_quantity} likes
+	  							</Text>
+	  						</View>
+
+	  					</TouchableOpacity>
+
+					</View>
+
+					<View style={styles.createCommentAndLikeContainer}>
+						{/* 4th create individual child options like comment / like */}					
+						<ConnectedCreateCommentForBlogpost
+							parentDetailsPayload = { this.props.dataPayloadFromParent }
+							navigation={this.props.navigation}
+							add_comments_quantity = {() => this.setState(prev => ({...prev, current_comments_quantity: prev.current_comments_quantity + 1}))}
+						/>					
+						<ConnectedCreateLikeForBlogpost
+							parentDetailsPayload = { this.props.dataPayloadFromParent }
+							navigation={this.props.navigation}
+							add_likes_quantity = {() => this.setState(prev => ({...prev, current_likes_quantity: prev.current_likes_quantity + 1}))}
+						/>
+					</View>
+
+			  	</View>
+			);
+		}
 	}
 }
 
@@ -190,6 +316,7 @@ BlogPostCard.defaultProps = {
 
 const styles = StyleSheet.create({
 	outerContainer:{
+		marginBottom:10,
 	},
 
 // comments and likes counts
@@ -206,6 +333,18 @@ const styles = StyleSheet.create({
 	createCommentAndLikeContainer:{
 		marginTop: windowHeight * 0.001,
 	},
+
+	iconContainer:{
+		marginLeft:30,
+		flexDirection:'row'
+	},
+
+	commentQuantityText:{
+		marginLeft:10,
+		fontSize:20,
+	},
+
+
 });
 
 
