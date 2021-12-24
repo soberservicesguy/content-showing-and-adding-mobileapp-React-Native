@@ -221,7 +221,6 @@ class BlogPostCard extends Component {
 
 
 					<View style={styles.socialButtonsAndStatsContainer}>
-						{/* 2nd show individual summary of childs */}
 						<TouchableOpacity
 							style={styles.socialButtonAndStats}
 							activeOpacity={0.2} 
@@ -289,7 +288,6 @@ class BlogPostCard extends Component {
 					</View>
 
 					<View style={styles.createCommentAndLikeContainer}>
-						{/* 4th create individual child options like comment / like */}					
 						<ConnectedCreateCommentForBlogpost
 							parentDetailsPayload = { this.props.dataPayloadFromParent }
 							navigation={this.props.navigation}

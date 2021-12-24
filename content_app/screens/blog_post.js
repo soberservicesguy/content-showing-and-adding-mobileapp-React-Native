@@ -53,9 +53,14 @@ class BlogPostScreen extends Component {
 			// let { id } = payload_from_previous_screen
 		});
 
+		let removeBlogposts = () => this.props.set_fetched_blogposts([])
+    	let stopFetchImage = () => this.setState({ get_individual_image: false })
 		this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
 			// below will be executed when user leaves this screen
 			console.log('I AM UNMOUNTED')
+			this.cancelRequest.cancel()
+			removeBlogposts()
+			stopFetchImage()
 			// const payload_from_previous_screen = this.props.navigation
 			// let { id } = payload_from_previous_screen
 		});
@@ -76,7 +81,13 @@ class BlogPostScreen extends Component {
 
 
 	// FETCHING DATA FOR COMPONENT
-		axios.get(utils.baseUrl + '/blogpostings/blogposts-list-with-children',)
+		this.cancelRequest = axios.CancelToken.source();
+		axios.get(
+			utils.baseUrl + '/blogpostings/blogposts-list-with-children',
+			{
+				cancelToken: this.cancelRequest.token
+			}
+		)
 		.then((response) => {
 
 	    	if (response.status === 401){

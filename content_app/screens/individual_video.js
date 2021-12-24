@@ -48,19 +48,19 @@ class IndividualVideo extends Component {
 
 	  	return (
 	  		<View>
-	  			<Text>this</Text>
+	  			{/*<Text>this</Text>*/}
 		  		{/*<Video 
 					// source={{uri: "background"}}
 					// source={{uri: `http://localhost:3001/video/video?endpoint=${this.props.current_video.video_filepath}`}} 
 					source={{uri: this.props.current_video.video_filepath}} 
 		  		/>*/}
-	  			
+	
 	  			<Video 
 		  			// source={{uri: "background"}}   // Can be a URL or a local file.
 					controls={true}
-					// source={{uri: 'https://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_10mb.mp4' }}
+					source={{uri: 'https://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_10mb.mp4' }}
 
-					source={{uri: this.props.current_video.video_filepath, mainVer: 1, patchVer: 0}} 
+					// source={{uri: 'http://d33yizdt8hggvw.cloudfront.net/' + this.props.current_video.video_filepath, mainVer: 1, patchVer: 0}} 
 	  			         resizeMode="cover"
 	  			       ref={(ref) => {
 	  			         this.player = ref

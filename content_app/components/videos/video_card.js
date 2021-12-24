@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
 		justifyContent:'flex-start',
 	},
 	socialButtonAndStats:{
-		height:windowHeight * 0.05
+		height:windowHeight * 0.07
 	},
 
 // create comment and like

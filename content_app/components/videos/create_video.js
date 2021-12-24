@@ -61,6 +61,8 @@ class CreateVideo extends Component {
 								type: [
 									'video/3gpp',
 									'video/mpeg',
+									'video/mpeg-4',
+									'video/mp4',
 									'video/x-msvideo', // go to for all mimetypes https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
 								],
 							});
@@ -163,10 +165,12 @@ class CreateVideo extends Component {
 					onPress={ () => {
 
 						let setResponseInCurrentVideo = (arg) => this.props.set_current_video(arg)
+						let redirectToNewVideo = () => {this.props.navigation.navigate('Individual_Video')}
 
 						let redirectToSignIn = () => this.props.navigation.navigate('SignInStack', { screen: 'Login' })
 						let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
 						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
+
 
 						// in formData send individual variables and not a complete object
 						// formData.append('video_object', video_object) // THIS WILL NOT WORK, SENT VARS INDIVIDUALLY
@@ -176,9 +180,9 @@ class CreateVideo extends Component {
 						formData.append('description', this.state.description)							
 						formData.append('all_tags', this.state.all_tags)
 						// formData.append('user_object', user_object) // not needed, since object will be pulled from passport js jwt token
-						formData.append('videos_uploaded_by_users', {uri: this.state.video_filepath.uri, name: this.state.video_filepath.name, type: this.state.video_filepath.type})
+						formData.append('videos_uploaded_by_user', {uri: this.state.video_filepath.uri, name: this.state.video_filepath.name, type: this.state.video_filepath.type})
 
-						axios.post(utils.baseUrl + '/video-uploads/protected-video-upload', formData)
+						axios.post(utils.baseUrl + '/video/create-video-with-user', formData)
 						.then(function (response) {
 
 					    	if (response.status === 401){

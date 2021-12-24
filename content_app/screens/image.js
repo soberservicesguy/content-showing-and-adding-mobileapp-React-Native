@@ -54,9 +54,14 @@ class ImageScreen extends Component {
 			// let { id } = payload_from_previous_screen
 		});
 
+		let removeImages = () => this.props.set_fetched_images([])
+    	let stopFetchImage = () => this.setState({ get_individual_image: false })
 		this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
 			// below will be executed when user leaves this screen
 			console.log('I AM UNMOUNTED')
+			this.cancelRequest.cancel()
+			removeImages()
+			stopFetchImage()
 			// const payload_from_previous_screen = this.props.navigation
 			// let { id } = payload_from_previous_screen
 		});
@@ -78,7 +83,13 @@ class ImageScreen extends Component {
 
 // FETCHING DATA FOR COMPONENT
 		console.log('Making request')
-		axios.get(utils.baseUrl + '/image/images-list-with-children-light',)
+		this.cancelRequest = axios.CancelToken.source();
+		axios.get(
+			utils.baseUrl + '/image/images-list-with-children-light',
+			{
+				cancelToken: this.cancelRequest.token
+			}
+		)
 		.then((response) => {
 
 	    	if (response.status === 401){

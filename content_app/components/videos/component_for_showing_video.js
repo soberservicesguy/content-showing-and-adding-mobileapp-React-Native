@@ -173,10 +173,10 @@ ComponentForShowingVideo.defaultProps = {
 
 const styles = StyleSheet.create({
 	outerContainer: {
-		height:windowHeight * 0.4,
+		height:windowHeight * 0.38,
 		width: windowWidth,
 		alignSelf:'center',
-		marginBottom:20,
+		marginBottom:0,
 		// backgroundColor: '#000000',
 		// alignItems: 'center',
 		// borderBottomWidth: 1,

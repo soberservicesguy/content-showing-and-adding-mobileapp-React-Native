@@ -53,9 +53,14 @@ class VideoScreen extends Component {
 			// let { id } = payload_from_previous_screen
 		});
 
+		let removeVideos = () => this.props.set_fetched_videos([])
+    	let stopFetchImage = () => this.setState({ get_individual_image: false })
 		this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
 			// below will be executed when user leaves this screen
 			console.log('I AM UNMOUNTED')
+			this.cancelRequest.cancel()
+			removeVideos()
+			stopFetchImage()
 			// const payload_from_previous_screen = this.props.navigation
 			// let { id } = payload_from_previous_screen
 		});
@@ -75,7 +80,13 @@ class VideoScreen extends Component {
 		let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
 		let setPhoneNumberCallback = () => this.props.set_phone_number( null )
 
-		axios.get(utils.baseUrl + '/video/videos-list-with-children-light',)
+		this.cancelRequest = axios.CancelToken.source();
+		axios.get(
+			utils.baseUrl + '/video/videos-list-with-children-light',
+			{
+				cancelToken: this.cancelRequest.token
+			}
+		)
 		.then((response) => {
 
 
