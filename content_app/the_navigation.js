@@ -12,19 +12,6 @@ import {
 	TouchableOpacity,
 } from 'react-native';
 
-// IMPORT created components
-// import {
-//	ButtonTouchableHighlight,
-//	ImageAtLeftTextsAtRight,
-//	Gap
-// } from './components/ready_made_components';
-
-
-// import {
-// 	request_multiple_permissions,
-// } from "./handy_functions/permissions_functions"
-
-// IMPORT CONNECTED CONTAINERS
 import {
 	ConnectedLoginScreen,
 	ConnectedSignUpScreen,
@@ -42,10 +29,6 @@ import {
 	BulkBlogpostUpload,
 } from "./components/"
 
-
-
-
-
 const Tabs = createBottomTabNavigator();
 
 function BottomTabs({navigation}) {
@@ -61,6 +44,7 @@ function BottomTabs({navigation}) {
 					justifyContent: 'space-around',
 					height:50,
 					backgroundColor: '#000000',
+					textAlign: 'center',
 				}}>
 					{[
 						{option_name:'Bulk Blogposts', screen_name:"BulkBlogpostUpload"}, 
@@ -69,11 +53,11 @@ function BottomTabs({navigation}) {
 					].map((item, index) => {
 
 						return (
-							<TouchableOpacity activeOpacity={0.2} style={{alignItems:'center', alignSelf: 'center', justifyContent:'center',height:50, borderRightWidth:(index !== 2) ? 1 : 0, borderRightColor:'white', paddingHorizontal: 10}} onPress={ () => {
+							<TouchableOpacity activeOpacity={0.2} style={{alignItems:'center', alignSelf: 'center', justifyContent:'center',height:50, borderRightWidth:(index !== 2) ? 1 : 0, borderRightColor:'white', paddingRight: 15}} onPress={ () => {
 								navigation.navigate(item.screen_name)
 								// navigation.navigate('Friendsection', {screen: 'FriendsScreen', params:{payload: item.screen_payload}} )
 							}}>
-								<Text style={{color:'blue', fontWeight:'bold', fontSize:20}}>
+								<Text style={{color:'blue', fontWeight:'bold', fontSize:15, textAlign: 'center'}}>
 									{item.option_name}
 								</Text>
 							</TouchableOpacity>
@@ -113,7 +97,7 @@ function BottomTabs({navigation}) {
 					headerShown:true,
 					title: 'Bulk Blogposts Upload',
 					headerTitleAlign: 'center',
-					headerBackTitleVisible: false,
+					// headerBackTitleVisible: false,
 					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
 						marginTop:50,
 						marginBottom:50,
@@ -203,13 +187,13 @@ function ContentShowingDrawer({navigation}) {
 						alignItems:'center',
 						justifyContent: 'space-between', 
 					}}>
-						{['BlogPost', 'Image', 'Video', 'BulkUploadTabs'].map((option) => {
+						{['BlogPost', 'Image', 'Video', 'Bulk Uploads'].map((option) => {
 
 							let screen_name = option
 							option = option.toLowerCase()
 							option = option.charAt(0).toUpperCase() + option.slice(1);
 
-							if (screen_name === 'BulkUploadTabs'){
+							if (screen_name === 'Bulk Uploads'){
 								option = 'Bulk Upload'
 							}
 
@@ -232,15 +216,15 @@ function ContentShowingDrawer({navigation}) {
 					title: 'Images',
 					headerTitleAlign: 'center',
 					headerBackTitleVisible: false,
-					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
-						marginTop:50,
-						marginBottom:50,
-					}}>
-						<Text>
-							Go Back
-						</Text>
-					</TouchableOpacity>	),
-					headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
+					// headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
+					// 	marginTop:50,
+					// 	marginBottom:50,
+					// }}>
+					// 	<Text>
+					// 		Go Back
+					// 	</Text>
+					// </TouchableOpacity>	),
+					// headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
 				}}
 			/>
 
@@ -250,15 +234,15 @@ function ContentShowingDrawer({navigation}) {
 					title: 'Blogposts',
 					headerTitleAlign: 'center',
 					headerBackTitleVisible: false,
-					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
-						marginTop:50,
-						marginBottom:50,
-					}}>
-						<Text>
-							Go Back
-						</Text>
-					</TouchableOpacity>	),
-					headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
+					// headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
+					// 	marginTop:50,
+					// 	marginBottom:50,
+					// }}>
+					// 	<Text>
+					// 		Go Back
+					// 	</Text>
+					// </TouchableOpacity>	),
+					// headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
 				}}
 			/>
 
@@ -268,21 +252,21 @@ function ContentShowingDrawer({navigation}) {
 					title: 'Videos',
 					headerTitleAlign: 'center',
 					headerBackTitleVisible: false,
-					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
-						marginTop:50,
-						marginBottom:50,
-					}}>
-						<Text>
-							Go Back
-						</Text>
-					</TouchableOpacity>	),
-					headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
+					// headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
+					// 	marginTop:50,
+					// 	marginBottom:50,
+					// }}>
+					// 	<Text>
+					// 		Go Back
+					// 	</Text>
+					// </TouchableOpacity>	),
+					// headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
 				}}
 			/>
 
-			<Drawer.Screen name="BulkUploadTabs" component={ BottomTabs }
+			<Drawer.Screen name="Bulk Uploads" component={ BottomTabs }
 				options={{ 
-					headerShown:false,
+					headerShown:true,
 				}}
 			/>
 
@@ -343,7 +327,7 @@ function InnerStack({navigation}) {
 					title: 'Individual BlogPost',
 					headerTitleAlign: 'center',
 					headerBackTitleVisible: false,
-					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
+					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => navigation.navigate('Content_Drawer')} style={{
 						marginTop:50,
 						marginBottom:50,
 					}}>
@@ -361,7 +345,7 @@ function InnerStack({navigation}) {
 					title: 'Individual Video',
 					headerTitleAlign: 'center',
 					headerBackTitleVisible: false,
-					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
+					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => navigation.navigate('Content_Drawer')} style={{
 						marginTop:50,
 						marginBottom:50,
 					}}>
@@ -379,7 +363,7 @@ function InnerStack({navigation}) {
 					title: 'Individual Image',
 					headerTitleAlign: 'center',
 					headerBackTitleVisible: false,
-					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => this.props.navigation.goBack()} style={{
+					headerLeft: () => (	<TouchableOpacity activeOpacity={0.2} onPress={() => navigation.navigate('Content_Drawer')} style={{
 						marginTop:50,
 						marginBottom:50,
 					}}>
