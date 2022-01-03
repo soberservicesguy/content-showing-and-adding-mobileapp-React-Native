@@ -51,7 +51,9 @@ class CreateVideo extends Component {
 		return (
 		// e.g a social post, textinput which lets user to enter text, takes persons id as assigned object
 			<View style={styles.outerContainer}>
-
+				<Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', paddingVertical: 10}}>
+					Video Upload Section
+				</Text>
 				<Button 
 					title={'Select VIDEO'}
 					style={styles.buttonWithoutBG}
@@ -171,7 +173,6 @@ class CreateVideo extends Component {
 						let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
 						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
 
-
 						// in formData send individual variables and not a complete object
 						// formData.append('video_object', video_object) // THIS WILL NOT WORK, SENT VARS INDIVIDUALLY
 						const formData = new FormData()
@@ -191,10 +192,9 @@ class CreateVideo extends Component {
 								redirectToSignIn()
 					    	}
 							// console.log(response.data) // current video screen data
-							
+							// console.log({response: response.data})
 							// set to current parent object
-							setResponseInCurrentVideo(response.data.video_endpoint)
-
+							setResponseInCurrentVideo(response.data)
 							// change route to current_video
 							redirectToNewVideo()
 

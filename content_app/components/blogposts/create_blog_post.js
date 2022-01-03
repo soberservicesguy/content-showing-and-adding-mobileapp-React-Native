@@ -56,6 +56,9 @@ class CreateBlogPost extends Component {
 		return (
 		// e.g a social post, textinput which lets user to enter text, takes persons id as assigned object
 			<View style={styles.outerContainer}>
+				<Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', paddingVertical: 10}}>
+					Blogpost Create Section
+				</Text>
 				<Button 
 					title={'Select Blogpost Image'}
 					style={styles.buttonWithoutBG}

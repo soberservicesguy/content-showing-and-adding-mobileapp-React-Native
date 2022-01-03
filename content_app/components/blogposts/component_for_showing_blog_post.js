@@ -22,6 +22,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 import { Icon } from 'react-native-elements';
+import moment from 'moment';
 
 class ComponentForShowingBlogPost extends Component {
 	constructor(props) {
@@ -134,7 +135,7 @@ class ComponentForShowingBlogPost extends Component {
 								  // reverse={true}
 								/>
 								<Text style={styles.attributesText}>
-									{ data.timestamp_of_uploading }
+									{ moment.unix(data.timestamp_of_uploading / 1000).format("MM/DD/YYYY") }
 								</Text>
 							</View>
 						</View>

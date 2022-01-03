@@ -50,6 +50,9 @@ class CreateImage extends Component {
 		return (
 		// e.g a social post, textinput which lets user to enter text, takes persons id as assigned object
 			<View style={styles.outerContainer}>
+				<Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', paddingVertical: 10}}>
+					Image Upload Section
+				</Text>
 				<Button 
 					title={'Select Image'}
 					style={styles.buttonWithoutBG}

@@ -23,6 +23,7 @@ class IndividualVideo extends Component {
 		super(props);
 // STATE	
 		this.state = {
+			current_video: this.props.current_video
 		}	
 	}
 
@@ -35,66 +36,67 @@ class IndividualVideo extends Component {
 
 // COMPONENT DID MOUNT
 	componentDidMount() {
-
+		console.log({ video_filepath: this.props.current_video.video_filepath })
 // FETCHING DATA FOR COMPONENT
+	}
+
+
+	componentDidUpdate(prevProps, prevState, snapshot){
+		if (!prevProps.current_video && this.props.current_video){
+			console.log('video available, setting now')
+			this.setState(() => {current_video: this.props.current_video})
+		}
 	}
 
 
 // RENDER METHOD
 	render() {
 
-		// console.log('ENDPOINT REQUEST')
-		// console.log(this.props.current_video.video_filepath)
 
 	  	return (
 	  		<View>
-	  			{/*<Text>this</Text>*/}
-		  		{/*<Video 
-					// source={{uri: "background"}}
-					// source={{uri: `http://localhost:3001/video/video?endpoint=${this.props.current_video.video_filepath}`}} 
-					source={{uri: this.props.current_video.video_filepath}} 
-		  		/>*/}
-	
+			    <Text style={{fontSize: 18, fontWeight: 'bold', textAlign: 'center'}}>
+			    	{this.state.current_video.title}
+			    </Text>
 	  			<Video 
-		  			// source={{uri: "background"}}   // Can be a URL or a local file.
 					controls={true}
-					source={{uri: 'https://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_10mb.mp4' }}
-
-					// source={{uri: 'http://d33yizdt8hggvw.cloudfront.net/' + this.props.current_video.video_filepath, mainVer: 1, patchVer: 0}} 
-	  			         resizeMode="cover"
-	  			       ref={(ref) => {
-	  			         this.player = ref
-	  			       }}
-	  			       allowsExternalPlayback={true}
-	  			       // audioOnly={false}                                      // Store reference
-	  			       onBuffer={this.onBuffer()}                // Callback when remote video is buffering
-	  			       onError={(err) => this.videoError(err)}               // Callback when video cannot be loaded
-			  			styles={{
-			  				position: 'absolute',
-			  				    top: 1000,
-			  				    left: 0,
-			  				    bottom: 0,
-			  				    // right: 0,
-			  				width:400, height:300, 
-			  				// resizeMode:'none', marginTop:100
-			  			}}
-	  			       // style={styles.backgroundVideo} 
+					source={{uri: 'http://d33yizdt8hggvw.cloudfront.net/' + this.state.current_video?.video_filepath, mainVer: 1, patchVer: 0}} 
+					resizeMode="cover"
+					ref={(ref) => {
+						this.player = ref
+					}}
+					allowsExternalPlayback={true}
+					// audioOnly={false}
+					onBuffer={this.onBuffer()}
+					onError={(err) => this.videoError(err)}
+					style={{
+						position: 'relative',
+						top: 20,
+						left: 0,
+						bottom: 0,
+						right: 0,
+						height:400,
+						// width:300, 
+						// resizeMode:'none',
+						// marginTop:100
+					}}
 			       />
+		       <View style={{postition:'relative', top: 30, paddingHorizontal: 10}}>
+				    <Text style={{fontSize:12}}>
+				    	Category: {this.state.current_video.category}
+				    </Text>
+				    <Text>
+				    	Description:
+				    </Text>
+				    <Text>
+				    	{this.state.current_video.description}
+				    </Text>
+		       </View>
 	  		</View>
 	  			
 		);
 	}
 }
 	
-IndividualVideo.defaultProps = {
-	//:,
-};
-
-const styles = StyleSheet.create({
-	container: {
-	},
-	bigBlue: {
-	},
-});
 
 export default IndividualVideo;

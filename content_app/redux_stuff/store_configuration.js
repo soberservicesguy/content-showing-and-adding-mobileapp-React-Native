@@ -167,6 +167,8 @@ const persistConfig = {
 		'current_video',
 		'total_images',
 		'current_image',
+		'userToken',
+		'isSignedIn',
 	],
 }
 

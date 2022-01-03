@@ -22,6 +22,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 import { Icon } from 'react-native-elements';
+import moment from 'moment';
 
 class ComponentForShowingVideo extends Component {
 	constructor(props) {
@@ -88,8 +89,6 @@ class ComponentForShowingVideo extends Component {
 
 		const data = this.props.dataPayloadFromParent // data being plugged from parent flatlist
 		var base64Image = "data:image/jpeg;base64," + data.image_thumbnail
-
-
 		return (
 			<TouchableOpacity activeOpacity={0.2} style={styles.outerContainer} onPress={() => {
 				this.props.set_current_video(data)
@@ -157,7 +156,7 @@ class ComponentForShowingVideo extends Component {
 						  // reverse={true}
 						/>					
 						<Text style={styles.timestampText}>
-							{ data.timestamp_of_uploading }
+							{ moment.unix(data.timestamp_of_uploading / 1000).format("MM/DD/YYYY") }
 						</Text>
 					</View>
 
