@@ -320,21 +320,31 @@ const styles = StyleSheet.create({
 	outerContainer:{
 		marginBottom:10,
 	},
-
-// comments and likes counts
 	socialButtonsAndStatsContainer:{
+		marginTop: 10,
 		flexDirection:'row', 
 		// justifyContent:'space-between',
 		justifyContent:'flex-start',
 	},
 	socialButtonAndStats:{
-		height:windowHeight * 0.07
+		height:windowHeight * 0.05
 	},
 
 // create comment and like
 	createCommentAndLikeContainer:{
 		marginTop: windowHeight * 0.001,
 	},
+
+	iconContainer:{
+		marginLeft:30,
+		flexDirection:'row'
+	},
+
+	commentQuantityText:{
+		marginLeft:10,
+		fontSize:20,
+	},
+
 });
 
 

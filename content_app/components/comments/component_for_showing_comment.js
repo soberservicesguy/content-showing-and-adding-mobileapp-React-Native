@@ -59,7 +59,7 @@ class ComponentForShowingComment extends Component {
 							style={{
 								width: 70, 
 								height: 70, 
-								resizeMode: "stretch",
+								resizeMode: "cover",
 								borderRadius: 100
 							}}
 						/>

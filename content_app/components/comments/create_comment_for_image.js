@@ -58,8 +58,8 @@ class CreateCommentForImage extends Component {
 						// multiline=true
 						// numberOfLines=3
 						// onChangeText={ () => null }
-						// value='dummy'
 						// autoFocus=true
+						value={this.state.text}
 						onChangeText={ (value) => this.setState( prev => ({...prev, text: value})) }
 					/>
 			  	</View>
@@ -78,6 +78,7 @@ class CreateCommentForImage extends Component {
 						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
 
 						let increase_comment_quantity = () => this.props.add_comments_quantity()
+						let clearInput = () => this.setState({text: ''})
 
 						axios.post(utils.baseUrl + '/image/create-comment-for-image', 
 							{
@@ -86,7 +87,7 @@ class CreateCommentForImage extends Component {
 							})
 						.then(function (response) {
 							// console.log(response.data) // current image screen data
-
+							clearInput()
 					    	if (response.status === 401){
 								setIsSignedInCallback()
 								setPhoneNumberCallback()

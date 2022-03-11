@@ -57,7 +57,7 @@ class ComponentForShowingLike extends Component {
 							style={{
 								width:80, 
 								height:80, 
-								resizeMode: "stretch",
+								resizeMode: "cover",
 								borderRadius: 100
 							}}
 						/>

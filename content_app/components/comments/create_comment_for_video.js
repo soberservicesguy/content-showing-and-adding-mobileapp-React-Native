@@ -60,8 +60,8 @@ class CreateCommentForVideo extends Component {
 						// multiline=true
 						// numberOfLines=3
 						// onChangeText={ () => null }
-						// value='dummy'
 						// autoFocus=true
+						value={this.state.text}
 						onChangeText={ (value) => this.setState( prev => ({...prev, text: value})) }
 					/>
 			  	</View>
@@ -80,6 +80,7 @@ class CreateCommentForVideo extends Component {
 						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
 
 						let increase_comment_quantity = () => this.props.add_comments_quantity()
+						let clearInput = () => this.setState({text: ''})
 
 						axios.post(utils.baseUrl + '/videos/create-comment-for-video', 
 							{
@@ -87,6 +88,7 @@ class CreateCommentForVideo extends Component {
 								video_endpoint: this.props.parentDetailsPayload.endpoint,
 							})
 						.then(function (response) {
+							clearInput()
 							// console.log(response.data.endpoint) // current image screen data
 
 					    	if (response.status === 401){

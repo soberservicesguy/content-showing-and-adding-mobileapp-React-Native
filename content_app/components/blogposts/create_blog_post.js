@@ -97,9 +97,9 @@ class CreateBlogPost extends Component {
 							// caretHidden=true
 							// multiline=true
 							// numberOfLines=3
-							// value='dummy'
 							// autoFocus=true
-							onChangeonChangeText={ (value) => this.setState( prev => ({...prev, category: value})) }
+							value={this.state.category}
+							onChangeText={ (value) => this.setState( prev => ({...prev, category: value})) }
 						/>
 				  	</View>
 
@@ -113,8 +113,8 @@ class CreateBlogPost extends Component {
 							// multiline=true
 							// numberOfLines=3
 							// onChangeText={ () => null }
-							// value='dummy'
 							// autoFocus=true
+							value={this.state.title}
 							onChangeText={ (value) => this.setState( prev => ({...prev, title: value})) }
 						/>
 				  	</View>
@@ -134,8 +134,8 @@ class CreateBlogPost extends Component {
 							// multiline=true
 							// numberOfLines=3
 							// onChangeText={ () => null }
-							// value='dummy'
 							// autoFocus=true
+							value={this.state.initial_tags}
 							onChangeText={ (value) => this.setState( prev => ({...prev, initial_tags: value})) }
 						/>
 				  	</View>
@@ -150,8 +150,8 @@ class CreateBlogPost extends Component {
 							// multiline=true
 							// numberOfLines=3
 							// onChangeText={ () => null }
-							// value='dummy'
 							// autoFocus=true
+							value={this.state.first_para}
 							onChangeText={ (value) => this.setState( prev => ({...prev, first_para: value})) }
 						/>
 				  	</View>
@@ -172,8 +172,8 @@ class CreateBlogPost extends Component {
 							// multiline=true
 							// numberOfLines=3
 							// onChangeText={ () => null }
-							// value='dummy'
 							// autoFocus=true
+							value={this.state.second_para}
 							onChangeText={ (value) => this.setState( prev => ({...prev, second_para: value})) }
 						/>
 				  	</View>
@@ -189,8 +189,8 @@ class CreateBlogPost extends Component {
 							// multiline=true
 							// numberOfLines=3
 							// onChangeText={ () => null }
-							// value='dummy'
 							// autoFocus=true
+							value={this.state.qouted_para}
 							onChangeText={ (value) => this.setState( prev => ({...prev, qouted_para: value})) }
 						/>
 				  	</View>
@@ -210,8 +210,8 @@ class CreateBlogPost extends Component {
 							// multiline=true
 							// numberOfLines=3
 							// onChangeText={ () => null }
-							// value='dummy'
 							// autoFocus=true
+							value={this.state.third_para}
 							onChangeText={ (value) => this.setState( prev => ({...prev, third_para: value})) }
 						/>
 				  	</View>
@@ -227,8 +227,8 @@ class CreateBlogPost extends Component {
 							// multiline=true
 							// numberOfLines=3
 							// onChangeText={ () => null }
-							// value='dummy'
 							// autoFocus=true
+							value={this.state.fourth_para}
 							onChangeText={ (value) => this.setState( prev => ({...prev, fourth_para: value})) }
 						/>
 				  	</View>
@@ -245,8 +245,8 @@ class CreateBlogPost extends Component {
 						// multiline=true
 						// numberOfLines=3
 						// onChangeText={ () => null }
-						// value='dummy'
 						// autoFocus=true
+						value={this.state.all_tags}
 						onChangeText={ (value) => this.setState( prev => ({...prev, all_tags: value})) }
 					/>
 			  	</View>
@@ -262,7 +262,18 @@ class CreateBlogPost extends Component {
 						let redirectToSignIn = () => this.props.navigation.navigate('SignInStack', { screen: 'Login' })
 						let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
 						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
-
+						let clearInput = () => this.setState({
+							category:'' ,
+							title:'' ,
+							initial_tags:'' ,
+							first_para:'' ,
+							second_para:'' ,
+							qouted_para:'' ,
+							third_para:'' ,
+							fourth_para:'' ,
+							all_tags:'' ,
+							image_main_filepath:'' ,
+						})
 
 						// in formData send individual variables and not a complete object
 						// formData.append('video_object', video_object) // THIS WILL NOT WORK, SENT VARS INDIVIDUALLY
@@ -281,7 +292,7 @@ class CreateBlogPost extends Component {
 
 							axios.post(utils.baseUrl + '/blogpostings/create-blogpost-with-user', formData)
 							.then(function (response) {
-
+								clearInput()
 						    	if (response.status === 401){
 									setIsSignedInCallback()
 									setPhoneNumberCallback()
