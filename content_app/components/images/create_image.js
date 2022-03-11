@@ -50,6 +50,9 @@ class CreateImage extends Component {
 		return (
 		// e.g a social post, textinput which lets user to enter text, takes persons id as assigned object
 			<View style={styles.outerContainer}>
+				<Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', paddingVertical: 10}}>
+					Image Upload Section
+				</Text>
 				<Button 
 					title={'Select Image'}
 					style={styles.buttonWithoutBG}
@@ -90,8 +93,8 @@ class CreateImage extends Component {
 							// multiline=true
 							// numberOfLines=3
 							// onChangeText={ () => null }
-							// value='dummy'
 							// autoFocus=true
+							value={this.state.category}
 							onChangeText={ (value) => this.setState( prev => ({...prev, category: value})) }
 						/>
 				  	</View>
@@ -107,8 +110,8 @@ class CreateImage extends Component {
 							// multiline=true
 							// numberOfLines=3
 							// onChangeText={ () => null }
-							// value='dummy'
 							// autoFocus=true
+							value={this.state.title}
 							onChangeText={ (value) => this.setState( prev => ({...prev, title: value})) }
 						/>
 				  	</View>
@@ -130,8 +133,8 @@ class CreateImage extends Component {
 							// multiline=true
 							// numberOfLines=3
 							// onChangeText={ () => null }
-							// value='dummy'
 							// autoFocus=true
+							value={this.state.description}
 							onChangeText={ (value) => this.setState( prev => ({...prev, description: value})) }
 						/>
 				  	</View>
@@ -147,8 +150,8 @@ class CreateImage extends Component {
 							// multiline=true
 							// numberOfLines=3
 							// onChangeText={ () => null }
-							// value='dummy'
 							// autoFocus=true
+							value={this.state.all_tags}
 							onChangeText={ (value) => this.setState( prev => ({...prev, all_tags: value})) }
 						/>
 				  	</View>
@@ -165,6 +168,13 @@ class CreateImage extends Component {
 						let redirectToSignIn = () => this.props.navigation.navigate('SignInStack', { screen: 'Login' })
 						let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
 						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
+						let clearInput = () => this.setState({
+							category: '',
+							title: '',
+							description: '',
+							all_tags: '',
+							image_filepath: '',
+						})
 
 						// in formData send individual variables and not a complete object
 						// formData.append('video_object', video_object) // THIS WILL NOT WORK, SENT VARS INDIVIDUALLY
@@ -175,10 +185,10 @@ class CreateImage extends Component {
 						formData.append('all_tags', this.state.all_tags)
 						// formData.append('user_object', user_object) // not needed, since object will be pulled from passport js jwt token
 						formData.append('upload_images_by_user', {uri: this.state.image_filepath.uri, name: this.state.image_filepath.name, type: this.state.image_filepath.type})
-
+						console.log({url: utils.baseUrl + '/image/create-image-with-user'})
 						axios.post(utils.baseUrl + '/image/create-image-with-user', formData)
 						.then(function (response) {
-
+							clearInput()
 					    	if (response.status === 401){
 								setIsSignedInCallback()
 								setPhoneNumberCallback()

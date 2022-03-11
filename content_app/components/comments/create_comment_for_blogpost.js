@@ -56,8 +56,8 @@ class CreateCommentForBlogpost extends Component {
 						// caretHidden=true
 						// multiline=true
 						// numberOfLines=3
-						// value='dummy'
 						// autoFocus=true
+						value={this.state.text}
 						onChangeText={ (value) => this.setState( prev => ({...prev, text: value})) }
 					/>
 			  	</View>
@@ -75,6 +75,7 @@ class CreateCommentForBlogpost extends Component {
 						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
 						
 						let increase_comment_quantity = () => this.props.add_comments_quantity()
+						let clearInput = () => this.setState({text: ''})
 
 						// first create child object
 						axios.post(utils.baseUrl + '/blogpostings/create-comment-for-blogpost', 
@@ -83,6 +84,7 @@ class CreateCommentForBlogpost extends Component {
 								blogpost_endpoint: this.props.parentDetailsPayload.endpoint,
 							})
 						.then(function (response) {
+							clearInput()
 							// console.log(response.data) // current image screen data
 
 					    	if (response.status === 401){

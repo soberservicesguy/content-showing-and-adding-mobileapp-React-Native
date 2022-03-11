@@ -51,7 +51,9 @@ class CreateVideo extends Component {
 		return (
 		// e.g a social post, textinput which lets user to enter text, takes persons id as assigned object
 			<View style={styles.outerContainer}>
-
+				<Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', paddingVertical: 10}}>
+					Video Upload Section
+				</Text>
 				<Button 
 					title={'Select VIDEO'}
 					style={styles.buttonWithoutBG}
@@ -96,8 +98,8 @@ class CreateVideo extends Component {
 							// multiline=true
 							// numberOfLines=3
 							// onChangeText={ () => null }
-							// value='dummy'
 							// autoFocus=true
+							value={this.state.category}
 							onChangeText={ (value) => this.setState( prev => ({...prev, category: value})) }
 						/>
 				  	</View>
@@ -113,8 +115,8 @@ class CreateVideo extends Component {
 							// multiline=true
 							// numberOfLines=3
 							// onChangeText={ () => null }
-							// value='dummy'
 							// autoFocus=true
+							value={this.state.title}
 							onChangeText={ (value) => this.setState( prev => ({...prev, title: value})) }
 						/>
 				  	</View>
@@ -135,8 +137,8 @@ class CreateVideo extends Component {
 							// multiline=true
 							// numberOfLines=3
 							// onChangeText={ () => null }
-							// value='dummy'
 							// autoFocus=true
+							value={this.state.description}
 							onChangeText={ (value) => this.setState( prev => ({...prev, description: value})) }
 						/>
 				  	</View>
@@ -152,8 +154,8 @@ class CreateVideo extends Component {
 							// multiline=true
 							// numberOfLines=3
 							// onChangeText={ () => null }
-							// value='dummy'
 							// autoFocus=true
+							value={this.state.all_tags}
 							onChangeText={ (value) => this.setState( prev => ({...prev, all_tags: value})) }
 						/>
 				  	</View>
@@ -170,7 +172,13 @@ class CreateVideo extends Component {
 						let redirectToSignIn = () => this.props.navigation.navigate('SignInStack', { screen: 'Login' })
 						let setIsSignedInCallback = () => this.props.set_is_signed_in( false )
 						let setPhoneNumberCallback = () => this.props.set_phone_number( null )
-
+						let clearInput = () => this.setState({
+							category: '',
+							title: '',
+							description: '',
+							all_tags: '',
+							video_filepath: '',
+						})
 
 						// in formData send individual variables and not a complete object
 						// formData.append('video_object', video_object) // THIS WILL NOT WORK, SENT VARS INDIVIDUALLY
@@ -184,17 +192,16 @@ class CreateVideo extends Component {
 
 						axios.post(utils.baseUrl + '/video/create-video-with-user', formData)
 						.then(function (response) {
-
+							clearInput()
 					    	if (response.status === 401){
 								setIsSignedInCallback()
 								setPhoneNumberCallback()
 								redirectToSignIn()
 					    	}
 							// console.log(response.data) // current video screen data
-							
+							// console.log({response: response.data})
 							// set to current parent object
-							setResponseInCurrentVideo(response.data.video_endpoint)
-
+							setResponseInCurrentVideo(response.data)
 							// change route to current_video
 							redirectToNewVideo()
 

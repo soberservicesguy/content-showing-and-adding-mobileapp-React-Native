@@ -57,9 +57,9 @@ class ComponentForShowingComment extends Component {
 						<Image  alt="" 
 							source={{uri: "data:image/jpeg;base64," + data.user_image}} 
 							style={{
-								width:80, 
-								height:80, 
-								resizeMode: "stretch",
+								width: 70, 
+								height: 70, 
+								resizeMode: "cover",
 								borderRadius: 100
 							}}
 						/>

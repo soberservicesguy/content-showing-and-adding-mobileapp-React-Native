@@ -326,6 +326,7 @@ const styles = StyleSheet.create({
 
 // comments and likes counts
 	socialButtonsAndStatsContainer:{
+		marginTop: 10,
 		flexDirection:'row', 
 		// justifyContent:'space-between',
 		justifyContent:'flex-start',

@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import {mapStateToProps, mapDispatchToProps} from "./store_configuration";
 
-import AppNavigation from '../the_navigation'
+import AppNavigation, { ContentShowingDrawer } from '../the_navigation'
 
 import {
 	BlogPostScreen,
@@ -57,6 +57,13 @@ export const ConnectedSummarizeCommentsOfBlogPost = connect(
 	mapStateToProps,
 	mapDispatchToProps
 )(SummarizeCommentsOfBlogPost);
+
+
+export const ConnectedContentShowingDrawer = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(ContentShowingDrawer);
+
 
 export const ConnectedSummarizeCommentsOfImage = connect(
 	mapStateToProps,

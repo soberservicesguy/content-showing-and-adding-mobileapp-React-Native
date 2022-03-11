@@ -21,6 +21,7 @@ import {
 	ConnectedIndividualVideo,
 	ConnectedImageScreen,
 	ConnectedIndividualImage,
+	ConnectedContentShowingDrawer,
 } from "./redux_stuff/connected_components";
 
 import {
@@ -152,20 +153,10 @@ function BottomTabs({navigation}) {
 
 
 
-
-
-
-
-
-
-
-
-
-
 const Drawer = createDrawerNavigator();
 
 // component returning drawer with screens
-function ContentShowingDrawer({navigation}) {
+export function ContentShowingDrawer({ navigation, set_is_signed_in }) {
 	return (
 		<Drawer.Navigator
 			headerMode='none'
@@ -187,7 +178,7 @@ function ContentShowingDrawer({navigation}) {
 						alignItems:'center',
 						justifyContent: 'space-between', 
 					}}>
-						{['BlogPost', 'Image', 'Video', 'Bulk Uploads'].map((option) => {
+						{['BlogPost', 'Image', 'Video', 'Bulk Uploads', 'Logout'].map((option) => {
 
 							let screen_name = option
 							option = option.toLowerCase()
@@ -196,14 +187,25 @@ function ContentShowingDrawer({navigation}) {
 							if (screen_name === 'Bulk Uploads'){
 								option = 'Bulk Upload'
 							}
+							if (option == 'Logout'){
+								return (
+									<TouchableOpacity activeOpacity={0.2} onPress={ () => set_is_signed_in(false) } style={{marginTop:50, marginBottom:50,}}>
+										<Text style={{color:'red', fontWeight:'bold', fontSize:20}}>
+											Logout
+										</Text>
+									</TouchableOpacity>
+								)
+							} else {
+								return (
+									<TouchableOpacity activeOpacity={0.2} onPress={ () => navigation.navigate(screen_name) } style={{marginTop:50, marginBottom:50,}}>
+										<Text style={{color:'black', fontWeight:'bold', fontSize:20}}>
+											{option}
+										</Text>
+									</TouchableOpacity>
+								)
 
-							return (
-								<TouchableOpacity activeOpacity={0.2} onPress={ () => navigation.navigate(screen_name) } style={{marginTop:50, marginBottom:50,}}>
-									<Text style={{color:'blue', fontWeight:'bold', fontSize:20}}>
-										{option}
-									</Text>
-								</TouchableOpacity>
-							)
+							}
+
 						})}
 					</ScrollView>
 				)
@@ -309,16 +311,13 @@ function SignInStack({navigation}) {
 }
 
 
-function InnerStack({navigation}) {
+function InnerStack({ navigation }) {
 	return (
 		<Stack.Navigator
 			// headerMode='none'
-		>		
-
-			<Stack.Screen name="Content_Drawer" component={ContentShowingDrawer}
-				options={{ 
-					headerShown:false,
-				}}
+		>
+			<Stack.Screen name="Content_Drawer" component={ConnectedContentShowingDrawer}
+				options={{headerShown:false,}}
 			/>
 
 			<Stack.Screen name="Individual_BlogPost" component={ConnectedIndividualBlogPost}
@@ -335,7 +334,7 @@ function InnerStack({navigation}) {
 							Go Back
 						</Text>
 					</TouchableOpacity>	),
-					headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
+					// headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
 				}}
 			/>
 		
@@ -353,7 +352,7 @@ function InnerStack({navigation}) {
 							Go Back
 						</Text>
 					</TouchableOpacity>	),
-					headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
+					// headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
 				}}
 			/>
 		
@@ -371,7 +370,7 @@ function InnerStack({navigation}) {
 							Go Back
 						</Text>
 					</TouchableOpacity>	),
-					headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
+					// headerRight: () => (<Image source={require('./images/samosa.jpg')} style={{resizeMode: "center", height: 40, width: 40,paddingLeft: 50,}}/>),
 				}}
 			/>
 
@@ -406,7 +405,7 @@ class AppNavigation extends Component {
 						? 
 							( <RootStack.Screen name="SignInStack" component={SignInStack}/> )
 						: 
-							( <RootStack.Screen name="InnerStack" component={InnerStack} /> )
+							( <RootStack.Screen name="InnerStack" component={InnerStack}/> )
 					}		
 				</RootStack.Navigator>
 			</NavigationContainer>
